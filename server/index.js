@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT ?? 4000;
 mongoose.connect(
   process.env.MONGODB_URI ??
-    "mongodb+srv://afaris:afaris2127@firstcluster.r8zxu.mongodb.net/learn?authSource=admin&replicaSet=atlas-pe4a3c-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true"
+    "mongodb://localhost/playground"
 );
 mongoose.connection.on("open", () => {
   console.log(
