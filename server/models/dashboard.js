@@ -1,4 +1,4 @@
-const {Schema, model} = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const dashboardSchema = Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "Dashboard" },
