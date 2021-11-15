@@ -5,7 +5,7 @@ const cors = require("cors");
 const session = require("express-session");
 
 // CONFIGURATION
-// require("dotenv").config();
+require("dotenv").config();
 const app = express();
 const port = process.env.PORT ?? 4000;
 mongoose.connect(
@@ -34,20 +34,20 @@ app.use(
 //! Routes
 
 // User Routes
-const sessionController = require("./controllers/session_controller");
-app.use("/api/session", sessionController);
-const userController = require("./controllers/user");
-app.use("/api/user", userController);
+// const sessionController = require("./controllers/session_controller");
+// app.use("/api/session", sessionController);
+// const userController = require("./controllers/user");
+// app.use("/api/user", userController);
 
-// Dashboard Routes
-const dashboardController = require("./controllers/dashboard");
-app.use("/api/dashboard", dashboardController);
+// // Dashboard Routes
+// const dashboardController = require("./controllers/dashboard");
+// app.use("/api/dashboard", dashboardController);
 
-// Wallet Routes
-const walletController = require("./controllers/wallet");
-app.use("/api/wallet", walletController);
+// // Wallet Routes
+// const walletController = require("./controllers/wallet");
+// app.use("/api/wallet", walletController);
 
 // Listener
 app.listen(port, () => {
-  console.log(`Express server is live at ${port}`);
+  console.log(`Express server is live at ${port}...`);
 });
