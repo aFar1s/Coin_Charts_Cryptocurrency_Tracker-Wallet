@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const DashboardModel = require("../models/dashboard");
+const Dashboard = require("../models/dashboard");
 
 // get
 router.get("/", (req, res) => {
-  DashboardModel.find({}, (err, result) => {
+  Dashboard.find({}, (err, result) => {
     if (err) {
       res.json(err);
     } else {
@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 // Create Dashboard
 router.post("/registerDashboard", async (req, res) => {
   const dashboard = req.body;
-  const newDashboard = new DashboardModel(dashboard);
+  const newDashboard = new Dashboard(dashboard);
   await newDashboard.save();
 
   res.json();
@@ -26,7 +26,7 @@ router.post("/registerDashboard", async (req, res) => {
 router.put("/updateDashboard", (req, res) => {
     const updateDashboard = req.body;
   
-    Wallet.findByIdAndUpdate(
+    Dashboard.findByIdAndUpdate(
       { _id: req.body.id },
       { $set: updateDashboard },
       (req, res, err) => {
