@@ -23,7 +23,24 @@ router.post("/registerDashboard", async (req, res) => {
 });
 
 // Update Dashboard
-
+router.put("/updateDashboard", (req, res) => {
+    const updateDashboard = req.body;
+  
+    Wallet.findByIdAndUpdate(
+      { _id: req.body.id },
+      { $set: updateDashboard },
+      (req, res, err) => {
+        if (!err) {
+          console.log("Dashboard Updated!");
+        } else {
+          console.log(err);
+        }
+      }
+    )
+  //   .then((updatedWallet) => res.json(updatedWallet))
+  //   .then((updatedWallet) => console.log(updatedWallet))
+  //   .catch((err) => res.status(400).json("Error " + err));
+  });
 //
 
 module.exports = router;

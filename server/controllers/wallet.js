@@ -23,14 +23,14 @@ router.post("/registerWallet", (req, res) => {
 
 // Update Wallet
 router.put("/updateWallet", (req, res) => {
-  const updatWallet = req.body;
+  const updateWallet = req.body;
 
   Wallet.findByIdAndUpdate(
     { _id: req.body.id },
-    { $set: updatWallet },
+    { $set: updateWallet },
     (req, res, err) => {
       if (!err) {
-        console.log("Item Updated!");
+        console.log("Wallet Updated!");
       } else {
         console.log(err);
       }
