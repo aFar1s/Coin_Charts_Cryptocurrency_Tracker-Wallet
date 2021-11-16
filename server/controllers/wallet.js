@@ -3,7 +3,7 @@ const router = express.Router();
 const WalletModel = require("../models/wallet");
 
 // Get
-router.get("/wallet", (req, res) => {
+router.get("/", (req, res) => {
   WalletModel.find({}, (err, result) => {
     if (err) {
       res.json(err);
@@ -14,7 +14,7 @@ router.get("/wallet", (req, res) => {
 });
 
 // Create Wallet
-router.post("/registerWalet", async (req, res) => {
+router.post("/registerWallet", async (req, res) => {
   const wallet = req.body;
   const newWallet = new WalletModel(wallet);
   await newWallet.save();

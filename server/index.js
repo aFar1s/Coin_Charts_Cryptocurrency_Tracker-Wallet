@@ -37,8 +37,8 @@ app.use(
 // app.use("/api/session", sessionController);
 
 // User Routes
-const userController = require("./controllers/user");
-app.use("/api/user", userController);
+const userController = require("./controllers/users");
+app.use("/api/users", userController);
 
 // Dashboard Routes
 const dashboardController = require("./controllers/dashboard");

@@ -3,7 +3,7 @@ const router = express.Router();
 const DashboardModel = require("../models/dashboard");
 
 // get
-router.get("/dashboard", (req, res) => {
+router.get("/", (req, res) => {
   DashboardModel.find({}, (err, result) => {
     if (err) {
       res.json(err);

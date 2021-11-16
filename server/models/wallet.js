@@ -6,7 +6,6 @@ const walletSchema = Schema({
   cashTotal: { type: Number, require: true },
   currencyUnit: { type: String, require: true },
   coinQuantity: [{ coinName: String, quantity: Number }],
-  coinCashValue: [{ coinName: String, cashValue: Number }],
 });
 
 const Wallet = model("Wallet", walletSchema);

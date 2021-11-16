@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const UserModel = require("../models/users");
 
-router.get("/users", (req, res) => {
+router.get("/", (req, res) => {
   UserModel.find({}, (err, result) => {
     if (err) {
       res.json(err);
