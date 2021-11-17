@@ -29,13 +29,6 @@ mongoose.connection.on("open", () => {
 // Middleware
 app.use(express.json());
 app.use(cors());
-app.use(
-  session({
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
 
 //! Routes
 
