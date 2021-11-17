@@ -7,10 +7,19 @@ const session = require("express-session");
 
 // CONFIGURATION
 const app = express();
-const port = process.env.PORT ?? 4000;
-mongoose.connect(process.env.MONGODB_URI ?? "mongodb://localhost/playground", {
-  useNewUrlParser: true,
-});
+const port = process.env.PORT ?? 4001;
+
+// CONNECT TO MONGODB
+const connectDB = async () => {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+    //useUnifiedTopology: true,
+    // useCreateIndex: true,
+    //useFindAndModify: true,
+    });
+  };
+connectDB();
+
 mongoose.connection.on("open", () => {
   console.log(
     `Connection to MongoDB ${process.env.MONGODB_URI ? "Atlas" : ""} is open`
@@ -18,8 +27,6 @@ mongoose.connection.on("open", () => {
 });
 
 // Middleware
-// const path = require("path");
-// app.use(express.static(path.join(__dirname, "./client/build")));
 app.use(express.json());
 app.use(cors());
 app.use(
@@ -31,8 +38,6 @@ app.use(
 );
 
 //! Routes
-
-
 
 // User Routes
 const userController = require("./controllers/users");
@@ -50,3 +55,12 @@ app.use("/api/wallet", walletController);
 app.listen(port, () => {
   console.log(`Express server is live at ${port}...`);
 });
+
+
+
+// mongoose.connect(process.env.MONGODB_URI ?? "mongodb://localhost/playground", {
+//   useNewUrlParser: true,
+// });
+// Middleware
+// const path = require("path");
+// app.use(express.static(path.join(__dirname, "./client/build")));
