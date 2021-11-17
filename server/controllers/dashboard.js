@@ -51,10 +51,10 @@ module.exports = router;
 //   try {
 //     const user = new User(req.body)
 //     await user.save();
-//     const dashboard = new Dashboard({owner: user._id})
-//     await dashboard.save();
-//     const wallet = new Wallet({owner: user._id})
-//     await wallet.save(); 
+    // const dashboard = new Dashboard({owner: user._id})
+    // await dashboard.save();
+    // const wallet = new Wallet({owner: user._id})
+    // await wallet.save(); 
 //   } catch (err) {
 //     res.status(400).json({"Error ": err})
 //   }
