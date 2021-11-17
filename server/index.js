@@ -1,5 +1,5 @@
 // DEPENDANCIES
-require("dotenv").config();
+require("dotenv").config({ path: "./config.env" });
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -32,9 +32,7 @@ app.use(
 
 //! Routes
 
-// Session Routes
-// const sessionController = require("./controllers/session_controller");
-// app.use("/api/session", sessionController);
+
 
 // User Routes
 const userController = require("./controllers/users");
