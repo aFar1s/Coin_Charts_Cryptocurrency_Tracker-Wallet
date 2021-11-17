@@ -15,20 +15,21 @@ router.get("/", (req, res) => {
 });
 
 router.post("/registerUser", async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, dateOfBirth } = req.body;
 
   try {
     const user = await User.create({
       name,
       email,
       password,
-    })
+      dateOfBirth,
+    });
 
     const dashboard = new Dashboard({ owner: user._id });
-    await dashboard.save()
+    await dashboard.save();
 
     const wallet = new Wallet({ owner: user._id });
-    await wallet.save()
+    await wallet.save();
 
     sendToken(user, 200, res);
     console.log([user, dashboard, wallet]);
