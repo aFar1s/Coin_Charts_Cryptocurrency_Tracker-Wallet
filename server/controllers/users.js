@@ -4,8 +4,6 @@ const User = require("../models/users");
 const Dashboard = require("../models/dashboard");
 const Wallet = require("../models/wallet");
 
-
-
 router.get("/", (req, res) => {
   UserModel.find({}, (err, result) => {
     if (err) {
@@ -24,14 +22,16 @@ router.post("/registerUser", async (req, res, next) => {
       name,
       email,
       password,
-    });
-    const dashboard = new Dashboard({owner: user._id})
-    await dashboard.save();
-    const wallet = new Wallet({owner: user._id})
-    await wallet.save(); 
+    })
 
+    const dashboard = new Dashboard({ owner: user._id });
+    await dashboard.save()
+
+    const wallet = new Wallet({ owner: user._id });
+    await wallet.save()
 
     sendToken(user, 200, res);
+    console.log([user, dashboard, wallet]);
   } catch (err) {
     next(err);
   }
