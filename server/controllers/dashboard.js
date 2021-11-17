@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 });
 
 // Create Dashboard
-// UNUSED ROUTE. FOR TESTING ONLY
+//! UNUSED ROUTE. FOR TESTING ONLY
 router.post("/registerDashboard", async (req, res) => {
   const dashboard = req.body;
   const newDashboard = new Dashboard(dashboard);

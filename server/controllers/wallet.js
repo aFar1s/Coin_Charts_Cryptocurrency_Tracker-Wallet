@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 });
 
 // Create Wallet
-// UNUSED ROUTE. FOR TESTING ONLY
+//! UNUSED ROUTE. FOR TESTING ONLY
 router.post("/registerWallet", (req, res) => {
   const wallet = req.body;
   const newWallet = new Wallet(wallet);
