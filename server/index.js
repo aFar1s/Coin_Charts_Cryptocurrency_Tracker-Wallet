@@ -1,10 +1,10 @@
-// DEPENDANCIES
+//* DEPENDANCIES
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const session = require("express-session");
 
-// CONFIGURATION
+//* CONFIGURATION
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT ?? 4000;
@@ -17,7 +17,7 @@ mongoose.connection.on("open", () => {
   );
 });
 
-// Middleware
+//* Middleware
 // const path = require("path");
 // app.use(express.static(path.join(__dirname, "./client/build")));
 app.use(express.json());
@@ -30,7 +30,7 @@ app.use(
   })
 );
 
-//! Routes
+//* Routes
 
 // Session Routes
 // const sessionController = require("./controllers/session_controller");
