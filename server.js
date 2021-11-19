@@ -3,6 +3,7 @@ require("dotenv").config({ path: "./config.env" });
 const express = require("express");
 const router = express.Router();
 const errorHandler = require("./utility/error")
+const path = require("path");
 
 
 const mongoose = require("mongoose");
@@ -26,13 +27,14 @@ connectDB();
 mongoose.connection.on("open", () => {
   console.log(
     `Connection to MongoDB ${process.env.MONGODB_URI ? "Atlas" : ""} is open`
-  );
-});
-
-// Middleware
-app.use(express.json());
-app.use(cors());
-
+    );
+  });
+  
+  // Middleware
+  app.use(express.json());
+  app.use(cors());
+  app.use(express.static(path.join(__dirname, "./client/build")));
+  
 
 //! Routes
 
@@ -58,6 +60,10 @@ app.use("/api/wallet", walletController);
 
 app.use(errorHandler);
 
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./client/build", "index.html"));
+});
+
 // Listener
 app.listen(port, () => {
   console.log(`Express server is live at ${port}...`);
@@ -73,5 +79,3 @@ app.listen(port, () => {
 //   useNewUrlParser: true,
 // });
 // Middleware
-// const path = require("path");
-// app.use(express.static(path.join(__dirname, "./client/build")));
