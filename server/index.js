@@ -30,6 +30,9 @@ mongoose.connection.on("open", () => {
 // Middleware
 app.use(express.json());
 app.use(cors());
+const errorHandler = require("./utility/error")
+app.use(errorHandler);
+
 
 //! Routes
 
