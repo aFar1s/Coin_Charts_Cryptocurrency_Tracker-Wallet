@@ -26,7 +26,6 @@ const UsersSchema = new mongoose.Schema({
   dateOfBirth: {
     type: Date,
     required: [true, "Please enter date of birth"]
-     
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,

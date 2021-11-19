@@ -3,7 +3,6 @@ require("dotenv").config({ path: "./config.env" });
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const session = require("express-session");
 
 // CONFIGURATION
 const app = express();
@@ -31,6 +30,14 @@ app.use(express.json());
 app.use(cors());
 
 //! Routes
+
+// Auth Routes
+const authController = require("./controllers/auth")
+app.use("/api/auth", authController);
+
+// Protected Routes
+const protectedRoutes = require("./controllers/protectedRoutes")
+app.use("/api/private", protectedRoutes);
 
 // User Routes
 const userController = require("./controllers/users");
