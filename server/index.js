@@ -2,6 +2,8 @@
 require("dotenv").config({ path: "./config.env" });
 const express = require("express");
 const router = express.Router();
+const errorHandler = require("./utility/error")
+
 
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -30,8 +32,6 @@ mongoose.connection.on("open", () => {
 // Middleware
 app.use(express.json());
 app.use(cors());
-const errorHandler = require("./utility/error")
-app.use(errorHandler);
 
 
 //! Routes
@@ -56,11 +56,17 @@ app.use("/api/dashboard", dashboardController);
 const walletController = require("./controllers/wallet");
 app.use("/api/wallet", walletController);
 
+app.use(errorHandler);
+
 // Listener
 app.listen(port, () => {
   console.log(`Express server is live at ${port}...`);
 });
 
+// process.on("unhandledRejection", (err, promise) => {
+//     console.log(`Logged Error: ${err.message}`);
+//     server.close(() => process.exit(1));
+//   });
 
 
 // mongoose.connect(process.env.MONGODB_URI ?? "mongodb://localhost/playground", {
