@@ -1,6 +1,8 @@
 // DEPENDANCIES
 require("dotenv").config({ path: "./config.env" });
 const express = require("express");
+const router = express.Router();
+
 const mongoose = require("mongoose");
 const cors = require("cors");
 
@@ -36,8 +38,8 @@ const authController = require("./controllers/auth")
 app.use("/api/auth", authController);
 
 // Protected Routes
-const protectedRoutes = require("./controllers/protectedRoutes")
-app.use("/api/private", protectedRoutes);
+// const protectedRoutes = require("./controllers/protectedRoutes")
+// app.use("/api/private", protectedRoutes);
 
 // User Routes
 const userController = require("./controllers/users");
