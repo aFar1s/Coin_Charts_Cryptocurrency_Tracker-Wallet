@@ -15,17 +15,18 @@ const UsersSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    require: [true, "Please enter name"],
+    required: [true, "Please enter name"],
   },
   password: {
     type: String,
-    require: [true, "Password required"],
+    required: [true, "Password required"],
     minlength: 6,
     select: false,
   },
   dateOfBirth: {
     type: Date,
-    require: [true, "Please verify age"],
+    required: [true, "Please enter date of birth"]
+     
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
