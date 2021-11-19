@@ -41,8 +41,8 @@ const authController = require("./controllers/auth")
 app.use("/api/auth", authController);
 
 // Protected Routes
-// const protectedRoutes = require("./controllers/protectedRoutes")
-// app.use("/api/private", protectedRoutes);
+const protectedRoutes = require("./controllers/protectedRoutes")
+app.use("/api/private", protectedRoutes);
 
 // User Routes
 const userController = require("./controllers/users");
