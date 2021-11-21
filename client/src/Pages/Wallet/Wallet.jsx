@@ -10,7 +10,7 @@ coinQuantity: [{}],
 }
     return (
         <div>
-            <h4>{wallet_data.cashTotal}</h4>
+            <h4>{wallet_data.cashTotal} asdas</h4>
         </div>
     )
 }
