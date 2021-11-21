@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import Coin from "./Coin";
-import "./landing.css"
+import DashboardCoin from "./DashboardCoin"
 
-const Landing = () => {
+
+const CoinSearch = ({setChartCoin}) => {
     const [coins, setCoins] = useState([]);
     const [search, setSearch] = useState('');
-    const [chartCoin, setChartCoin] = useState("bitcoin");
 
 
     useEffect(() => {
@@ -30,12 +29,10 @@ const Landing = () => {
         coin.name.toLowerCase().includes(search.toLowerCase())
       );
 
-    
-    
     return (
        <div className='coin-app'>
         <div className='coin-search'>
-         <h1 className='coin-text'>Search a coin {chartCoin}</h1>
+         <h1 className='coin-text'>Search a coin</h1>
          <form>
            <input
              className='coin-input'
@@ -47,7 +44,7 @@ const Landing = () => {
         </div>
        {filteredCoins.map(coin => {
        return (
-         <Coin
+         <DashboardCoin
            key={coin.id}
            coinId={coin.id}
            name={coin.name}
@@ -57,7 +54,7 @@ const Landing = () => {
            volume={coin.market_cap}
            image={coin.image}
            priceChange={coin.price_change_percentage_24h}
-           getDashCoin={setChartCoin}
+           setChartCoin={setChartCoin}
          />
          );
        })}
@@ -65,5 +62,4 @@ const Landing = () => {
     )
 }
 
-export default Landing
-
+export default CoinSearch

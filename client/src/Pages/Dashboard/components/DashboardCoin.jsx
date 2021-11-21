@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-const Coin = ({ coinId ,name, price, symbol, marketcap, volume, image, priceChange, getDashCoin }) => {
+const Coin = ({ coinId ,name, price, symbol, marketcap, volume, image, priceChange, setChartCoin }) => {
   
     return (
       <div className='coin-container'>
-       <Link to="/dashboard" onClick={() => {console.log(coinId); getDashCoin(coinId)}}>
+       <Link to="/dashboard" onClick={() => {console.log(coinId); setChartCoin(coinId)}}>
       <div className='coin-row'>
         <div className='coin'>
           <img src={image} alt='crypto' />
