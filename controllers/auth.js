@@ -16,7 +16,7 @@ router.post("/registerUser", async (req, res, next) => {
         name,
         email,
         password,
-        dateOfBirth,
+        // dateOfBirth,
       });
   
       // Create Dashboard

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./RegisterScreen.css";
 
 const RegisterScreen = ({history}) => {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
@@ -30,9 +30,9 @@ const RegisterScreen = ({history}) => {
 
     try {
       const { data } = await axios.post(
-        "/api/auth/register",
+        "/api/auth/registerUser",
         {
-          username,
+          name,
           email,
           password,
         },
@@ -62,8 +62,8 @@ const RegisterScreen = ({history}) => {
             required
             id="name"
             placeholder="Enter username"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
+            value={name}
+            onChange={(event) => setName(event.target.value)}
           />
         </div>
         <div className="form-group">
@@ -77,10 +77,36 @@ const RegisterScreen = ({history}) => {
             onChange={(event) => setEmail(event.target.value)}
           />
         </div>
-
-
-
-
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            required
+            id="password"
+            autoComplete="true"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="confirmpassword">Confirm Password:</label>
+          <input
+            type="password"
+            required
+            id="confirmpassword"
+            autoComplete="true"
+            placeholder="Confirm password"
+            value={confirmpassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Register
+        </button>
+        <span className="register-screen__subtext">
+          Already have an account? <Link to="/login">Login</Link>
+        </span>
 
         </form>
  </div>
