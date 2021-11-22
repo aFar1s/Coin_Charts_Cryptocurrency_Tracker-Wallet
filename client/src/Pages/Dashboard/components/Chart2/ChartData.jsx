@@ -1,4 +1,3 @@
-// import ApexCharts from 'apexcharts'
 import ReactApexChart from 'react-apexcharts'
 
 const ChartData = ({props}) => {
@@ -29,7 +28,7 @@ const ChartData = ({props}) => {
   };
 
   return (
-    <div id="chart1">
+    <div id="chart">
       <ReactApexChart options={data.options} series={data.series}  type="candlestick" height={350} />
     </div>
   )

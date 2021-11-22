@@ -21,7 +21,7 @@ console.log(chartData2.total_volumes);
 
     return (
         <div>
-            <p>{chartData2.total_volumes}</p>
+            <p></p>
         </div>
     )
 }
