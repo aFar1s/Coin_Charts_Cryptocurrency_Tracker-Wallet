@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Coin from "./Coin";
+import NavbarLogin from "../../Components/NavbarLogin"
 import "./landing.css"
 
 const Landing = () => {
@@ -34,6 +35,7 @@ const Landing = () => {
     
     return (
        <div className='coin-app'>
+         <NavbarLogin />
         <div className='coin-search'>
          <h1 className='coin-text'>Search a coin {chartCoin}</h1>
          <form>
