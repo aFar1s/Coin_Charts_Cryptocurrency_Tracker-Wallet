@@ -22,7 +22,7 @@ export default function NavbarLogin() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            CryptoCurrency Tracker and Wallet
           </Typography>
           <Button color="inherit">SignUp</Button>
           <Button color="inherit">Login</Button>
