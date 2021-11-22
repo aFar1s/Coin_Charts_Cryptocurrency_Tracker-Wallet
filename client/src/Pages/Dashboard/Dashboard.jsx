@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import CoinSearch from './components/CoinSearch'
 import Chart1 from "./components/Chart1"
 import Chart2 from "./components/Chart2"
+import Grid from "@material-ui/core/Grid"
+import Paper from "@material-ui/core/Paper"
 
 const Dashboard = () => {
     const [chartCoin, setChartCoin] = useState("bitcoin")
