@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import ApexChart from "./ChartData"
 
 const Chart1 = ({ chartCoin }) => {
     //! chartCoin1 is the coin name that is to be searched for on CoinGecko API.
@@ -25,6 +26,7 @@ console.log(chartData1);
     return (
         <div>
             <p>{chartData1}</p>
+            <ApexChart props={chartData1}/>
         </div>
     )
 }
