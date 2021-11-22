@@ -25,7 +25,7 @@ console.log(chartData1);
 
     return (
         <div>
-            <ApexChart props={chartData1}/>
+            <ApexChart chartData1={chartData1}/>
         </div>
     )
 }

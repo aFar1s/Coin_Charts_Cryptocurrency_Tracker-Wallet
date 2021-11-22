@@ -1,11 +1,11 @@
 import ReactApexChart from 'react-apexcharts'
 
-const ChartData = ({props}) => {
-  console.log("props from chart data", props)
+const ChartData = ({chartData2}) => {
+  console.log("props from chart data", chartData2)
 
   let data = {
     series: [{
-      data: props
+      data: chartData2
     }],
     options: {
       chart: {
@@ -13,7 +13,7 @@ const ChartData = ({props}) => {
         height: 350
       },
       title: {
-        text: 'CandleStick Chart',
+        text: 'Traded Volume',
         align: 'left'
       },
       xaxis: {
@@ -29,7 +29,7 @@ const ChartData = ({props}) => {
 
   return (
     <div id="chart">
-      <ReactApexChart options={data.options} series={data.series}  type="candlestick" height={350} />
+      <ReactApexChart options={data.options} series={data.series}  type="line" height={350} />
     </div>
   )
 }
