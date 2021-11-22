@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // import axios from 'axios'
 import CoinSearch from './components/CoinSearch'
-import Chart1 from "./components/Chart1"
+import Chart1 from "./components/Chart1/Chart1"
 import Chart2 from "./components/Chart2"
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'

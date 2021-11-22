@@ -11,7 +11,7 @@ const Chart1 = ({ chartCoin }) => {
     useEffect(() => {
         axios
         .get(
-            `https://api.coingecko.com/api/v3/coins/${chartCoin}/market_chart/range?vs_currency=usd&from=1618342746&to=1634182746`
+            `https://api.coingecko.com/api/v3/coins/${chartCoin}/ohlc?vs_currency=usd&days=180`
             )
             .then((res) => {
                 setChartData1(res.data);
@@ -20,13 +20,16 @@ const Chart1 = ({ chartCoin }) => {
 
 
 
-console.log(chartData1.prices);
+console.log(chartData1);
 
     return (
         <div>
-            <p>{chartData1.prices}</p>
+            <p>{chartData1}</p>
         </div>
     )
 }
 
 export default Chart1
+
+
+// https://api.coingecko.com/api/v3/coins/bitcoin/ohlc?vs_currency=usd&days=180
