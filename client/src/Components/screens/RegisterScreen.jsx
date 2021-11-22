@@ -10,8 +10,8 @@ const RegisterScreen = ({history}) => {
   const [confirmpassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const registerHandler = async (e) => {
-    e.preventDefault();
+  const registerHandler = async (event) => {
+    event.preventDefault();
 
     const config = {
       header: {
@@ -50,7 +50,50 @@ const RegisterScreen = ({history}) => {
     }
   };
 
+ return (
+ <div>
+<form onSubmit={registerHandler} className="register-screen__form">
+        <h3 className="register-screen__title">Register</h3>
+        {error && <span className="error-message">{error}</span>}
+        <div className="form-group">
+          <label htmlFor="name">Username:</label>
+          <input
+            type="text"
+            required
+            id="name"
+            placeholder="Enter username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
+        </div>
+        <div className="form-group">
+        <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            required
+            id="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </div>
 
+
+
+
+
+        </form>
+ </div>
+
+
+
+
+
+
+
+
+
+);
 
 
 
