@@ -35,7 +35,6 @@ const Landing = () => {
     
     return (
        <div className='coin-app'>
-         <NavbarLogin />
         <div className='coin-search'>
          <h1 className='coin-text'>Search a coin {chartCoin}</h1>
          <form>
