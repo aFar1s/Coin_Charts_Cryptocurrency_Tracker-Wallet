@@ -7,8 +7,11 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import logOutHandler from "../Helpers/logOutHandler"
 
 export default function NavbarLogin() {
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -26,6 +29,7 @@ export default function NavbarLogin() {
             CryptoCurrency Tracker and Wallet
           </Typography>
           <Button color="inherit" component={Link} to='/register'>SignUp</Button>
+          <Button color="inherit" onClick={logOutHandler} component={Link} to='/login'>Log Out</Button>
           <Button color="inherit" component={Link} to='/login'>Login</Button>
         </Toolbar>
       </AppBar>

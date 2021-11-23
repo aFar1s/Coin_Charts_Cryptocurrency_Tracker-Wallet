@@ -9,13 +9,14 @@ const LoginScreen = ({ history }) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("authToken")) {
+    if (sessionStorage.getItem("authToken")) {
       history.push("/");
+      console.log(history)
     }
   }, [history]);
 
-  const loginHandler = async (e) => {
-    e.preventDefault();
+  const loginHandler = async (event) => {
+    event.preventDefault();
 
     const config = {
       header: {
@@ -30,7 +31,7 @@ const LoginScreen = ({ history }) => {
         config
       );
       console.log(data)
-      localStorage.setItem("authToken", data.token);
+      sessionStorage.setItem("authToken", data.token);
       sessionStorage.setItem("userID", data.user);
 
       history.push("/");
@@ -54,7 +55,7 @@ const LoginScreen = ({ history }) => {
             required
             id="email"
             placeholder="Email address"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
             value={email}
             tabIndex={1}
           />
@@ -72,7 +73,7 @@ const LoginScreen = ({ history }) => {
             id="password"
             autoComplete="true"
             placeholder="Enter password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(event) => setPassword(event.target.value)}
             value={password}
             tabIndex={2}
           />
