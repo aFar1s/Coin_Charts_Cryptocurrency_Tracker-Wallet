@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Wallet = require("../models/wallet");
 
+
 // Get
-router.get("/", (req, res) => {
+router.get("/:id", (req, res) => {
   Wallet
-    .find()
-    .then((items) => res.json(items))
+    .find({owner: req.params.id})
+    .then((wallet) => res.json(wallet))
     .catch((err) => res.status(400).json("Error: " + err))
 });
 
@@ -41,6 +42,24 @@ router.put("/updateWallet", (req, res) => {
 //   .then((updatedWallet) => console.log(updatedWallet))
 //   .catch((err) => res.status(400).json("Error " + err));
 });
+
+// router.get("/", (req, res) => {
+//   const wallet = req.body;
+
+//   Wallet.findById(
+//     { _id: req.body.id },
+//     (req, res, err) => {
+//       if (!err) {
+//         console.log("Wallet Found!");
+//       } 
+      
+//       ((items) => res.json(items))
+//       else {
+//         console.log(err);
+//       }
+//     }
+//   )
+// });
 
 module.exports = router;
 

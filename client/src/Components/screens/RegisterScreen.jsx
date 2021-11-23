@@ -102,7 +102,9 @@ const RegisterScreen = ({history}) => {
           />
         </div>
         <button type="submit" className="btn btn-primary">
+        <Link to="/login">
           Register
+        </Link>
         </button>
         <span className="register-screen__subtext">
           Already have an account? <Link to="/login">Login</Link>

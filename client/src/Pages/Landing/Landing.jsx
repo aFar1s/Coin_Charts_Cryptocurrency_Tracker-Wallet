@@ -23,8 +23,8 @@ const Landing = () => {
       }, []
     );
 
-    const handleChange = e => {
-        setSearch(e.target.value);
+    const handleChange = event => {
+        setSearch(event.target.value);
       };
     
       const filteredCoins = coins.filter(coin =>
