@@ -28,6 +28,7 @@ export default function NavbarLogin() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             CryptoCurrency Tracker and Wallet
           </Typography>
+          <Button color="inherit" component={Link} to='/wallet'>Wallet</Button>
           <Button color="inherit" component={Link} to='/register'>SignUp</Button>
           <Button color="inherit" onClick={logOutHandler} component={Link} to='/login'>Log Out</Button>
           <Button color="inherit" component={Link} to='/login'>Login</Button>
