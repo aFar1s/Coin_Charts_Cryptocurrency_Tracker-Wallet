@@ -4,16 +4,22 @@ import Landing from "./Pages/Landing/Landing"
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute"
 import LoginScreen from "./Components/screens/LoginScreen";
 import Dashboard from "./Pages/Dashboard/Dashboard"
+import RegisterScreen from "./Components/screens/RegisterScreen"
+import NavbarLogin from "./Components/NavbarLogin"
+import Wallet from "./Pages/Wallet/Wallet"
 
 
 function App() {
   return (
     <Router>
   <div className="App">
+    <NavbarLogin />
     <Switch>
-      <ProtectedRoute exact path="/" component={Landing} />
-      <Route exact path="/dashboard" component={Dashboard} />
+      <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+      <Route exact path="/" component={Landing} />
       <Route exact path="/login" component={LoginScreen} />
+      <Route exact path="/register" component={RegisterScreen} />
+      <Route exact path="/wallet" component={Wallet} />
     </Switch>
   </div>
   </Router>

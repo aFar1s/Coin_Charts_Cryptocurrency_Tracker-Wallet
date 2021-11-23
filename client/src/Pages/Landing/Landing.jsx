@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Coin from "./Coin";
+import NavbarLogin from "../../Components/NavbarLogin"
 import "./landing.css"
 
 const Landing = () => {

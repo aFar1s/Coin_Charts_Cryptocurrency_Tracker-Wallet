@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import ApexChart from "./ChartData"
+
+
 
 const Chart2 = ({chartCoin}) => {
     const [chartData2, setChartData2] = useState([])
@@ -21,7 +24,7 @@ console.log(chartData2.total_volumes);
 
     return (
         <div>
-            <p>{chartData2.total_volumes}</p>
+            <ApexChart chartData2={chartData2.total_volumes} />
         </div>
     )
 }

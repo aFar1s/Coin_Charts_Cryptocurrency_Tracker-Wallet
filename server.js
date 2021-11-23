@@ -4,8 +4,6 @@ const express = require("express");
 const router = express.Router();
 const errorHandler = require("./utility/error")
 const path = require("path");
-
-
 const mongoose = require("mongoose");
 const cors = require("cors");
 
@@ -17,9 +15,6 @@ const port = process.env.PORT ?? 4001;
 const connectDB = async () => {
     await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
-    //useUnifiedTopology: true,
-    // useCreateIndex: true,
-    //useFindAndModify: true,
     });
   };
 connectDB();
@@ -73,9 +68,3 @@ app.listen(port, () => {
 //     console.log(`Logged Error: ${err.message}`);
 //     server.close(() => process.exit(1));
 //   });
-
-
-// mongoose.connect(process.env.MONGODB_URI ?? "mongodb://localhost/playground", {
-//   useNewUrlParser: true,
-// });
-// Middleware
