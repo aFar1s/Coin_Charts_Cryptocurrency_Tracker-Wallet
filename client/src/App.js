@@ -16,10 +16,10 @@ function App() {
     <NavbarLogin />
     <Switch>
       <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+      <ProtectedRoute exact path="/wallet" component={Wallet} />
       <Route exact path="/" component={Landing} />
       <Route exact path="/login" component={LoginScreen} />
       <Route exact path="/register" component={RegisterScreen} />
-      <Route exact path="/wallet" component={Wallet} />
     </Switch>
   </div>
   </Router>
