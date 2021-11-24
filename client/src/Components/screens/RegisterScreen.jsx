@@ -57,12 +57,12 @@ const RegisterScreen = ({history}) => {
         <h3 className="register-screen__title">Register</h3>
         {error && <span className="error-message">{error}</span>}
         <div className="form-group">
-          <label htmlFor="name">Username:</label>
+          <label htmlFor="name">Name:</label>
           <input
             type="text"
             required
             id="name"
-            placeholder="Enter username"
+            placeholder="Enter name"
             value={name}
             onChange={(event) => setName(event.target.value)}
           />

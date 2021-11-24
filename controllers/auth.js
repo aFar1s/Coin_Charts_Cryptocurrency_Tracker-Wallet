@@ -8,7 +8,7 @@ const Wallet = require("../models/wallet");
 
 // Register new user. Will create 3 documents at the same time
 router.post("/registerUser", async (req, res, next) => {
-    const { name, email, password, dateOfBirth } = req.body;
+    const { name, email, password } = req.body;
   
     try {
       // Create User
@@ -16,7 +16,7 @@ router.post("/registerUser", async (req, res, next) => {
         name,
         email,
         password,
-        // dateOfBirth,
+        
       });
   
       // Create Dashboard
