@@ -63,9 +63,6 @@ const LoginScreen = ({ history }) => {
         <div className="form-group">
           <label htmlFor="password">
             Password:{" "}
-            {/* <Link to="/forgotpassword" className="login-screen__forgotpassword">
-              Forgot Password?
-            </Link> */}
           </label>
           <input
             type="password"
@@ -77,6 +74,9 @@ const LoginScreen = ({ history }) => {
             value={password}
             tabIndex={2}
           />
+            <Link to="/forgotpassword" className="login-screen__forgotpassword">
+              Forgot Password?
+            </Link>
         </div>
         <button type="submit" className="btn btn-primary">
           Login
