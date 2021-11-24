@@ -14,10 +14,9 @@ router.post("/registerUser", async (req, res, next) => {
     try {
       // Create User
       const user = await User.create({
-        name,
         email,
+        name,
         password,
-        
       });
   
       // Create Dashboard
@@ -47,6 +46,11 @@ router.post("/login", async (req, res, next) => {
   try {
     // Check that user exists by email
     const user = await User.findOne({ email }).select("+password");
+    console.log(user._id);
+    const wallet = await Wallet.findOne(user._id)
+    console.log(wallet);
+    const dashboard = await Dashboard.findOne(user._id)
+    console.log(dashboard);
 
     if (!user) {
       return next(new ErrorResponse("Invalid credentials", 401));
@@ -59,7 +63,7 @@ router.post("/login", async (req, res, next) => {
       return next(new ErrorResponse("Invalid credentials", 401));
     }
 
-    sendToken(user, 200, res);
+    sendToken(user, dashboard, wallet, 200, res);
   } catch (err) {
     next(err);
   }
@@ -87,8 +91,9 @@ router.post("/forgotpassword", async (req, res, next) => {
       // HTML Message
       const message = `
         <h1>You have requested a password reset</h1>
-        <p>Please make a put request to the following link:</p>
+        <p>Please click on the link below to reset your password:</p>
         <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+        <h4>Check your account security if you have not made this request</h4>
       `;
   
       try {
@@ -147,9 +152,9 @@ router.put("/passwordreset/:resetToken", async (req, res, next) => {
     }
   });
   
-  const sendToken = (user, statusCode, res) => {
+  const sendToken = (user, dashboard, wallet, statusCode, res) => {
     const token = user.getSignedJwtToken();
-    res.status(statusCode).json({ sucess: true, token, user: user._id });
+    res.status(statusCode).json({ sucess: true, token, user: user._id, dashbaord: dashboard._id, wallet: wallet._id });
   }; 
 
 module.exports = router;
