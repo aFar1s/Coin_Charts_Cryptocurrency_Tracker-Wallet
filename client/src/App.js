@@ -8,6 +8,7 @@ import RegisterScreen from "./Components/screens/RegisterScreen"
 import NavbarLogin from "./Components/NavbarLogin"
 import Wallet from "./Pages/Wallet/Wallet"
 import ForgotPassword from "./Components/screens/ForgotPassword"
+import ResetPassword from "./Components/screens/ResetPassword";
 
 
 function App() {
@@ -21,6 +22,9 @@ function App() {
       <Route exact path="/" component={Landing} />
       <Route exact path="/login" component={LoginScreen} />
       <Route exact path="/forgotpassword" component={ForgotPassword} />
+      <Route exact path="/passwordreset/:resetToken" component={ResetPassword}
+          />
+
       <Route exact path="/register" component={RegisterScreen} />
     </Switch>
   </div>
