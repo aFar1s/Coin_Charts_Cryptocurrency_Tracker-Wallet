@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const crypto = require("crypto");
 const ErrorResponse = require("../utility/errorResponse")
+const sendEmail = require("../utility/sendEmail")
 const User = require("../models/users");
 const Dashboard = require("../models/dashboard");
 const Wallet = require("../models/wallet");
