@@ -33,6 +33,8 @@ const LoginScreen = ({ history }) => {
       console.log(data)
       sessionStorage.setItem("authToken", data.token);
       sessionStorage.setItem("userID", data.user);
+      sessionStorage.setItem("wallet", data.wallet);
+      sessionStorage.setItem("dashboard", data.dashbaord);
 
       history.push("/");
     } catch (error) {
