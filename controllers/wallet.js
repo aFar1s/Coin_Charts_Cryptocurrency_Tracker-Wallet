@@ -75,6 +75,24 @@ router.post("/registerWallet", (req, res) => {
     Wallet.findOneAndUpdate(
       { owner: req.params.id },
       { $set: updateWallet },
+      ( res, err ) => {
+        if (!err) {
+          ((updatedWallet) => res.status(200).json(updatedWallet));
+          console.log(updateWallet);
+        } else {
+          console.log(err);
+        }
+      }
+    )
+  });
+
+  router.put("/updateWalletCoin/:id", (req, res) => {
+    _id = req.params.id;
+    const updateWallet = req.body
+    console.log(_id)
+    Wallet.findByIdAndUpdate(
+      { _id },
+      { updateWallet },
       (req, res, err) => {
         if (!err) {
           ((updatedWallet) => res.json(updatedWallet));

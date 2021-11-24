@@ -22,14 +22,7 @@ useEffect(() => {
  
 console.log(walletData)
 
-/*walletData.map(wallet => {
-    return (
-        <h3>{wallet.cashTotal}</h3>
-    )
 
-
-
-}) */
 
     return (
         <div>
