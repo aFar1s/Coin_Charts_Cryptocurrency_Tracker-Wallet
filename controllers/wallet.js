@@ -23,25 +23,33 @@ router.post("/registerWallet", (req, res) => {
     .catch((err) => res.status(400).json("Error " + err));
 });
 
-// Update Wallet
-router.put("/updateWallet", (req, res) => {
-  const updateWallet = req.body;
+// // Update Wallet
+// router.put("/updateWallet/:id", (req, res) => {
+//   const updateWallet = {
+//     cashTotal: req.body.cashTotal,
+//     coinQuantity: [
+//       {
+//          coinName: req.body.coinName,
+//          amount: req.body.amount
+//         }
+//       ]
+//   }
 
-  Wallet.findByIdAndUpdate(
-    { _id: req.body.id },
-    { $set: updateWallet },
-    (req, res, err) => {
-      if (!err) {
-        console.log("Wallet Updated!");
-      } else {
-        console.log(err);
-      }
-    }
-  )
+//   Wallet.findByIdAndUpdate(
+//     { owner: req.params.id },
+//     { $set: updateWallet },
+//     (req, res, err) => {
+//       if (!err) {
+//         console.log("Wallet Updated!");
+//       } else {
+//         console.log(err);
+//       }
+//     }
+//   )
 //   .then((updatedWallet) => res.json(updatedWallet))
 //   .then((updatedWallet) => console.log(updatedWallet))
 //   .catch((err) => res.status(400).json("Error " + err));
-});
+// });
 
 // router.get("/", (req, res) => {
 //   const wallet = req.body;
@@ -55,11 +63,27 @@ router.put("/updateWallet", (req, res) => {
       
 //       ((items) => res.json(items))
 //       else {
-//         console.log(err);
-//       }
-//     }
-//   )
-// });
+  //         console.log(err);
+  //       }
+  //     }
+  //   )
+  // });
+  // Update Wallet
+  router.put("/updateWallet/:id", (req, res) => {
+    const updateWallet = req.body
+
+    Wallet.findOneAndUpdate(
+      { owner: req.params.id },
+      { $set: updateWallet },
+      (req, res, err) => {
+        if (!err) {
+          ((updatedWallet) => res.json(updatedWallet));
+        } else {
+          console.log(err);
+        }
+      }
+    )
+  });
 
 module.exports = router;
 
@@ -92,13 +116,12 @@ module.exports = router;
 
 //     res.json();
 //   });
-
-// router.get("/", (req, res) => {
-//     Wallet.find({}, (err, result) => {
-//       if (err) {
-//         res.json(err);
-//       } else {
-//         res.json(result);
+// const updateWallet = {
+//   cashTotal: req.body.cashTotal,
+//   coinQuantity: [
+//     {
+//        coinName: req.body.coinName,
+//        amount: req.body.amount
 //       }
-//     });
-//   });
+//     ]
+// }
