@@ -5,6 +5,7 @@ import Chart2 from "./components/Chart2/Chart2"
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import "./dashboard.css"
+import upperCase from "../../Helpers/upperCase"
 
 const Dashboard = () => {
     const [chartCoin, setChartCoin] = useState("bitcoin")
@@ -23,7 +24,7 @@ const Dashboard = () => {
           <div className="dash-top-left">
           <Paper>
               <h1>Chart 1</h1>
-              <h2>{chartCoin} Prices</h2>
+              <h2>{upperCase(chartCoin)} Prices</h2>
               <Chart1 chartCoin={chartCoin} />
               </Paper>
           </div>
@@ -32,7 +33,7 @@ const Dashboard = () => {
           <div className="dash-bot-right">
           <Paper>
               <h1>Chart 2</h1>
-              <h2>{chartCoin} Trading Volume</h2>
+              <h2>{upperCase(chartCoin)} Trading Volume</h2>
               <Chart2 chartCoin={chartCoin} />
               </Paper>
           </div>

@@ -56,11 +56,11 @@ router.post("/login", async (req, res, next) => {
     const user = await User.findOne({ email }).select("+password");
     console.log(user._id);
     const wallet = await Wallet.findOne(user._id)
-    console.log(wallet);
-    const dashboard = await Dashboard.findOne(user._id)
-    console.log(dashboard);
-    const cashWallet = await CashWallet.findOne(user._id)
-    console.log(cashWallet);
+    // console.log(wallet);
+    // const dashboard = await Dashboard.findOne(user._id)
+    // console.log(dashboard);
+    // const cashWallet = await CashWallet.findOne(user._id)
+    // console.log(cashWallet);
 
     if (!user) {
       return next(new ErrorResponse("Invalid credentials", 401));
@@ -73,7 +73,7 @@ router.post("/login", async (req, res, next) => {
       return next(new ErrorResponse("Invalid credentials", 401));
     }
 
-    sendToken(user, dashboard, wallet, 200, res);
+    sendToken(user, 200, res);
   } catch (err) {
     next(err);
   }
@@ -169,10 +169,5 @@ router.put("/passwordreset/:resetToken", async (req, res, next) => {
     const token = user.getSignedJwtToken();
     res.status(statusCode).json({ sucess: true, token, user: user._id });
   }; 
-
-  // const sendToken = (user, dashboard, wallet, statusCode, res) => {
-  //   const token = user.getSignedJwtToken();
-  //   res.status(statusCode).json({ sucess: true, token, user: user._id, dashbaord: dashboard._id, wallet: wallet._id });
-  // };
 
 module.exports = router;
