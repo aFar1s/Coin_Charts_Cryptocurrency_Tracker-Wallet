@@ -53,11 +53,16 @@ app.use("/api/dashboard", dashboardController);
 const walletController = require("./controllers/wallet");
 app.use("/api/wallet", walletController);
 
-app.use(errorHandler);
+// CashWallet Routes
+const cashWalletController = require("./controllers/cashWallet");
+app.use("/api/cashWallet", cashWalletController);
+
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build", "index.html"));
 });
+
+app.use(errorHandler);
 
 // Listener
 app.listen(port, () => {

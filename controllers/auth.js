@@ -6,12 +6,12 @@ const sendEmail = require("../utility/sendEmail")
 const User = require("../models/users");
 const Dashboard = require("../models/dashboard");
 const Wallet = require("../models/wallet");
+const CashWallet = require("../models/cashWallet");
+const capFirstLetter = require("../utility/upperCase")
 
-const capFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
-// Register new user. Will create 3 documents at the same time
+
+// Register new user. Will create 4 documents at the same time
 router.post("/registerUser", async (req, res, next) => {
     const { name, email, password } = req.body;
   
@@ -30,9 +30,13 @@ router.post("/registerUser", async (req, res, next) => {
       // Create Wallet
       const wallet = new Wallet({ owner: user._id });
       await wallet.save();
+      
+      // Create CashWallet
+      const cashWallet = new CashWallet({ owner: user._id });
+      await cashWallet.save();
   
       sendToken(user, 200, res);
-      console.log([user, dashboard, wallet]);
+      console.log([user, dashboard, wallet, cashWallet]);
     } catch (err) {
       next(err);
     }
@@ -55,6 +59,8 @@ router.post("/login", async (req, res, next) => {
     console.log(wallet);
     const dashboard = await Dashboard.findOne(user._id)
     console.log(dashboard);
+    const cashWallet = await CashWallet.findOne(user._id)
+    console.log(cashWallet);
 
     if (!user) {
       return next(new ErrorResponse("Invalid credentials", 401));
@@ -103,7 +109,6 @@ router.post("/forgotpassword", async (req, res, next) => {
         <h4>Check your account security if you have not made this request</h4>
       `;
 
-  console.log(capFirstLetter(user.name))
       try {
         await sendEmail({
           to: user.email,
@@ -160,9 +165,14 @@ router.put("/passwordreset/:resetToken", async (req, res, next) => {
     }
   });
   
-  const sendToken = (user, dashboard, wallet, statusCode, res) => {
+  const sendToken = (user, statusCode, res) => {
     const token = user.getSignedJwtToken();
-    res.status(statusCode).json({ sucess: true, token, user: user._id, dashbaord: dashboard._id, wallet: wallet._id });
+    res.status(statusCode).json({ sucess: true, token, user: user._id });
   }; 
+
+  // const sendToken = (user, dashboard, wallet, statusCode, res) => {
+  //   const token = user.getSignedJwtToken();
+  //   res.status(statusCode).json({ sucess: true, token, user: user._id, dashbaord: dashboard._id, wallet: wallet._id });
+  // };
 
 module.exports = router;

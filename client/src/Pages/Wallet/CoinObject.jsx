@@ -1,152 +1,102 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios"
 
-const CoinObject = ({ coinName, quantity }) => {
+const CoinObject = () => {
 
-  function capFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  // function capFirstLetter(string) {
+  //   return string.charAt(0).toUpperCase() + string.slice(1);
+  // }
 
-    // const [item, setItem] = useState({
-    //     title: "",
-    //     description: "",
-    //   });
-    //   const [items, setItems] = useState([
-    //     {
-    //       title: "",
-    //       description: "",
-    //       _id: "",
-    //     },
-    //   ]);
+  const [initCashData, setInitCashData] = useState(Number)
+  // const [finalCashData, setFinalCashData] = useState(Number)
+  // const [coinPrice, setCoinPrice] = useState(Number)
+  const [coinName, setCoinName] = useState("")
+  const [coinAmount, setCoinAmount] = useState(Number)
+  // const [purchaseData, setPurchaseData] = useState(Number)
+  // const [updatedCash, setUpdatedCash] = useState(Number)
+  
+  const userID = sessionStorage.getItem('userID');
+  
+
+
+// useEffect(() => {
+//     axios
+//       .get(
+//         `/api/cashWallet/${userID}`   //! cashWallet only has cash amount. deafult 100 000
+//       )
+//       .then(res => {
+//         setInitCashData(res.data.cashTotal)
+//         console.log(res.data.cashTotal) //! 100 000
+//       })
+//       .catch(error => console.log(error))
+//   }, [userID]
+//   );
+
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `/api/coinWallet/${userID}`  //! coinWallet model does not exist yet. it will contain owner: userID
+  //     )
+  //     .then(res => {
+  //       setCoinName(res.data.coinName)
+  //       setCoinAmount(res.data.coinAmount)
+  //       console.log(res.data) 
+  //     })
+  //     .catch(error => console.log(error))
+  // }, [userID]
+  // );
+
+  //?pull price of x ref (coinPrice)
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd`   
+  //     )
+  //     .then(res => {
+  //       setCoinPrice(res.data.bitcoin.usd)
+  //       console.log(res.data.bitcoin.usd) //! current price of bitcoin
+  //     })
+  //     .catch(error => console.log(error))
+  // }, []
+  // );
+// const updateCashHandler = async(event) => {
+//     event.preventDefault();
+
+//       const updatedCashTotal = { cashTotal: finalCashData };
+//     await axios
+//     .put(`/api/cashWallet/${userID}`, updatedCashTotal)
+//         .then(res => setInitCashData(res.data.initCashData));
+// } 
+
+ 
+      
+      
+      //!coinWallet model contains {coinName: x(coinName), coinAmount: y(coinAmount)}
+       
+      //!multiply y(coinAmount) and (coinPrice).
+      // let totalCoinValue = coinAmount * coinPrice; 
+      //?setPurchaseData((multiply y and (coinPrice)))
+      // setPurchaseData(totalCoinValue) 
+      //!setFinalCashData(initCashData - purchaseData)
+      // setFinalCashData(initCashData - purchaseData)
     
-    //   const [isPut, setIsPut] = useState(false);
-    //   const [updatedItem, setUpdatedItem] = useState({
-    //     title: "",
-    //     description: "",
-    //     id: "",
-    //   });
-    
-    //   useEffect(() => {
-    //     fetch("/items")
-    //       .then((res) => {
-    //         if (res.ok) {
-    //           return res.json();
-    //         }
-    //       })
-    //       .then((jsonRes) => setItems(jsonRes))
-    //       .catch((err) => console.log(err));
-    //   }, [items]);
-    
-    //   function handleChange(event) {
-    //     const { name, value } = event.target;
-    //     setItem((prevInput) => {
-    //       return {
-    //         ...prevInput,
-    //         [name]: value,
-    //       };
-    //     });
-    //   }
-    
-      // function addItem(event) {
-      //   event.preventDefault();
-      //   const newItem = {
-      //     title: item.title,
-      //     description: item.description,
-      //   };
-    
-      //   axios.post("/newitem", newItem);
-      //   console.log(newItem);
-      //   alert("item added");
-    
-      //   setItem({
-      //     title: "",
-      //     description: "",
-      //   });
-      // }
-    
-    //   function openUpdate(id) {
-    //     setIsPut(true);
-    //     setUpdatedItem((prevInput) => {
-    //       return {
-    //         ...prevInput,
-    //         id: id,
-    //       };
-    //     });
-    //   }
-    
-    //   function updateItem(id) {
-    //     axios.put("/put/" + id, updatedItem);
-    //     alert("item updated");
-    //     console.log(`item with id ${id} updated`);
-    //   }
-    
-    //   function handleUpdate(event) {
-    //     const { name, value } = event.target;
-    //     setUpdatedItem((prevInput) => {
-    //       return {
-    //         ...prevInput,
-    //         [name]: value,
-    //       };
-    //     });
-    //     console.log(updatedItem);
-    //   }
       
     return (
       <div>
-      <h3>Coin: {capFirstLetter(coinName)}</h3>  
-      <h3>Amount in Wallet: {quantity} {capFirstLetter(coinName)}</h3>
-      {/* <button onClick={addItem}>ADD ITEM</button>   */}
+      <h3>Cash in Wallet: {initCashData}</h3>
+      <h3>{coinName} in Wallet: {coinAmount}</h3>
+      {/* <form onSubmit={updateCashHandler}>
+      <input
+            type="text"
+            required
+            id="cashUpdate"
+            placeholder="Cash"
+            onChange={(event) => setFinalCashData(event.target.value)}
+            value={finalCashData}
+          />
+      </form> */}
     </div>
 
-      //   <div>
-      //       {!isPut ? (
-      //   <div className="main">
-      //     <input
-      //       onChange={handleChange}
-      //       name="title"
-      //       value={item.title}
-      //       placeholder="title"
-      //     ></input>
-      //     <input
-      //       onChange={handleChange}
-      //       name="description"
-      //       value={item.description}
-      //       placeholder="description"
-      //     ></input>
-      //     <button onClick={addItem}>ADD ITEM</button>
-      //   </div>
-      // ) : (
-      //   <div className="main">
-      //     <input
-      //       onChange={handleUpdate}
-      //       name="title"
-      //       value={updatedItem.title}
-      //       placeholder="title"
-      //     ></input>
-      //     <input
-      //       onChange={handleUpdate}
-      //       name="description"
-      //       value={updatedItem.description}
-      //       placeholder="description"
-      //     ></input>
-      //     <button onClick={() => updateItem(updatedItem.id)}>
-      //       UPDATE ITEM
-      //     </button>
-      //   </div>
-      // )}
-      // {items.map((item) => {
-      //   return (
-      //     <div
-      //       key={item._id}
-      //       style={{ background: "pink", width: "40%", margin: "auto auto" }}
-      //     >
-      //       <p>{item.title}</p>
-      //       <p>{item.description}</p>
-      //       <button onClick={() => openUpdate(item._id)}>UPDATE</button>
-      //     </div>
-      //   );
-      // })}
-        // </div>
     )
 }
 export default CoinObject
@@ -156,3 +106,68 @@ export default CoinObject
       
     // return (
     // )
+
+    /*
+const [initCashData, setInitCashData] = useState(Number)
+const [finalCashData, setFinalCashData] = useState(Number)
+const [coinPrice, setCoinPrice] = useState(Number)
+const [coinName, setCoinName] = useState('bitcoin')
+const [coinAmount, setCoinAmount] = useState(Number)
+const [purchaseData, setPurchaseData] = useState(Number)
+
+const userID = sessionStorage.getItem('userID');
+
+
+
+useEffect(() => {
+    axios
+      .get(
+        `/api/cashWallet/${userID}`   //! cashWallet only has cash amount. deafult 100 000
+      )
+      .then(res => {
+        setInitCashData(res.data.cashTotal)
+        console.log(res.data.cashTotal) //! 100 000
+      })
+      .catch(error => console.log(error))
+  }, [userID]
+  );
+
+  useEffect(() => {
+    axios
+      .get(
+        `/api/coinWallet/${userID}`  //! coinWallet model does not exist yet. it will contain owner: userID
+      )
+      .then(res => {
+        setCoinName(res.data.coinName)
+        setCoinAmount(res.data.coinAmount)
+        console.log(res.data.cashTotal) 
+      })
+      .catch(error => console.log(error))
+  }, [userID]
+  );
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd`   
+      )
+      .then(res => {
+        setCoinPrice(res.data.bitcoin.usd)
+        console.log(res.data.bitcoin.usd) //! current price of bitcoin
+      })
+      .catch(error => console.log(error))
+  }, []
+  );
+
+  function updateItem(id) {
+        axios.put("/put/" + id, updatedItem);
+        alert("item updated");
+        console.log(`item with id ${id} updated`);
+      }
+  !coinWallet model contains {coinName: x(coinPrice), coinAmount: y(coinAmount)}
+  ?pull price of x ref (coinPrice) 
+  !multiply y(coinAmount) and (coinPrice). 
+  ?setPurchaseData((multiply y and (coinPrice))) 
+  ?setFinalCashData(initCashData - purchaseData)
+
+*/
