@@ -13,14 +13,14 @@ useEffect(() => {
         `/api/wallet/${userID}`
       )
       .then(res => {
-        setWalletData(res.data);
-        console.log(res.data);
+        setWalletData(res.data)
+        console.log(res.data)
       })
-      .catch(error => console.log(error));
+      .catch(error => console.log(error))
   }, [userID]
-);
+  );
  
-console.log(walletData)
+// console.log(walletData[0].coinQuantity)
 
 
 

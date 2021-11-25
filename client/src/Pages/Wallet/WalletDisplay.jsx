@@ -9,6 +9,7 @@ const WalletDisplay = ({ cashTotal, coinQuantity }) => {
                 return (
                    <CoinObject
                    key={coin._id}
+                   id={coin._id}
                    coinName={coin.coinName}
                    quantity={coin.quantity}
                    />
