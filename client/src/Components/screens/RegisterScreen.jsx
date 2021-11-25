@@ -39,8 +39,7 @@ const RegisterScreen = ({history}) => {
         config
       );
 
-      // sessionStorage.setItem("authToken", data.token);
-      
+      console.log(data);
 
       history.push("/");
     } catch (error) {
@@ -99,7 +98,7 @@ const RegisterScreen = ({history}) => {
             autoComplete="true"
             placeholder="Confirm password"
             value={confirmpassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </div>
         <button type="submit" className="btn btn-primary">
