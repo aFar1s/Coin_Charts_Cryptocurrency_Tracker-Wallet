@@ -7,6 +7,10 @@ const User = require("../models/users");
 const Dashboard = require("../models/dashboard");
 const Wallet = require("../models/wallet");
 
+const capFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 // Register new user. Will create 3 documents at the same time
 router.post("/registerUser", async (req, res, next) => {
     const { name, email, password } = req.body;
@@ -91,11 +95,15 @@ router.post("/forgotpassword", async (req, res, next) => {
       // HTML Message
       const message = `
         <h1>You have requested a password reset</h1>
+        <h1> </h1>
+        <h4>Hello ${capFirstLetter(user.name)},</h4>
+        <h1> </h1>
         <p>Please click on the link below to reset your password:</p>
         <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
         <h4>Check your account security if you have not made this request</h4>
       `;
-  
+
+  console.log(capFirstLetter(user.name))
       try {
         await sendEmail({
           to: user.email,
