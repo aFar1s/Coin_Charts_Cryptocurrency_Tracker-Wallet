@@ -97,3 +97,31 @@
   .green {
     color: #11d811;
   }
+
+  .dash-coin-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 65px;
+    border-bottom: 1px solid #a4a3a3;
+    width: 100%;
+  }
+
+  .dash-coin {
+    display: flex;
+    align-items: center;
+    padding-right: 24px;
+    min-width: 300px;
+  }
+  
+  .dash-coin h1 {
+    font-size: 16px;
+    width: 150px;
+  }
+  
+  .dash-coin img {
+    height: 30px;
+    width: 30px;
+    margin-right: 20%;
+  }
