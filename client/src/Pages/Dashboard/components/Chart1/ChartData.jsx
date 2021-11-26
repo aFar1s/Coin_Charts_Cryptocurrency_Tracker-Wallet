@@ -11,7 +11,7 @@ const ChartData = ({chartData1}) => {
     options: {
       chart: {
         type: 'candlestick',
-        height: 350
+        height: 400
       },
       title: {
         text: 'Historical Price',
@@ -30,7 +30,7 @@ const ChartData = ({chartData1}) => {
 
   return (
     <div id="chart1">
-      <ReactApexChart options={data.options} series={data.series}  type="candlestick" height={350} />
+      <ReactApexChart options={data.options} series={data.series}  type="candlestick" height={400} />
     </div>
   )
 }
