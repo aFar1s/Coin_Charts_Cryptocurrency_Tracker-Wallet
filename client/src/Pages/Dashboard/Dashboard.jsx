@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useContext } from 'react'
 import CoinSearch from './components/CoinSearch'
 import Chart1 from "./components/Chart1/Chart1"
@@ -11,6 +12,7 @@ import  ContextCoinID  from '../../Helpers/ContextCoinID';
 
 
 const Dashboard = () => {
+    
     const [chartCoin, setChartCoin] = useState("bitcoin")
     const {globalCoin, setGlobalCoin} = useContext(ContextCoinID)
 

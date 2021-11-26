@@ -4,6 +4,7 @@ import  ContextCoinID  from '../../Helpers/ContextCoinID';
 
 const Coin = ({ coinId ,name, price, symbol, marketcap, volume, image, priceChange, getDashCoin }) => {
 
+  // eslint-disable-next-line no-unused-vars
   const {globalCoin, setGlobalCoin} = useContext(ContextCoinID)
   
     return (
