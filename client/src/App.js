@@ -10,22 +10,27 @@ import Wallet from "./Pages/Wallet/Wallet"
 import ForgotPassword from "./Components/screens/ForgotPassword"
 import ResetPassword from "./Components/screens/ResetPassword";
 
+import ContextCoinID from "./Helpers/ContextCoinID"
+import { useState } from "react"
+
 
 function App() {
+  const [globalCoin, setGlobalCoin] = useState("bitcoin")
+
   return (
     <Router>
   <div className="App">
     <Navbar />
     <Switch>
-      <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-      <ProtectedRoute exact path="/wallet" component={Wallet} />
-      <Route exact path="/" component={Landing} />
-      <Route exact path="/login" component={LoginScreen} />
-      <Route exact path="/forgotpassword" component={ForgotPassword} />
-      <Route exact path="/passwordreset/:resetToken" component={ResetPassword}
-          />
-
-      <Route exact path="/register" component={RegisterScreen} />
+      <ContextCoinID.Provider value={{ globalCoin, setGlobalCoin }}>
+        <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+        <ProtectedRoute exact path="/wallet" component={Wallet} />
+        <Route exact path="/" component={Landing} />
+        <Route exact path="/login" component={LoginScreen} />
+        <Route exact path="/forgotpassword" component={ForgotPassword} />
+        <Route exact path="/passwordreset/:resetToken" component={ResetPassword}/>
+        <Route exact path="/register" component={RegisterScreen} />
+      </ContextCoinID.Provider>
     </Switch>
   </div>
   </Router>

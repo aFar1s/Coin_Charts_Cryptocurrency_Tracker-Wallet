@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom'
+import  ContextCoinID  from '../../../Helpers/ContextCoinID';
+
+
 const DashboardCoin = ({ coinId ,name, price, symbol, marketcap, volume, image, priceChange, setChartCoin }) => {
   
+  const {globalCoin, setGlobalCoin} = useContext(ContextCoinID)
+
     return (
       <div className='coin-container'>
-       <Link to="/dashboard" onClick={() => {console.log(coinId); setChartCoin(coinId)}}>
+       <Link to="/dashboard" onClick={() =>  setGlobalCoin(coinId)}>
       <div className='dash-coin-row'>
         <div className='dash-coin'>
           <img src={image} alt='crypto' />
