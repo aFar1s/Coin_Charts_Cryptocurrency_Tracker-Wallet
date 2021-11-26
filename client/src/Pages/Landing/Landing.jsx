@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Coin from "./Coin";
@@ -35,7 +36,7 @@ const Landing = () => {
     return (
        <div className='coin-app'>
         <div className='coin-search'>
-         <h1 className='coin-text'>Search a coin {chartCoin}</h1>
+         <h1 className='coin-text'>Search a coin</h1>
          <form>
            <input
              className='coin-input'
