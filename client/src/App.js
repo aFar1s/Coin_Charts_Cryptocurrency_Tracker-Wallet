@@ -5,7 +5,7 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute"
 import LoginScreen from "./Components/screens/LoginScreen";
 import Dashboard from "./Pages/Dashboard/Dashboard"
 import RegisterScreen from "./Components/screens/RegisterScreen"
-import NavbarLogin from "./Components/NavbarLogin"
+import Navbar from "./Components/NavbarLogin"
 import Wallet from "./Pages/Wallet/Wallet"
 import ForgotPassword from "./Components/screens/ForgotPassword"
 import ResetPassword from "./Components/screens/ResetPassword";
@@ -15,7 +15,7 @@ function App() {
   return (
     <Router>
   <div className="App">
-    <NavbarLogin />
+    <Navbar />
     <Switch>
       <ProtectedRoute exact path="/dashboard" component={Dashboard} />
       <ProtectedRoute exact path="/wallet" component={Wallet} />

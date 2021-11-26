@@ -51,7 +51,7 @@ const RegisterScreen = ({history}) => {
   };
 
  return (
- <div>
+ <div className="register-screen">
 <form onSubmit={registerHandler} className="register-screen__form">
         <h3 className="register-screen__title">Register</h3>
         {error && <span className="error-message">{error}</span>}
