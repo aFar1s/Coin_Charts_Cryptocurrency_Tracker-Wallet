@@ -2,21 +2,25 @@ const express = require("express");
 const router = express.Router();
 const crypto = require("crypto");
 const ErrorResponse = require("../utility/errorResponse")
+const sendEmail = require("../utility/sendEmail")
 const User = require("../models/users");
 const Dashboard = require("../models/dashboard");
 const Wallet = require("../models/wallet");
+const CashWallet = require("../models/cashWallet");
+const capFirstLetter = require("../utility/upperCase")
 
-// Register new user. Will create 3 documents at the same time
+
+
+// Register new user. Will create 4 documents at the same time
 router.post("/registerUser", async (req, res, next) => {
-    const { name, email, password, dateOfBirth } = req.body;
+    const { name, email, password } = req.body;
   
     try {
       // Create User
       const user = await User.create({
-        name,
         email,
+        name,
         password,
-        // dateOfBirth,
       });
   
       // Create Dashboard
@@ -26,9 +30,13 @@ router.post("/registerUser", async (req, res, next) => {
       // Create Wallet
       const wallet = new Wallet({ owner: user._id });
       await wallet.save();
+      
+      // Create CashWallet
+      const cashWallet = new CashWallet({ owner: user._id });
+      await cashWallet.save();
   
       sendToken(user, 200, res);
-      console.log([user, dashboard, wallet]);
+      console.log([user, dashboard, wallet, cashWallet]);
     } catch (err) {
       next(err);
     }
@@ -46,6 +54,13 @@ router.post("/login", async (req, res, next) => {
   try {
     // Check that user exists by email
     const user = await User.findOne({ email }).select("+password");
+    console.log(user._id);
+    const wallet = await Wallet.findOne(user._id)
+    // console.log(wallet);
+    // const dashboard = await Dashboard.findOne(user._id)
+    // console.log(dashboard);
+    // const cashWallet = await CashWallet.findOne(user._id)
+    // console.log(cashWallet);
 
     if (!user) {
       return next(new ErrorResponse("Invalid credentials", 401));
@@ -81,15 +96,19 @@ router.post("/forgotpassword", async (req, res, next) => {
       await user.save();
   
       // Create reset url to email to provided email
-      const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`;
+      const resetUrl = `https://crypto-charts-wallet.herokuapp.com/passwordreset/${resetToken}`;
   
       // HTML Message
       const message = `
         <h1>You have requested a password reset</h1>
-        <p>Please make a put request to the following link:</p>
+        <h1> </h1>
+        <h4>Hello ${capFirstLetter(user.name)},</h4>
+        <h1> </h1>
+        <p>Please click on the link below to reset your password:</p>
         <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+        <h4>Check your account security if you have not made this request</h4>
       `;
-  
+
       try {
         await sendEmail({
           to: user.email,

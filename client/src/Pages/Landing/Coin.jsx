@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom'
+import  ContextCoinID  from '../../Helpers/ContextCoinID';
+
 const Coin = ({ coinId ,name, price, symbol, marketcap, volume, image, priceChange, getDashCoin }) => {
+
+  // eslint-disable-next-line no-unused-vars
+  const {globalCoin, setGlobalCoin} = useContext(ContextCoinID)
   
     return (
       <div className='coin-container'>
-       <Link to="/dashboard" onClick={() => {console.log(coinId); getDashCoin(coinId)}}>
+        <Link to="/dashboard" onClick={() => setGlobalCoin(coinId)}> 
       <div className='coin-row'>
         <div className='coin'>
           <img src={image} alt='crypto' />

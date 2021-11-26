@@ -23,10 +23,6 @@ const UsersSchema = new mongoose.Schema({
     minlength: 6,
     select: false,
   },
-  // //dateOfBirth: {
-  //   //type: Date,
-  // //  required: [true, "Please enter date of birth"]
-  // },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 });

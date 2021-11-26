@@ -39,7 +39,7 @@ const RegisterScreen = ({history}) => {
         config
       );
 
-      localStorage.setItem("authToken", data.token);
+      console.log(data);
 
       history.push("/");
     } catch (error) {
@@ -51,17 +51,17 @@ const RegisterScreen = ({history}) => {
   };
 
  return (
- <div>
+ <div className="register-screen">
 <form onSubmit={registerHandler} className="register-screen__form">
         <h3 className="register-screen__title">Register</h3>
         {error && <span className="error-message">{error}</span>}
         <div className="form-group">
-          <label htmlFor="name">Username:</label>
+          <label htmlFor="name">Name:</label>
           <input
             type="text"
             required
             id="name"
-            placeholder="Enter username"
+            placeholder="Enter name"
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
@@ -98,7 +98,7 @@ const RegisterScreen = ({history}) => {
             autoComplete="true"
             placeholder="Confirm password"
             value={confirmpassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </div>
         <button type="submit" className="btn btn-primary">
@@ -107,22 +107,9 @@ const RegisterScreen = ({history}) => {
         <span className="register-screen__subtext">
           Already have an account? <Link to="/login">Login</Link>
         </span>
-
-        </form>
+      </form>
  </div>
-
-
-
-
-
-
-
-
-
-);
-
-
-
+ );
 }
 
 export default RegisterScreen;

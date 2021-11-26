@@ -1,7 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Coin from "./Coin";
-import NavbarLogin from "../../Components/NavbarLogin"
 import "./landing.css"
 
 const Landing = () => {
@@ -23,8 +23,8 @@ const Landing = () => {
       }, []
     );
 
-    const handleChange = e => {
-        setSearch(e.target.value);
+    const handleChange = event => {
+        setSearch(event.target.value);
       };
     
       const filteredCoins = coins.filter(coin =>
@@ -36,7 +36,7 @@ const Landing = () => {
     return (
        <div className='coin-app'>
         <div className='coin-search'>
-         <h1 className='coin-text'>Search a coin {chartCoin}</h1>
+         <h1 className='coin-text'>Search a coin</h1>
          <form>
            <input
              className='coin-input'
