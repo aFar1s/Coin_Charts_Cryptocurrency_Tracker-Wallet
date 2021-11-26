@@ -3,29 +3,45 @@ import axios from 'axios'
 import WalletDisplay from "./WalletDisplay"
 
 const Wallet = () => {
+const [cashData, setCashData] = useState([])
 const [walletData, setWalletData] = useState([])
 const userID = sessionStorage.getItem('userID');
 
-
 useEffect(() => {
-    axios
+   axios
       .get(
-        `/api/wallet/${userID}`
+        `/api/cashWallet/${userID}`
       )
       .then(res => {
-        setWalletData(res.data)
-        console.log(res.data)
+        setCashData(res.data)
       })
       .catch(error => console.log(error))
   }, [userID]
   );
  
-// console.log(walletData[0].coinQuantity)
+console.log(cashData)
 
+useEffect(() => {
+  axios
+     .get(
+       `/api/wallet/${userID}`
+     )
+     .then(res => {
+       setWalletData(res.data)
+     })
+     .catch(error => console.log(error))
+ }, [userID]
+ );
 
 
     return (
         <div>
+          {cashData.map(cash => {
+            return (
+              <h2>Current Cash Holdings: {cash.cashTotal}</h2>
+            )
+          })}
+          {/* <WalletDisplay /> */}
             {walletData.map(wallet => {
     return (
         <WalletDisplay
@@ -34,15 +50,8 @@ useEffect(() => {
         coinQuantity={wallet.coinQuantity}
         />
     )
-
-
-
 })}
-            {/* <h4>{walletData[0].cashTotal}</h4>
-            <h4>Wallet ID:{walletData[0]._id}</h4>
-            <h4>User_ID:{walletData[0].owner}</h4>
-            <h4>User_ID:{walletData[0].owner}</h4>
-            <h4>User_ID:{walletData[0].coinQuantity}</h4> */}
+           
         </div>
     )
 }

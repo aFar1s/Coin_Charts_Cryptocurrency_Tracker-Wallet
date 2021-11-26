@@ -2,6 +2,37 @@ const express = require("express");
 const router = express.Router();
 const Wallet = require("../models/wallet");
 
+// new Post
+
+router.post("/newWallet", (req, res) => {
+  const newWallet = new Wallet(req.body);
+
+  newWallet.save()
+  .then((wallet) => console.log(wallet))
+  .catch((err) => res.status(400).json("Error " + err))
+})
+
+// new Put
+
+router.put("/updateWallet/:id", (req, res) => {
+  const updatedWallet = {
+    owner: req.body.userID,
+    coinName: req.body.coinName,
+    quantity: req.body.quantity
+  };
+
+  Wallet.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: updatedWallet },
+    (req, res, err) => {
+      if (!err) {
+        console.log(updatedWallet);
+      } else {
+        console.log(err);
+      }
+    }
+  )
+})
 
 // Get
 router.get("/:id", (req, res) => {
@@ -22,6 +53,10 @@ router.post("/registerWallet", (req, res) => {
     .then((createdWallet) => console.log(createdWallet))
     .catch((err) => res.status(400).json("Error " + err));
 });
+
+
+
+
 
 // // Update Wallet
 // router.put("/updateWallet/:id", (req, res) => {
@@ -69,16 +104,16 @@ router.post("/registerWallet", (req, res) => {
   //   )
   // });
   // Update Wallet
-  router.put("/updateWallet/:id", (req, res) => {
-    const updateWallet = req.body.coinQuantity[0]
+//   router.put("/updateWallet/:id", (req, res) => {
+//     const updateWallet = req.body.coinQuantity[0]
 
-    Wallet.findOneAndUpdate(
-      { owner: req.params.id },
-      { $set: updateWallet },
-      { new: true }
-    ).then((updatedWallet) => res.json(updatedWallet))
-     .catch((err) => res.status(400).json("Error " + err));
- })
+//     Wallet.findOneAndUpdate(
+//       { owner: req.params.id },
+//       { $set: updateWallet },
+//       { new: true }
+//     ).then((updatedWallet) => res.json(updatedWallet))
+//      .catch((err) => res.status(400).json("Error " + err));
+//  })
   // router.put("/updateWallet/:id", (req, res) => {
   //   const updateWallet = req.body
 
@@ -102,24 +137,24 @@ router.post("/registerWallet", (req, res) => {
 
   // => res.status(400).json("Error " + err));
 
-  router.put("/updateWallet/:objectID", (req, res) => {
-    // const _id = req.params.ownerID;
-    const objectID = req.params.objectID;
-    const updateWallet = req.body
-    console.log(_id)
-    console.log(objectID)
-    Wallet.findByIdAndUpdate(
-      { objectID },
-      { updateWallet },
-      (req, res, err) => {
-        if (!err) {
-          ((updatedWallet) => res.status(200).json(updatedWallet));
-        } else {
-          console.log(err);
-        }
-      }
-    )
-  });
+  // router.put("/updateWallet/:objectID", (req, res) => {
+  //   // const _id = req.params.ownerID;
+  //   const objectID = req.params.objectID;
+  //   const updateWallet = req.body
+  //   console.log(_id)
+  //   console.log(objectID)
+  //   Wallet.findByIdAndUpdate(
+  //     { objectID },
+  //     { updateWallet },
+  //     (req, res, err) => {
+  //       if (!err) {
+  //         ((updatedWallet) => res.status(200).json(updatedWallet));
+  //       } else {
+  //         console.log(err);
+  //       }
+  //     }
+  //   )
+  // });
 
 module.exports = router;
 
