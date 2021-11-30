@@ -1,4 +1,5 @@
 const logOutHandler = () => {
+
     sessionStorage.removeItem("authToken");
     sessionStorage.removeItem("userID")
     sessionStorage.removeItem("wallet")

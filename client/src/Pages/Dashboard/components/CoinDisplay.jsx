@@ -36,21 +36,23 @@ function CoinDisplay({coinID}) {
             setPer30d(res.data.market_data.price_change_percentage_30d)
             setTotalSupply(res.data.market_data.total_supply)
             setCirculation(res.data.market_data.circulating_supply)
-            
-
         })
         .catch(error => console.log(error));
     }, [coinID]
     );
     console.log(coinData);
 
+    const underLineStyle = {
+      "border-bottom": "1px solid #a4a3a3"
+    }
+
     
     
     return (
         <div>
-        <h2>{upperCase(coinID)}</h2>
+        <h2 style={{underLineStyle}}>{upperCase(coinID)}</h2>
         <img src={image} alt='crypto' />
-        <h4>Date Created: {genesis}</h4>
+        <h4 style={{underLineStyle}}>Date Created: {genesis}</h4>
         <h4>Liquidity Score: {liquidity}</h4>
         <h4>Hashing Method: {algo}</h4>
         <h4>All Time High: ${ath}</h4>

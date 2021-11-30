@@ -11,17 +11,20 @@ import ForgotPassword from "./Components/screens/ForgotPassword"
 import ResetPassword from "./Components/screens/ResetPassword";
 
 import ContextCoinID from "./Helpers/ContextCoinID"
+import isAuth from "./Helpers/isAuth"
 import { useState } from "react"
 
 
 function App() {
   const [globalCoin, setGlobalCoin] = useState("bitcoin")
+  const [globalAuth, setGlobalAuth] = useState(false)
 
   return (
     <Router>
   <div className="App">
     <Navbar />
     <Switch>
+      <isAuth.Provider value={{globalAuth, setGlobalAuth}}>
       <ContextCoinID.Provider value={{ globalCoin, setGlobalCoin }}>
         <ProtectedRoute exact path="/dashboard" component={Dashboard} />
         <ProtectedRoute exact path="/wallet" component={Wallet} />
@@ -31,6 +34,7 @@ function App() {
         <Route exact path="/passwordreset/:resetToken" component={ResetPassword}/>
         <Route exact path="/register" component={RegisterScreen} />
       </ContextCoinID.Provider>
+      </isAuth.Provider>
     </Switch>
   </div>
   </Router>
