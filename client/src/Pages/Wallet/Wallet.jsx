@@ -33,15 +33,13 @@ useEffect(() => {
  }, [userID]
  );
 
-
-    return (
+  return (
         <div>
           {cashData.map(cash => {
             return (
               <h2>Current Cash Holdings: {cash.cashTotal}</h2>
             )
           })}
-          {/* <WalletDisplay /> */}
             {walletData.map(wallet => {
     return (
         <WalletDisplay
@@ -61,4 +59,3 @@ export default Wallet
 
 
 
-// 619729dbcd05836c70437624

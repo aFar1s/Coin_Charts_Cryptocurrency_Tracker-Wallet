@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -9,30 +9,9 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import logOutHandler from "../Helpers/logOutHandler"
 
-export default function NavbarLogin() {
-  // const userID = sessionStorage.getItem('userID');
-  // const [login, setLogin] = useState(false)
-
-  // function loginHandler() {
-  //   if (userID) {
-  //     setLogin(true)
-  //   }
+const NavbarLogin = () => {
   
-  //   else setLogin(false)
-  // } 
-  // logOutHandler()
-
-  const [user, setUser] = useState({});
-
-    useEffect(() => {
-        setInterval(() => {
-            const userString = sessionStorage.getItem('userID')
-            const user = JSON.parse(userString);
-            setUser(user);
-            }, [])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, 5000);
-  
+  const user = 1
   
     if (user) {
       return (
@@ -53,6 +32,8 @@ export default function NavbarLogin() {
               <Button color="inherit" component={Link} to='/dashboard'>Dashboard</Button>
               <Button color="inherit" component={Link} to='/wallet'>Wallet</Button>
               <Button color="inherit" onClick={logOutHandler} component={Link} to='/login'>Log Out</Button>
+              <Button color="inherit" component={Link} to='/register'>SignUp</Button>
+              <Button color="inherit" component={Link} to='/login'>Login</Button>
             </Toolbar>
           </AppBar>
         </Box>
@@ -84,3 +65,5 @@ export default function NavbarLogin() {
   }
   
 }
+
+export default NavbarLogin

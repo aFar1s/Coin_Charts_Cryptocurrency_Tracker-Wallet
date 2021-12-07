@@ -14,7 +14,6 @@ const LoginScreen = ({ history }) => {
   useEffect(() => {
     if (sessionStorage.getItem("authToken")) {
       history.push("/");
-      console.log(history)
     }
   }, [history, setGlobalAuth, globalAuth]);
   
