@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CoinDisplayData = () => {
+function BuySellPopUp() {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const CoinDisplayData = () => {
     )
 }
 
-export default CoinDisplayData
+export default BuySellPopUp

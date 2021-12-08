@@ -1,32 +1,51 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState} from 'react'
 import axios from 'axios'
+import upperCase from "../../Helpers/upperCase"
+import BuySellPopUp from './BuySellPopUp'
 
-const WalletContents = () => {
-    const [walletData, setWalletData] = useState([])
-
-    const userID = sessionStorage.getItem('userID')
+const WalletContents = ({ coinName, quantity }) => {
+    const [coinPrice, setCoinPrice] = useState(Number)
+    const [buySellPopUpTrigger, setBuySellPopUpTrigger] = useState(false)
 
     useEffect(() => {
-        axios.get(`http://localhost:4001/api/wallet/${userID}`)
-         .then((res) => setWalletData(res.data))
-         .catch((err) => console.error(err))
-    }, [userID])
+        axios
+        .get
+        (`https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`)
+        .then
+        (res => {setCoinPrice(res.data.market_data.current_price.usd)
+        })
+        .catch(error => console.log(error))
+    }
+    );
+    
+    console.log(coinName)
+    console.log(coinPrice)
 
+    const walletCoinValue = (quantity) => {
+        return (quantity * coinPrice) 
+    }
+
+
+    
 
     return (
-        <div>
+        <div className="wallet-container">
             <div className="walletData">
-                {walletData.map((data) => {
-                    return (
-                        <div>
-                            <h4>Coin: {data.coinName}</h4>
-                            <h4>Value: {data.quantity}</h4>
-                        </div>
-                    )
-                })}
+              <h4>Coin: {upperCase(coinName)}</h4>
+              <h4>Value: $ {walletCoinValue(quantity)}</h4>
+              <div className="wallet-btn">
+                  <button onClick={()=> setBuySellPopUpTrigger(true)}>Buy/Sell</button>
+                  <button>Sell ALL</button>
+              </div>
             </div>
+
+            <BuySellPopUp
+             trigger={buySellPopUpTrigger} 
+            >
+                <h3>test popup</h3>
+            </BuySellPopUp>
         </div>
-    )
+)
 }
 
 export default WalletContents
