@@ -31,8 +31,16 @@ const Wallet = () => {
       .catch(error => console.log(error))
   }, [userID]
   );
+
+  const buyHandler = (event) => {
+    event.preventDefault();
+
+    alert(`You have bought Bitcoin!`)
+  }
+
  
   return (
+    <div>
         <div>
           {cashData.map(cash => {
             return (
@@ -42,6 +50,19 @@ const Wallet = () => {
               </div>
             )
           })}
+        </div>
+        <div>
+          <div>
+            <form onSubmit={buyHandler}> 
+              <input 
+                type="dropdown"
+              />
+            </form>
+
+
+
+          </div>
+
             {walletData.map(wallet => {
     return (
         <WalletContents
@@ -53,6 +74,7 @@ const Wallet = () => {
 })}
            
         </div>
+    </div>
     )
 }
 
