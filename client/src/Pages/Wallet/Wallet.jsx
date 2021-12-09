@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import WalletContents from "./WalletContents"
+import BuyScreen from "./BuyScreen"
+import numberAddComma from '../../Helpers/numberAddComma'
 import "./wallet.css"
 
 
@@ -32,11 +34,11 @@ const Wallet = () => {
   }, [userID]
   );
 
-  const buyHandler = (event) => {
-    event.preventDefault();
+  // const buyHandler = (event) => {
+  //   event.preventDefault();
 
-    alert(`You have bought Bitcoin!`)
-  }
+  //   alert(`You have bought Bitcoin!`)
+  // }
 
  
   return (
@@ -45,24 +47,14 @@ const Wallet = () => {
           {cashData.map(cash => {
             return (
               <div key={cash._id}>
-              <h2>Current Cash Holdings: {cash.cashTotal}</h2>
-              <h3>Wallet Contents:</h3>
+               <h2>Current Cash Holdings: $ {numberAddComma(cash.cashTotal)}</h2>
               </div>
             )
           })}
+          <h3>Wallet Contents:</h3>
         </div>
+        <BuyScreen />
         <div>
-          <div>
-            <form onSubmit={buyHandler}> 
-              <input 
-                type="dropdown"
-              />
-            </form>
-
-
-
-          </div>
-
             {walletData.map(wallet => {
     return (
         <WalletContents
@@ -72,7 +64,6 @@ const Wallet = () => {
         />
     )
 })}
-           
         </div>
     </div>
     )

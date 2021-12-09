@@ -32,7 +32,7 @@ const WalletContents = ({ coinName, quantity }) => {
               <h4 className="wallet-text">Amount of {upperCase(coinName)}: {quantity} {upperCase(coinName)}</h4>
               <h4 className="wallet-text">Value: $ {coinValue}</h4>
               <div className="wallet-btn">
-                  <button onClick={()=> setBuySellPopUpTrigger(true)}>Buy/Sell</button>
+                  <button onClick={()=> setBuySellPopUpTrigger(true)}>Buy/Sell {upperCase(coinName)}</button>
                   <button>Sell ALL</button>
               </div>
             </div>
