@@ -51,9 +51,9 @@ const Wallet = () => {
               </div>
             )
           })}
-          <h3>Wallet Contents:</h3>
-        </div>
         <BuyScreen />
+        </div>
+          <h3>Wallet Contents:</h3>
         <div>
             {walletData.map(wallet => {
     return (
