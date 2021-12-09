@@ -2,6 +2,7 @@ import React, { useEffect, useState} from 'react'
 import axios from 'axios'
 import upperCase from "../../Helpers/upperCase"
 import BuySellPopUp from './BuySellPopUp'
+import numberAddComma from '../../Helpers/numberAddComma'
 
 const WalletContents = ({ coinName, quantity }) => {
     const [coinPrice, setCoinPrice] = useState(Number)
@@ -18,21 +19,18 @@ const WalletContents = ({ coinName, quantity }) => {
     }
     );
     
-    console.log(coinName)
-    console.log(coinPrice)
-
     const walletCoinValue = (quantity) => {
         return (quantity * coinPrice) 
     }
 
-
-    
+    const coinValue = numberAddComma(walletCoinValue(quantity).toFixed(2))
 
     return (
         <div className="wallet-container">
             <div className="walletData">
-              <h4>Coin: {upperCase(coinName)}</h4>
-              <h4>Value: $ {walletCoinValue(quantity)}</h4>
+              <h4 className="wallet-text">Coin: {upperCase(coinName)}</h4>
+              <h4 className="wallet-text">Amount of {upperCase(coinName)}: {quantity} {upperCase(coinName)}</h4>
+              <h4 className="wallet-text">Value: $ {coinValue}</h4>
               <div className="wallet-btn">
                   <button onClick={()=> setBuySellPopUpTrigger(true)}>Buy/Sell</button>
                   <button>Sell ALL</button>

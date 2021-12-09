@@ -20,7 +20,6 @@ const Wallet = () => {
    }, [userID]
    );
   
- console.log(cashData)
  
  useEffect(() => {
    axios
@@ -37,8 +36,9 @@ const Wallet = () => {
         <div>
           {cashData.map(cash => {
             return (
-              <div className={cash._id}>
+              <div key={cash._id}>
               <h2>Current Cash Holdings: {cash.cashTotal}</h2>
+              <h3>Wallet Contents:</h3>
               </div>
             )
           })}
