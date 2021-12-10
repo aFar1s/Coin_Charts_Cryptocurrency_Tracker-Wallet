@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import upperCase from "../../Helpers/upperCase";
+
+//! MUI
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -11,9 +14,8 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import upperCase from "../../Helpers/upperCase";
 
-function BuyScreen() {
+const BuyScreen = () => {
   const [open, setOpen] = useState(false);
   const [coin, setCoin] = useState(String);
   const [quantity, setQuantity] = useState(Number);
