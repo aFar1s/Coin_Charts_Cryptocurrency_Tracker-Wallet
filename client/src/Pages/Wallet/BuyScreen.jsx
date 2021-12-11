@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import upperCase from "../../Helpers/upperCase";
 
@@ -15,12 +15,13 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const BuyScreen = () => {
+const BuyScreen = ({ excludedArray }) => {
   const [open, setOpen] = useState(false);
   const [coin, setCoin] = useState(String);
   const [quantity, setQuantity] = useState(Number);
   const [coinList, setCoinList] = useState(Array);
   const [coinNameList, setCoinNameList] = useState(Array);
+
 
   const handleCoinChange = (event) => {
     event.preventDefault();
@@ -51,7 +52,7 @@ const BuyScreen = () => {
         setCoinList(res.data);
         console.log(res.data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error));    
   }, []);
 
   const x = coinList.map((coin) => coin.id);
@@ -74,7 +75,7 @@ const BuyScreen = () => {
                 input={<OutlinedInput label="Coin" id="demo-dialog-native" />}
               >
                 <option aria-label="None" value="" />
-                {x.map((coinname) => (
+                {excludedArray.map((coinname) => (
                   <option key={coinname} value={coinname}>
                     {upperCase(coinname)}
                   </option>

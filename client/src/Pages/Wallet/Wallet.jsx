@@ -3,11 +3,14 @@ import axios from "axios";
 import WalletContents from "./WalletContents";
 import BuyScreen from "./BuyScreen";
 import numberAddComma from "../../Helpers/numberAddComma";
+import lo_difference from "lodash.difference";
 import "./wallet.css";
 
 const Wallet = () => {
   const [cashData, setCashData] = useState([]);
   const [walletData, setWalletData] = useState([]);
+  const [exclude, setExclude] = useState([])
+  const [coinList, setCoinList] = useState([]);
   const userID = sessionStorage.getItem("userID");
 
   useEffect(() => {
@@ -28,11 +31,36 @@ const Wallet = () => {
       .catch((error) => console.log(error));
   }, [userID]);
 
+  useEffect(() => {
+    axios
+      .get(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+      )
+      .then((res) => {
+        setCoinList(res.data);
+      })
+      .catch((error) => console.log(error));    
+  }, []);
+
+  const x = coinList.map((coin) => coin.id);
+
+  const y = walletData.map((wallet) => wallet.coinName)
+
+  console.log(x);
+  console.log(y);
+
+  const excludedArray = lo_difference(x, y)
+
+  console.log(excludedArray);
+
+
   // const buyHandler = (event) => {
   //   event.preventDefault();
 
   //   alert(`You have bought Bitcoin!`)
   // }
+
+  console.log(walletData)
 
   return (
     <div>
@@ -44,7 +72,9 @@ const Wallet = () => {
             </div>
           );
         })}
-        <BuyScreen />
+        <BuyScreen
+          excludedArray={excludedArray}
+        />
       </div>
       <h3>Wallet Contents:</h3>
       <div>
