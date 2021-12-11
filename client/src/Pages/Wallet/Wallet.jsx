@@ -46,21 +46,7 @@ const Wallet = () => {
 
   const y = walletData.map((wallet) => wallet.coinName)
 
-  console.log(x);
-  console.log(y);
-
   const excludedArray = lo_difference(x, y)
-
-  console.log(excludedArray);
-
-
-  // const buyHandler = (event) => {
-  //   event.preventDefault();
-
-  //   alert(`You have bought Bitcoin!`)
-  // }
-
-  console.log(walletData)
 
   return (
     <div>

@@ -18,10 +18,7 @@ import Select from "@mui/material/Select";
 const BuyScreen = ({ excludedArray }) => {
   const [open, setOpen] = useState(false);
   const [coin, setCoin] = useState(String);
-  const [quantity, setQuantity] = useState(Number);
-  const [coinList, setCoinList] = useState(Array);
-  const [coinNameList, setCoinNameList] = useState(Array);
-
+  const [quantity, setQuantity] = useState(1);
 
   const handleCoinChange = (event) => {
     event.preventDefault();
@@ -30,6 +27,8 @@ const BuyScreen = ({ excludedArray }) => {
   };
 
   const handleQuantityChange = (event) => {
+    event.preventDefault();
+
     setQuantity(Number(event.target.value));
   };
 
@@ -43,26 +42,19 @@ const BuyScreen = ({ excludedArray }) => {
     }
   };
 
-  useEffect(() => {
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
-      )
-      .then((res) => {
-        setCoinList(res.data);
-        console.log(res.data);
-      })
-      .catch((error) => console.log(error));    
-  }, []);
+  let buyQuantityArray = []
 
-  const x = coinList.map((coin) => coin.id);
+  for (let index = 1; index < 100; index++) {
+      buyQuantityArray.push(index)
+  }
 
-  console.log(x);
+  console.log(buyQuantityArray)
 
   return (
     <div>
       <Button onClick={handleClickOpen}>Buy</Button>
       <h4>{coin}</h4>
+      <h4>{quantity}</h4>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Select Coin & Quantity</DialogTitle>
         <DialogContent>
@@ -94,9 +86,9 @@ const BuyScreen = ({ excludedArray }) => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {buyQuantityArray.map((buy) => (
+                    <MenuItem key={buy} value={buy}>{buy}</MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Box>
@@ -112,4 +104,4 @@ const BuyScreen = ({ excludedArray }) => {
 
 export default BuyScreen;
 
-//https://api.coingecko.com/api/v3/coins/list?include_platform=false
+// <MenuItem value={10}>Ten</MenuItem>
