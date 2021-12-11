@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import upperCase from "../../Helpers/upperCase";
 
 //! MUI
@@ -47,8 +46,6 @@ const BuyScreen = ({ excludedArray }) => {
   for (let index = 1; index < 100; index++) {
       buyQuantityArray.push(index)
   }
-
-  console.log(buyQuantityArray)
 
   return (
     <div>

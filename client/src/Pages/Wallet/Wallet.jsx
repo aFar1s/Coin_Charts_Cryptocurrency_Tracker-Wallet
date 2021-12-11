@@ -9,7 +9,7 @@ import "./wallet.css";
 const Wallet = () => {
   const [cashData, setCashData] = useState([]);
   const [walletData, setWalletData] = useState([]);
-  const [exclude, setExclude] = useState([])
+  // const [exclude, setExclude] = useState([])
   const [coinList, setCoinList] = useState([]);
   const userID = sessionStorage.getItem("userID");
 
