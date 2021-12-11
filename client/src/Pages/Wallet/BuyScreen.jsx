@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import upperCase from "../../Helpers/upperCase";
+import numberAddComma from "../../Helpers/numberAddComma"
 
 //! MUI
 import Box from "@mui/material/Box";
@@ -118,9 +119,9 @@ const BuyScreen = ({ excludedArray, cashBalance }) => {
               </Select>
             </FormControl>
           </Box>
-        {(x<=cashBalance) ? (<h4>This Amount: ({walletCoinValue(quantity)}) Will be deducted from your Cash Balance</h4>) 
+        {(x<=cashBalance) ? (<h4>This Amount: ($ {numberAddComma(walletCoinValue(quantity))}) Will be deducted from your Cash Balance</h4>) 
         :
-         (<h4>Quantity Selected is more than available Cash Balance({cashBalance})</h4>)}  
+         (<h4>Attempted purchase($ {numberAddComma(walletCoinValue(quantity))}) is more than available Cash Balance($ {cashBalance})</h4>)}  
         <h4>{coin}</h4>
         <h4>{quantity}</h4>            
         <h4>{walletCoinValue(quantity)}</h4>            
