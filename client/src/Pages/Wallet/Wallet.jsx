@@ -48,18 +48,25 @@ const Wallet = () => {
 
   const excludedArray = lo_difference(x, y)
 
+  const cashBalanceArray = cashData.map((cash) => cash.cashTotal);
+
+  const cashBalance = cashBalanceArray[0]
+
+  console.log(cashBalance)
+
   return (
     <div>
       <div>
         {cashData.map((cash) => {
           return (
             <div key={cash._id}>
-              <h2>Current Cash Holdings: $ {numberAddComma(cash.cashTotal)}</h2>
+              <h2>Current Cash Balance: $ {numberAddComma(cash.cashTotal)}</h2>
             </div>
           );
         })}
         <BuyScreen
           excludedArray={excludedArray}
+          cashBalance={cashBalance}
         />
       </div>
       <h3>Wallet Contents:</h3>

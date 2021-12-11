@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import upperCase from "../../Helpers/upperCase";
 
 //! MUI
@@ -14,15 +15,37 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const BuyScreen = ({ excludedArray }) => {
+const BuyScreen = ({ excludedArray, cashBalance }) => {
   const [open, setOpen] = useState(false);
   const [coin, setCoin] = useState(String);
+  const [coinName, setCoinName] = useState(String);
   const [quantity, setQuantity] = useState(1);
+  const [coinPrice, setCoinPrice] = useState(Number);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
+      )
+      .then((res) => {
+        setCoinPrice(res.data.market_data.current_price.usd);
+      })
+      .catch((error) => console.log(error));
+  });
+
+  const walletCoinValue = (quant) => {
+    return quant * coinPrice;
+  };
+
+  const x = walletCoinValue(quantity)
+
+  console.log(!(x<=cashBalance))
 
   const handleCoinChange = (event) => {
     event.preventDefault();
 
     setCoin(String(event.target.value));
+    setCoinName(String(event.target.value));
   };
 
   const handleQuantityChange = (event) => {
@@ -30,6 +53,8 @@ const BuyScreen = ({ excludedArray }) => {
 
     setQuantity(Number(event.target.value));
   };
+
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,6 +66,12 @@ const BuyScreen = ({ excludedArray }) => {
     }
   };
 
+  const handleOk = () => {
+      setOpen(false)
+
+
+  }
+
   let buyQuantityArray = []
 
   for (let index = 1; index < 100; index++) {
@@ -50,8 +81,6 @@ const BuyScreen = ({ excludedArray }) => {
   return (
     <div>
       <Button onClick={handleClickOpen}>Buy</Button>
-      <h4>{coin}</h4>
-      <h4>{quantity}</h4>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Select Coin & Quantity</DialogTitle>
         <DialogContent>
@@ -89,10 +118,16 @@ const BuyScreen = ({ excludedArray }) => {
               </Select>
             </FormControl>
           </Box>
+        {(x<=cashBalance) ? (<h4>This Amount: ({walletCoinValue(quantity)}) Will be deducted from your Cash Balance</h4>) 
+        :
+         (<h4>Quantity Selected is more than available Cash Balance({cashBalance})</h4>)}  
+        <h4>{coin}</h4>
+        <h4>{quantity}</h4>            
+        <h4>{walletCoinValue(quantity)}</h4>            
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Ok</Button>
+          <Button onClick={handleOk} disabled={!(x<=cashBalance)}>Ok</Button>
         </DialogActions>
       </Dialog>
     </div>
