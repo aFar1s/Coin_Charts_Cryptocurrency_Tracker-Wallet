@@ -61,6 +61,7 @@ const BuyScreen = () => {
   return (
     <div>
       <Button onClick={handleClickOpen}>Buy</Button>
+      <h4>{coin}</h4>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Select Coin & Quantity</DialogTitle>
         <DialogContent>
@@ -68,7 +69,7 @@ const BuyScreen = () => {
             <FormControl sx={{ m: 1, minWidth: 320 }}>
               <InputLabel htmlFor="demo-dialog-native">Coin</InputLabel>
               <Select
-                value={x}
+                native
                 onChange={handleCoinChange}
                 input={<OutlinedInput label="Coin" id="demo-dialog-native" />}
               >
@@ -78,9 +79,6 @@ const BuyScreen = () => {
                     {upperCase(coinname)}
                   </option>
                 ))}
-                {/* <option value={10}>Ten</option>
-                  <option value={20}>Twenty</option>
-                  <option value={30}>Thirty</option> */}
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
