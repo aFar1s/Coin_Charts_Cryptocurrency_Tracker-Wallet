@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext} from "react";
 import axios from "axios";
 import WalletContents from "./WalletContents";
 import BuyScreen from "./BuyScreen";
 import numberAddComma from "../../Helpers/numberAddComma";
+import NewWalletContentData from "../../Helpers/NewWalletContentData"
 import lo_difference from "lodash.difference";
 import "./wallet.css";
 
@@ -12,6 +13,9 @@ const Wallet = () => {
   // const [exclude, setExclude] = useState([])
   const [coinList, setCoinList] = useState([]);
   const userID = sessionStorage.getItem("userID");
+
+  const {newWalletContentData, setNewWalletContentData} = useContext(NewWalletContentData)
+
 
   useEffect(() => {
     axios
@@ -67,6 +71,8 @@ const Wallet = () => {
         <BuyScreen
           excludedArray={excludedArray}
           cashBalance={cashBalance}
+          setWalletData={setWalletData}
+          walletData={walletData}
         />
       </div>
       <h3>Wallet Contents:</h3>

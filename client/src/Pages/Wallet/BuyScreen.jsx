@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import upperCase from "../../Helpers/upperCase";
-import numberAddComma from "../../Helpers/numberAddComma"
+import numberAddComma from "../../Helpers/numberAddComma";
+import NewWalletContentData from "../../Helpers/NewWalletContentData"
 
-//! MUI
+//* MUI
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -16,12 +17,15 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const BuyScreen = ({ excludedArray, cashBalance }) => {
+const BuyScreen = ({ excludedArray, cashBalance, setWalletData, walletData }) => {
   const [open, setOpen] = useState(false);
   const [coin, setCoin] = useState(String);
   const [coinName, setCoinName] = useState(String);
   const [quantity, setQuantity] = useState(1);
   const [coinPrice, setCoinPrice] = useState(Number);
+
+  const {newWalletContentData, setNewWalletContentData} = useContext(NewWalletContentData)
+
 
   useEffect(() => {
     axios
@@ -38,9 +42,9 @@ const BuyScreen = ({ excludedArray, cashBalance }) => {
     return quant * coinPrice;
   };
 
-  const x = walletCoinValue(quantity)
+  const x = walletCoinValue(quantity);
 
-  console.log(!(x<=cashBalance))
+  console.log(!(x <= cashBalance));
 
   const handleCoinChange = (event) => {
     event.preventDefault();
@@ -55,8 +59,6 @@ const BuyScreen = ({ excludedArray, cashBalance }) => {
     setQuantity(Number(event.target.value));
   };
 
-
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -68,15 +70,22 @@ const BuyScreen = ({ excludedArray, cashBalance }) => {
   };
 
   const handleOk = () => {
-      setOpen(false)
+    setOpen(false);
 
+    const newWalletContent = {
+      owner: sessionStorage.getItem("userID"),
+      coinName: coinName,
+      quantity: quantity,
+    }
 
-  }
+    axios.post("/api/wallet/newWallet", newWalletContent)
+    .then(() => {setWalletData([ ...walletData, newWalletContent ])});
+  };
 
-  let buyQuantityArray = []
+  let buyQuantityArray = [];
 
   for (let index = 1; index < 100; index++) {
-      buyQuantityArray.push(index)
+    buyQuantityArray.push(index);
   }
 
   return (
@@ -114,26 +123,38 @@ const BuyScreen = ({ excludedArray, cashBalance }) => {
                   <em>None</em>
                 </MenuItem>
                 {buyQuantityArray.map((buy) => (
-                    <MenuItem key={buy} value={buy}>{buy}</MenuItem>
+                  <MenuItem key={buy} value={buy}>
+                    {buy}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
           </Box>
-        {(x<=cashBalance) ? (<h4>This Amount: ($ {numberAddComma(walletCoinValue(quantity))}) Will be deducted from your Cash Balance</h4>) 
-        :
-         (<h4>Attempted purchase($ {numberAddComma(walletCoinValue(quantity))}) is more than available Cash Balance($ {cashBalance})</h4>)}  
-        <h4>{coin}</h4>
-        <h4>{quantity}</h4>            
-        <h4>{walletCoinValue(quantity)}</h4>            
+          {x <= cashBalance ? (
+            <h4>
+              This Amount: ($ {numberAddComma(walletCoinValue(quantity))}) Will
+              be deducted from your Cash Balance
+            </h4>
+          ) : (
+            <h4>
+              Attempted purchase($ {numberAddComma(walletCoinValue(quantity))})
+              is more than available Cash Balance($ {cashBalance})
+            </h4>
+          )}
+          <h4>{coin}</h4>
+          <h4>{quantity}</h4>
+          <h4>{walletCoinValue(quantity)}</h4>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleOk} disabled={!(x<=cashBalance)}>Ok</Button>
+          <Button onClick={handleOk} disabled={!(x <= cashBalance)}>
+            Ok
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+};
 
 export default BuyScreen;
 
