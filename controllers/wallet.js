@@ -55,10 +55,11 @@ router.post("/registerWallet", (req, res) => {
 });
 
 //* Delete
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", (req, res) => {
   const _id = req.params.id;
   
-  await Wallet.findByIdAndRemove(_id).exec();
+  Wallet.findByIdAndRemove(_id).exec()
+  .then(console.log("Wallet Content deleted"))
 })
 
 
