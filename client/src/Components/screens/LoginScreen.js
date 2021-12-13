@@ -38,6 +38,7 @@ const LoginScreen = ({ history }) => {
         sessionStorage.setItem("userID", data.user);
         setGlobalAuth(true)
         console.log(globalAuth)
+        window.location.reload(false)
 
       history.push("/");
     } catch (error) {

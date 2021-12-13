@@ -26,6 +26,8 @@ function App() {
   const [globalAuth, setGlobalAuth] = useState(false)
   const [newWalletContentData, setNewWalletContentData] = useState([])
 
+  console.log(newWalletContentData)
+
   return (
     <Router>
   <div className="App">

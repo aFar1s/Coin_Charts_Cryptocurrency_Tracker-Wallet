@@ -4,7 +4,7 @@ import upperCase from "../../Helpers/upperCase";
 import BuySellPopUp from "./BuySellPopUp";
 import numberAddComma from "../../Helpers/numberAddComma";
 
-const WalletContents = ({ coinName, quantity }) => {
+const WalletContents = ({ coinName, quantity, id }) => {
   const [coinPrice, setCoinPrice] = useState(Number);
   const [buySellPopUpTrigger, setBuySellPopUpTrigger] = useState(false);
 
@@ -25,6 +25,10 @@ const WalletContents = ({ coinName, quantity }) => {
 
   const coinValue = numberAddComma(walletCoinValue(quantity).toFixed(2));
 
+  const sellCoin = (id) => {
+    axios.delete(`api/wallet/delete/${id}`)
+  }
+
   return (
     <div className="wallet-container">
       <div className="walletData">
@@ -37,7 +41,7 @@ const WalletContents = ({ coinName, quantity }) => {
           <button onClick={() => setBuySellPopUpTrigger(true)}>
             Buy/Sell {upperCase(coinName)}
           </button>
-          <button>Sell ALL</button>
+          <button onClick={() => sellCoin(id)}>Sell ALL</button>
         </div>
       </div>
 

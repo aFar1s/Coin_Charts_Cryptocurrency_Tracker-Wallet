@@ -44,8 +44,6 @@ const BuyScreen = ({ excludedArray, cashBalance, setWalletData, walletData }) =>
 
   const x = walletCoinValue(quantity);
 
-  console.log(!(x <= cashBalance));
-
   const handleCoinChange = (event) => {
     event.preventDefault();
 
@@ -79,11 +77,10 @@ const BuyScreen = ({ excludedArray, cashBalance, setWalletData, walletData }) =>
     }
 
     axios.post("/api/wallet/newWallet", newWalletContent)
-    .then(() => {setWalletData([ ...walletData, newWalletContent ])});
+    .then(() => {setNewWalletContentData([ ...newWalletContentData, newWalletContent ])});
   };
 
   let buyQuantityArray = [];
-
   for (let index = 1; index < 100; index++) {
     buyQuantityArray.push(index);
   }
@@ -130,6 +127,7 @@ const BuyScreen = ({ excludedArray, cashBalance, setWalletData, walletData }) =>
               </Select>
             </FormControl>
           </Box>
+          <h4>Unit Price: ${walletCoinValue(1)}</h4>
           {x <= cashBalance ? (
             <h4>
               This Amount: ($ {numberAddComma(walletCoinValue(quantity))}) Will
@@ -143,7 +141,6 @@ const BuyScreen = ({ excludedArray, cashBalance, setWalletData, walletData }) =>
           )}
           <h4>{coin}</h4>
           <h4>{quantity}</h4>
-          <h4>{walletCoinValue(quantity)}</h4>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
@@ -158,4 +155,3 @@ const BuyScreen = ({ excludedArray, cashBalance, setWalletData, walletData }) =>
 
 export default BuyScreen;
 
-// <MenuItem value={10}>Ten</MenuItem>

@@ -9,13 +9,11 @@ import "./wallet.css";
 
 const Wallet = () => {
   const [cashData, setCashData] = useState([]);
-  const [walletData, setWalletData] = useState([]);
-  // const [exclude, setExclude] = useState([])
   const [coinList, setCoinList] = useState([]);
-  const userID = sessionStorage.getItem("userID");
 
   const {newWalletContentData, setNewWalletContentData} = useContext(NewWalletContentData)
 
+  const userID = sessionStorage.getItem("userID");
 
   useEffect(() => {
     axios
@@ -30,10 +28,12 @@ const Wallet = () => {
     axios
       .get(`/api/wallet/${userID}`)
       .then((res) => {
-        setWalletData(res.data);
+        setNewWalletContentData(res.data);
       })
       .catch((error) => console.log(error));
-  }, [userID]);
+  }, [ userID, setNewWalletContentData ]);
+
+  console.log(newWalletContentData)
 
   useEffect(() => {
     axios
@@ -48,13 +48,13 @@ const Wallet = () => {
 
   const x = coinList.map((coin) => coin.id);
 
-  const y = walletData.map((wallet) => wallet.coinName)
+  const y = newWalletContentData.map((wallet) => wallet.coinName)
 
   const excludedArray = lo_difference(x, y)
 
-  const cashBalanceArray = cashData.map((cash) => cash.cashTotal);
+  const cashBalance = (cashData.map((cash) => cash.cashTotal))[0];
 
-  const cashBalance = cashBalanceArray[0]
+  // const cashBalance = cashBalanceArray[0]
 
   console.log(cashBalance)
 
@@ -71,16 +71,15 @@ const Wallet = () => {
         <BuyScreen
           excludedArray={excludedArray}
           cashBalance={cashBalance}
-          setWalletData={setWalletData}
-          walletData={walletData}
         />
       </div>
       <h3>Wallet Contents:</h3>
       <div>
-        {walletData.map((wallet) => {
+        {newWalletContentData.map((wallet) => {
           return (
             <WalletContents
               key={wallet._id}
+              id={wallet._id}
               coinName={wallet.coinName}
               quantity={wallet.quantity}
             />

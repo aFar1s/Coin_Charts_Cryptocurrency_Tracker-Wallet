@@ -54,8 +54,15 @@ router.post("/registerWallet", (req, res) => {
     .catch((err) => res.status(400).json("Error " + err));
 });
 
+//* Delete
+router.delete("/delete/:id", async (req, res) => {
+  const _id = req.params.id;
+  
+  await Wallet.findByIdAndRemove(_id).exec();
+})
 
 
+module.exports = router;
 
 
 // // Update Wallet
@@ -156,7 +163,6 @@ router.post("/registerWallet", (req, res) => {
   //   )
   // });
 
-module.exports = router;
 
 // Init Create
 // router.post("/registerWallet", async (req, res) => {
