@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import upperCase from "../../Helpers/upperCase";
 import numberAddComma from "../../Helpers/numberAddComma";
-import NewWalletContentData from "../../Helpers/NewWalletContentData"
+// import NewWalletContentData from "../../Helpers/NewWalletContentData"
 
 //* MUI
 import Box from "@mui/material/Box";
@@ -17,14 +17,14 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const BuyScreen = ({ excludedArray, cashBalance, setWalletData, walletData }) => {
+const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletContents }) => {
   const [open, setOpen] = useState(false);
   const [coin, setCoin] = useState(String);
   const [coinName, setCoinName] = useState(String);
   const [quantity, setQuantity] = useState(1);
   const [coinPrice, setCoinPrice] = useState(Number);
 
-  const {newWalletContentData, setNewWalletContentData} = useContext(NewWalletContentData)
+  // const {newWalletContentData, setNewWalletContentData} = useContext(NewWalletContentData)
 
 
   useEffect(() => {
@@ -70,14 +70,14 @@ const BuyScreen = ({ excludedArray, cashBalance, setWalletData, walletData }) =>
   const handleOk = () => {
     setOpen(false);
 
-    const newWalletContent = {
+    const newContent = {
       owner: sessionStorage.getItem("userID"),
       coinName: coinName,
       quantity: quantity,
     }
 
-    axios.post("/api/wallet/newWallet", newWalletContent)
-    .then(() => {setNewWalletContentData([ ...newWalletContentData, newWalletContent ])});
+    axios.post("/api/wallet/newWallet", newContent)
+    .then(() => setWalletContents([ ...walletContents, newContent ]));
   };
 
   let buyQuantityArray = [];

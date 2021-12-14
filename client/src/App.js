@@ -18,15 +18,13 @@ import "./App.css";
 //* Helpers
 import ContextCoinID from "./Helpers/ContextCoinID"
 import isAuth from "./Helpers/isAuth"
-import NewWalletContentData from "./Helpers/NewWalletContentData"
+// import NewWalletContentData from "./Helpers/NewWalletContentData"
 
 
 function App() {
   const [globalCoin, setGlobalCoin] = useState("bitcoin")
   const [globalAuth, setGlobalAuth] = useState(false)
-  const [newWalletContentData, setNewWalletContentData] = useState([])
-
-  console.log(newWalletContentData)
+  // const [newWalletContentData, setNewWalletContentData] = useState([])
 
   return (
     <Router>
@@ -35,7 +33,7 @@ function App() {
     <Switch>
       <isAuth.Provider value={{globalAuth, setGlobalAuth}}>
       <ContextCoinID.Provider value={{ globalCoin, setGlobalCoin }}>
-      <NewWalletContentData.Provider value={{ newWalletContentData, setNewWalletContentData }}>
+      {/* <NewWalletContentData.Provider value={{ newWalletContentData, setNewWalletContentData }}> */}
         <ProtectedRoute exact path="/dashboard" component={Dashboard} />
         <ProtectedRoute exact path="/wallet" component={Wallet} />
         <Route exact path="/" component={Landing} />
@@ -43,7 +41,7 @@ function App() {
         <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/passwordreset/:resetToken" component={ResetPassword}/>
         <Route exact path="/register" component={RegisterScreen} />
-      </NewWalletContentData.Provider>
+      {/* </NewWalletContentData.Provider> */}
       </ContextCoinID.Provider>
       </isAuth.Provider>
     </Switch>

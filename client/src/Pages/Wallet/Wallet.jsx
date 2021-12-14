@@ -3,15 +3,17 @@ import axios from "axios";
 import WalletContents from "./WalletContents";
 import BuyScreen from "./BuyScreen";
 import numberAddComma from "../../Helpers/numberAddComma";
-import NewWalletContentData from "../../Helpers/NewWalletContentData"
-import lo_difference from "lodash.difference";
+// import NewWalletContentData from "../../Helpers/NewWalletContentData"
+import lodash_difference from "lodash.difference";
 import "./wallet.css";
 
 const Wallet = () => {
   const [cashData, setCashData] = useState([]);
   const [coinList, setCoinList] = useState([]);
+  const [walletContents, setWalletContents] = useState([]);
+  const [number, setNumber] = useState(0);
 
-  const {newWalletContentData, setNewWalletContentData} = useContext(NewWalletContentData)
+  // const {newWalletContentData, setNewWalletContentData} = useContext(NewWalletContentData)
 
   const userID = sessionStorage.getItem("userID");
 
@@ -22,18 +24,18 @@ const Wallet = () => {
         setCashData(res.data);
       })
       .catch((error) => console.log(error));
-  }, [userID]);
+  }, [ userID ]);
 
   useEffect(() => {
     axios
       .get(`/api/wallet/${userID}`)
       .then((res) => {
-        setNewWalletContentData(res.data);
+        setWalletContents(res.data);
       })
       .catch((error) => console.log(error));
-  }, [ userID, setNewWalletContentData ]);
+  }, [ userID ]);
 
-  console.log(newWalletContentData)
+  console.log(walletContents)
 
   useEffect(() => {
     axios
@@ -48,40 +50,40 @@ const Wallet = () => {
 
   const x = coinList.map((coin) => coin.id);
 
-  const y = newWalletContentData.map((wallet) => wallet.coinName)
+  const y = walletContents.map((wallet) => wallet.coinName)
 
-  const excludedArray = lo_difference(x, y)
+  const excludedArray = lodash_difference(x, y)
 
   const cashBalance = (cashData.map((cash) => cash.cashTotal))[0];
 
-  // const cashBalance = cashBalanceArray[0]
-
-  console.log(cashBalance)
-
+  const increment = () => [
+    setNumber(number+1)
+  ]
   return (
     <div>
       <div>
-        {cashData.map((cash) => {
-          return (
-            <div key={cash._id}>
-              <h2>Current Cash Balance: $ {numberAddComma(cash.cashTotal)}</h2>
-            </div>
-          );
-        })}
+        <div>
+         <h2>Current Cash Balance: $ {(cashBalance)}</h2>
+         <h2>Current Cash Balance: $ {number}</h2>
+         <button onClick={increment}>UP</button>
+        </div>
         <BuyScreen
           excludedArray={excludedArray}
           cashBalance={cashBalance}
+          walletContents={walletContents}
+          setWalletContents={setWalletContents}
         />
       </div>
       <h3>Wallet Contents:</h3>
       <div>
-        {newWalletContentData.map((wallet) => {
+        {walletContents.map((wallet) => {
           return (
             <WalletContents
               key={wallet._id}
               id={wallet._id}
               coinName={wallet.coinName}
               quantity={wallet.quantity}
+              increment={increment}
             />
           );
         })}
