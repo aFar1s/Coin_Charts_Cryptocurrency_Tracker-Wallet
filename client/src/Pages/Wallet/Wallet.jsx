@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import WalletContents from "./WalletContents";
 import BuyScreen from "./BuyScreen";
-import numberAddComma from "../../Helpers/numberAddComma";
+// import numberAddComma from "../../Helpers/numberAddComma";
 // import NewWalletContentData from "../../Helpers/NewWalletContentData"
 import lodash_difference from "lodash.difference";
 import "./wallet.css";
@@ -77,6 +77,8 @@ const Wallet = () => {
               id={wallet._id}
               coinName={wallet.coinName}
               quantity={wallet.quantity}
+              setWalletContents={setWalletContents}
+              walletContents={walletContents}
             />
           );
         })}

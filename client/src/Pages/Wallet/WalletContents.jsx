@@ -4,7 +4,7 @@ import upperCase from "../../Helpers/upperCase";
 import BuySellPopUp from "./BuySellPopUp";
 import numberAddComma from "../../Helpers/numberAddComma";
 
-const WalletContents = ({ coinName, quantity, id }) => {
+const WalletContents = ({ coinName, quantity, id, setWalletContents, walletContents }) => {
   const [coinPrice, setCoinPrice] = useState(Number);
   const [buySellPopUpTrigger, setBuySellPopUpTrigger] = useState(false);
 
@@ -29,6 +29,8 @@ const WalletContents = ({ coinName, quantity, id }) => {
     
   const sellCoin = (id) => {
     const ownerID = sessionStorage.getItem("userID")
+    
+    setWalletContents(walletContents.filter((content) => content._id !== id))
  
     axios.delete(`api/wallet/delete/${id}`)
      .then(axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: 10000 }))

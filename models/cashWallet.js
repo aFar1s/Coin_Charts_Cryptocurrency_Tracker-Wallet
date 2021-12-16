@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 
 const cashWalletSchema = Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
-  cashTotal: { type: Number, require: true, default: 100000 },
+  cashTotal: { type: Number, require: true, default: 50000 },
 });
 
 const CashWallet = model("Cashwallet", cashWalletSchema);

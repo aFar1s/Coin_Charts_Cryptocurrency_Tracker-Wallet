@@ -1,4 +1,4 @@
-// DEPENDANCIES
+//* DEPENDANCIES
 require("dotenv").config({ path: "./config.env" });
 const express = require("express");
 const router = express.Router();
@@ -7,31 +7,30 @@ const path = require("path");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-// CONFIGURATION
+//* CONFIGURATION
 const app = express();
 const port = process.env.PORT ?? 4001;
 
-// CONNECT TO MONGODB
+//* CONNECT TO MONGODB
 const connectDB = async () => {
     await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
-    });
+    })
+
+     .then(mongoose.connection.on("open", () => {
+      console.log(
+        `Connection to MongoDB ${process.env.MONGODB_URI ? "Atlas" : ""} is open`
+        );
+      }));
   };
 connectDB();
 
-mongoose.connection.on("open", () => {
-  console.log(
-    `Connection to MongoDB ${process.env.MONGODB_URI ? "Atlas" : ""} is open`
-    );
-  });
-  
-  // Middleware
-  app.use(express.json());
-  app.use(cors());
-  app.use(express.static(path.join(__dirname, "./client/build")));
-  
+//* Middleware
+app.use(express.json());
+app.use(cors());
+app.use(express.static(path.join(__dirname, "./client/build")));
 
-//! Routes
+//! Routes 
 
 // Auth Routes
 const authController = require("./controllers/auth")
@@ -66,7 +65,7 @@ app.use(errorHandler);
 
 // Listener
 app.listen(port, () => {
-  console.log(`Express server is live at ${port}...`);
+  console.log(`Express server is live at http://localhost:${port}...`);
 });
 
 // process.on("unhandledRejection", (err, promise) => {

@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Wallet = require("../models/wallet");
 
-// new Post
-
+//* Create
+//* Used when buying coin. For wallet initialization, refer to controllers/auth at the register user route.
 router.post("/newWallet", (req, res) => {
   const newWallet = new Wallet(req.body);
 
@@ -12,8 +12,7 @@ router.post("/newWallet", (req, res) => {
   .catch((err) => res.status(400).json("Error " + err))
 })
 
-// new Put
-
+//* Update
 router.put("/updateWallet/:id", (req, res) => {
   const updatedWallet = {
     owner: req.body.userID,
@@ -34,24 +33,12 @@ router.put("/updateWallet/:id", (req, res) => {
   )
 })
 
-// Get
+//* Get
 router.get("/:id", (req, res) => {
   Wallet
     .find({owner:req.params.id})
     .then((wallet) => res.json(wallet))
     .catch((err) => res.status(400).json("Error: " + err))
-});
-
-// Create Wallet
-//! UNUSED ROUTE. FOR TESTING ONLY
-router.post("/registerWallet", (req, res) => {
-  const wallet = req.body;
-  const newWallet = new Wallet(wallet);
-
-  newWallet
-    .save()
-    .then((createdWallet) => console.log(createdWallet))
-    .catch((err) => res.status(400).json("Error " + err));
 });
 
 //* Delete
