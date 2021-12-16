@@ -17,15 +17,15 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletContents }) => {
+const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletContents, walletBalance, setWalletBalance }) => {
   const [open, setOpen] = useState(false);
-  const [coin, setCoin] = useState(String);
   const [coinName, setCoinName] = useState(String);
   const [quantity, setQuantity] = useState(1);
   const [coinPrice, setCoinPrice] = useState(Number);
 
   // const {newWalletContentData, setNewWalletContentData} = useContext(NewWalletContentData)
 
+  const ownerID = sessionStorage.getItem("userID")
 
   useEffect(() => {
     axios
@@ -33,21 +33,20 @@ const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletConten
         `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       )
       .then((res) => {
-        setCoinPrice(res.data.market_data.current_price.usd);
+        setCoinPrice(res.data.market_data.current_price.usd)
       })
       .catch((error) => console.log(error));
   });
 
-  const walletCoinValue = (quant) => {
+  const coinValue = (quant) => {
     return quant * coinPrice;
   };
 
-  const x = walletCoinValue(quantity);
+  const coinValueXQuantity = coinValue(quantity);
 
   const handleCoinChange = (event) => {
     event.preventDefault();
 
-    setCoin(String(event.target.value));
     setCoinName(String(event.target.value));
   };
 
@@ -67,17 +66,29 @@ const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletConten
     }
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
     setOpen(false);
 
     const newContent = {
-      owner: sessionStorage.getItem("userID"),
+      owner: ownerID,
       coinName: coinName,
       quantity: quantity,
     }
+    
+    const newBalance = walletBalance - coinValueXQuantity
 
-    axios.post("/api/wallet/newWallet", newContent)
-    .then(() => setWalletContents([ ...walletContents, newContent ]));
+    console.log( newBalance )
+    
+    await axios.post("/api/wallet/newWallet", newContent)
+    .then(walletContents => setWalletContents([ ...walletContents, newContent ]))
+    .then(console.log(walletContents))
+    .catch((error) => {console.log(error)});
+
+    axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance } )
+    .then(console.log("Done!"))
+    .catch((error) => {console.log(error)})
+    
+    // setWalletBalance( newBalance )
   };
 
   let buyQuantityArray = [];
@@ -127,24 +138,24 @@ const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletConten
               </Select>
             </FormControl>
           </Box>
-          <h4>Unit Price: ${walletCoinValue(1)}</h4>
-          {x <= cashBalance ? (
+          <h4>Unit Price: ${coinValue(1)}</h4>
+          {coinValueXQuantity <= cashBalance ? (
             <h4>
-              This Amount: ($ {numberAddComma(walletCoinValue(quantity))}) Will
+              This Amount: ($ {numberAddComma(coinValueXQuantity)}) Will
               be deducted from your Cash Balance
             </h4>
           ) : (
             <h4>
-              Attempted purchase($ {numberAddComma(walletCoinValue(quantity))})
+              Attempted purchase($ {numberAddComma(coinValueXQuantity)})
               is more than available Cash Balance($ {cashBalance})
             </h4>
           )}
-          <h4>{coin}</h4>
+          <h4>{coinName}</h4>
           <h4>{quantity}</h4>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleOk} disabled={!(x <= cashBalance)}>
+          <Button onClick={handleOk} disabled={!(coinValueXQuantity <= cashBalance)}>
             Ok
           </Button>
         </DialogActions>

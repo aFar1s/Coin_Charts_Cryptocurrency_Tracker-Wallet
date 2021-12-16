@@ -12,10 +12,16 @@ const Wallet = () => {
   const [coinList, setCoinList] = useState([]);
   const [walletContents, setWalletContents] = useState([]);
   const [number, setNumber] = useState(0);
+  const [walletBalance, setWalletBalance] = useState(0);
 
   // const {newWalletContentData, setNewWalletContentData} = useContext(NewWalletContentData)
 
   const userID = sessionStorage.getItem("userID");
+  const cashBalance = (cashData.map((cash) => cash.cashTotal))[0];
+
+  useEffect(() => {
+    setWalletBalance(cashBalance);
+  }, [cashBalance])
 
   useEffect(() => {
     axios
@@ -35,8 +41,6 @@ const Wallet = () => {
       .catch((error) => console.log(error));
   }, [ userID ]);
 
-  console.log(walletContents)
-
   useEffect(() => {
     axios
       .get(
@@ -49,16 +53,13 @@ const Wallet = () => {
   }, []);
 
   const x = coinList.map((coin) => coin.id);
-
   const y = walletContents.map((wallet) => wallet.coinName)
-
   const excludedArray = lodash_difference(x, y)
 
-  const cashBalance = (cashData.map((cash) => cash.cashTotal))[0];
-
-  const increment = () => [
+  const increment = () => {
     setNumber(number+1)
-  ]
+  }
+
   return (
     <div>
       <div>
@@ -72,6 +73,8 @@ const Wallet = () => {
           cashBalance={cashBalance}
           walletContents={walletContents}
           setWalletContents={setWalletContents}
+          setWalletBalance={setWalletBalance}
+          walletBalance={walletBalance}
         />
       </div>
       <h3>Wallet Contents:</h3>
