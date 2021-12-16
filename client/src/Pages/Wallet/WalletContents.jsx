@@ -4,30 +4,35 @@ import upperCase from "../../Helpers/upperCase";
 import BuySellPopUp from "./BuySellPopUp";
 import numberAddComma from "../../Helpers/numberAddComma";
 
-const WalletContents = ({ coinName, quantity, id, increment }) => {
+const WalletContents = ({ coinName, quantity, id }) => {
   const [coinPrice, setCoinPrice] = useState(Number);
   const [buySellPopUpTrigger, setBuySellPopUpTrigger] = useState(false);
 
+  
+  
   useEffect(() => {
     axios
-      .get(
-        `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
+    .get(
+      `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       )
       .then((res) => {
         setCoinPrice(res.data.market_data.current_price.usd);
       })
       .catch((error) => console.log(error));
   });
-
+    
   const walletCoinValue = (quantity) => {
     return quantity * coinPrice;
   };
-
+    
   const coinValue = numberAddComma(walletCoinValue(quantity).toFixed(2));
-
+    
   const sellCoin = (id) => {
+    const ownerID = sessionStorage.getItem("userID")
+ 
     axios.delete(`api/wallet/delete/${id}`)
-    .then(alert(`Coins Sold`))
+     .then(axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: 10000 }))
+     .then(alert(`Coins Sold`))
   }
 
   return (
@@ -43,7 +48,6 @@ const WalletContents = ({ coinName, quantity, id, increment }) => {
             Buy/Sell {upperCase(coinName)}
           </button>
           <button onClick={() => sellCoin(id)}>Sell ALL</button>
-          <button onClick={increment}>UP</button>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import WalletContents from "./WalletContents";
 import BuyScreen from "./BuyScreen";
@@ -11,10 +11,7 @@ const Wallet = () => {
   const [cashData, setCashData] = useState([]);
   const [coinList, setCoinList] = useState([]);
   const [walletContents, setWalletContents] = useState([]);
-  const [number, setNumber] = useState(0);
   const [walletBalance, setWalletBalance] = useState(0);
-
-  // const {newWalletContentData, setNewWalletContentData} = useContext(NewWalletContentData)
 
   const userID = sessionStorage.getItem("userID");
   const cashBalance = (cashData.map((cash) => cash.cashTotal))[0];
@@ -56,17 +53,11 @@ const Wallet = () => {
   const y = walletContents.map((wallet) => wallet.coinName)
   const excludedArray = lodash_difference(x, y)
 
-  const increment = () => {
-    setNumber(number+1)
-  }
-
   return (
     <div>
       <div>
         <div>
          <h2>Current Cash Balance: $ {(cashBalance)}</h2>
-         <h2>Current Cash Balance: $ {number}</h2>
-         <button onClick={increment}>UP</button>
         </div>
         <BuyScreen
           excludedArray={excludedArray}
@@ -86,7 +77,6 @@ const Wallet = () => {
               id={wallet._id}
               coinName={wallet.coinName}
               quantity={wallet.quantity}
-              increment={increment}
             />
           );
         })}

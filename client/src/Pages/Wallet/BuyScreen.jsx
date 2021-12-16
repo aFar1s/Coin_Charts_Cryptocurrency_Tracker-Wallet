@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import upperCase from "../../Helpers/upperCase";
 import numberAddComma from "../../Helpers/numberAddComma";
@@ -68,27 +68,25 @@ const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletConten
 
   const handleOk = async () => {
     setOpen(false);
-
+    
     const newContent = {
       owner: ownerID,
       coinName: coinName,
       quantity: quantity,
     }
+
+    setWalletContents([ ...walletContents, newContent ])
     
     const newBalance = walletBalance - coinValueXQuantity
+
+    setWalletBalance( newBalance )
 
     console.log( newBalance )
     
     await axios.post("/api/wallet/newWallet", newContent)
-    .then(walletContents => setWalletContents([ ...walletContents, newContent ]))
     .then(console.log(walletContents))
+    .then(axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance } ))
     .catch((error) => {console.log(error)});
-
-    axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance } )
-    .then(console.log("Done!"))
-    .catch((error) => {console.log(error)})
-    
-    // setWalletBalance( newBalance )
   };
 
   let buyQuantityArray = [];
