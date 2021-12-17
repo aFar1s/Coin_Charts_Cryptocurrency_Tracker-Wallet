@@ -11,7 +11,7 @@ const Wallet = () => {
   const [cashData, setCashData] = useState([]);
   const [coinList, setCoinList] = useState([]);
   const [walletContents, setWalletContents] = useState([]);
-  const [walletBalance, setWalletBalance] = useState(0);
+  const [walletBalance, setWalletBalance] = useState(Number);
   const [walletStateToggle, setWalletStateToggle] = useState(true)
 
   const userID = sessionStorage.getItem("userID");
@@ -25,22 +25,27 @@ const Wallet = () => {
   }, [cashBalance])
 
   useEffect(() => {
-    axios
-      .get(`/api/cashWallet/${userID}`)
-      .then((res) => {
-        setCashData(res.data);
-      })
-      .catch((error) => console.log(error));
+    setTimeout(() => {
+      axios
+        .get(`/api/cashWallet/${userID}`)
+        .then((res) => {
+          setCashData(res.data);
+        })
+        .catch((error) => console.log(error));
+    }, 500)
   }, [ userID ]);
 
   useEffect(() => {
-    axios
-      .get(`/api/wallet/${userID}`)
-      .then((res) => {
-        setWalletContents(res.data);
-      })
-      .catch((error) => console.log(error));
-  }, [ userID ]);
+    console.log(walletStateToggle)
+    setTimeout(() => {
+      axios
+        .get(`/api/wallet/${userID}`)
+        .then((res) => {
+          setWalletContents(res.data);
+        })
+        .catch((error) => console.log(error));
+    }, 500)
+  }, [ userID, walletStateToggle ]);
 
   useEffect(() => {
     axios
@@ -57,7 +62,7 @@ const Wallet = () => {
     <div>
       <div>
         <div>
-         <h2>Current Cash Balance: $ {(walletBalance)}</h2>
+          {walletStateToggle ? (<h2>Current Cash Balance: $ {(walletBalance)}</h2>) : (<h2>Cash Balance: $ {(walletBalance)}</h2>)}
         </div>
         <BuyScreen
           key={1}
@@ -73,6 +78,7 @@ const Wallet = () => {
         />
       </div>
       <h3>Wallet Contents:</h3>
+      <h3 className="hide">{String(walletStateToggle)}</h3>
       <div>
         {walletContents.map((wallet) => {
           return (

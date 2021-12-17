@@ -8,8 +8,9 @@ router.post("/newWallet", (req, res) => {
   const newWallet = new Wallet(req.body);
 
   newWallet.save()
-  .then((wallet) => console.log(wallet))
-  .catch((err) => res.status(400).json("Error " + err))
+  .then(wallet => res.json(wallet))
+  .then(wallet => console.log(wallet + "wallet created"))
+  .catch(err => res.status(400).json("Error " + err))
 })
 
 //* Update

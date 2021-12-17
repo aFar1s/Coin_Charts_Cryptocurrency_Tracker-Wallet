@@ -4,7 +4,7 @@ import upperCase from "../../Helpers/upperCase";
 import BuySellPopUp from "./BuySellPopUp";
 // import numberAddComma from "../../Helpers/numberAddComma";
 
-const WalletContents = ({ coinName, quantity, id, setWalletContents, walletContents, walletBalance, setWalletBalance }) => {
+const WalletContents = ({ coinName, quantity, id, setWalletContents, walletContents, walletBalance, setWalletBalance, walletStateToggle, setWalletStateToggle }) => {
   const [coinPrice, setCoinPrice] = useState(Number);
   const [buySellPopUpTrigger, setBuySellPopUpTrigger] = useState(false);
 
@@ -25,17 +25,21 @@ const WalletContents = ({ coinName, quantity, id, setWalletContents, walletConte
       .catch((error) => console.log(error));
   });
   
+  const sellCoin = (id) => {
+    const updatedWalletValue = walletBalance + coinValue
     
+    axios.delete(`api/wallet/delete/${id}`)
+    .catch(err => {console.error(err);})
     
-  const sellCoin = async (id) => {
-
-    await setWalletContents(walletContents.filter((content) => content._id !== id))
-
-    await setWalletBalance(walletBalance + coinValue)
- 
-    await axios.delete(`api/wallet/delete/${id}`)
-    .then(axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: walletBalance + coinValue } ))
-    .then(alert(`Coins Sold`))
+    axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: updatedWalletValue } )
+    .then(res => {
+      console.log(res.data);
+      console.log("Coins sold")
+    })
+    .catch(err => {console.error(err);})
+    
+    setWalletStateToggle(!walletStateToggle)
+    setWalletBalance(updatedWalletValue)
   }
 
   return (

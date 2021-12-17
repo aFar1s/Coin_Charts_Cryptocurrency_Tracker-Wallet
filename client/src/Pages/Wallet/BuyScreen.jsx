@@ -17,7 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletContents, walletBalance, setWalletBalance }) => {
+const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletContents, walletBalance, setWalletBalance, walletStateToggle, setWalletStateToggle }) => {
   const [open, setOpen] = useState(false);
   const [coinName, setCoinName] = useState(String);
   const [quantity, setQuantity] = useState(1);
@@ -64,27 +64,33 @@ const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletConten
     }
   };
 
-  const handleOk = async () => {
-    setOpen(false);
-    
+  const handleBuy = () => {
     const newContent = {
       owner: ownerID,
       coinName: coinName,
       quantity: quantity,
     }
-
-    const newBalance = walletBalance - coinValueXQuantity
     
-    setWalletContents([ ...walletContents, newContent ])
-    await setWalletBalance( newBalance )
+    const newBalance = walletBalance - coinValueXQuantity
     console.log( newBalance )
     
-    await axios.post("/api/wallet/newWallet", newContent)
-    .then(console.log(walletContents))
-    .then(axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance } ))
+    axios.post("/api/wallet/newWallet", newContent)
+    .then(res => {
+      console.log(res.data);
+      console.log("Added coin to wallet")
+    })
+    .catch(err => {console.error(err);})
+    
+    axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance } )
+    .then(res => {
+      console.log(res.data);
+      console.log("Updated cash balance")
+    })
     .catch((error) => {console.log(error)});
     
-    
+    setWalletBalance( newBalance )
+    setWalletStateToggle(!walletStateToggle)
+    setOpen(false);
   };
 
   let buyQuantityArray = [];
@@ -134,25 +140,30 @@ const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletConten
               </Select>
             </FormControl>
           </Box>
-          <h4>Unit Price: ${coinValue(1)}</h4>
+          <h4>Unit Price: ${coinValue(1)}/{upperCase(coinName)}</h4>
           {coinValueXQuantity <= cashBalance ? (
+            <div>
             <h4>
-              This Amount: ($ {numberAddComma(coinValueXQuantity)}) Will
-              be deducted from your Cash Balance
+              ($ {numberAddComma(coinValueXQuantity)}) Will
+              be deducted from your Balance of ($ {cashBalance}) for the 
+              purchase of {quantity} {upperCase(coinName)}
             </h4>
+            <br />
+            <h4>
+              Cash balance after purchase will be $ {(cashBalance - coinValueXQuantity).toFixed(2)}
+            </h4>
+            </div>
           ) : (
             <h4>
               Attempted purchase($ {numberAddComma(coinValueXQuantity)})
               is more than available Cash Balance($ {cashBalance})
             </h4>
           )}
-          <h4>{coinName}</h4>
-          <h4>{quantity}</h4>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleOk} disabled={!(coinValueXQuantity <= cashBalance)}>
-            Ok
+          <Button onClick={handleBuy} disabled={!(coinValueXQuantity <= cashBalance)}>
+            Buy
           </Button>
         </DialogActions>
       </Dialog>
