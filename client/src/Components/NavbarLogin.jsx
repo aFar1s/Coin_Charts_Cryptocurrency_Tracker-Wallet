@@ -94,7 +94,6 @@ const NavbarLogin = () => {
           </AppBar>
         </Box>
       )}
-      ;
     </div>
   );
 };

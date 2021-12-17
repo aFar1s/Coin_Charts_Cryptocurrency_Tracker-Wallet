@@ -23,8 +23,6 @@ const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletConten
   const [quantity, setQuantity] = useState(1);
   const [coinPrice, setCoinPrice] = useState(Number);
 
-  // const {newWalletContentData, setNewWalletContentData} = useContext(NewWalletContentData)
-
   const ownerID = sessionStorage.getItem("userID")
 
   useEffect(() => {
@@ -36,7 +34,7 @@ const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletConten
         setCoinPrice(res.data.market_data.current_price.usd)
       })
       .catch((error) => console.log(error));
-  });
+  }, [coinName]);
 
   const coinValue = (quant) => {
     return quant * coinPrice;
@@ -79,7 +77,7 @@ const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletConten
     
     const newBalance = walletBalance - coinValueXQuantity
 
-    setWalletBalance( newBalance )
+    await setWalletBalance( newBalance )
 
     console.log( newBalance )
     

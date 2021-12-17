@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import upperCase from "../../Helpers/upperCase";
 import BuySellPopUp from "./BuySellPopUp";
-import numberAddComma from "../../Helpers/numberAddComma";
+// import numberAddComma from "../../Helpers/numberAddComma";
 
-const WalletContents = ({ coinName, quantity, id, setWalletContents, walletContents }) => {
+const WalletContents = ({ coinName, quantity, id, setWalletContents, walletContents, walletBalance, setWalletBalance }) => {
   const [coinPrice, setCoinPrice] = useState(Number);
   const [buySellPopUpTrigger, setBuySellPopUpTrigger] = useState(false);
 
-  
-  
+  const ownerID = sessionStorage.getItem("userID")
+  console.log(id);
+  const walletCoinValue = (quantity) => {
+    return quantity * coinPrice;
+  };
+  const coinValue = (walletCoinValue(quantity));
+
   useEffect(() => {
     axios
     .get(
@@ -20,21 +25,18 @@ const WalletContents = ({ coinName, quantity, id, setWalletContents, walletConte
       })
       .catch((error) => console.log(error));
   });
+  
     
-  const walletCoinValue = (quantity) => {
-    return quantity * coinPrice;
-  };
     
-  const coinValue = numberAddComma(walletCoinValue(quantity).toFixed(2));
-    
-  const sellCoin = (id) => {
-    const ownerID = sessionStorage.getItem("userID")
-    
-    setWalletContents(walletContents.filter((content) => content._id !== id))
+  const sellCoin = async (id) => {
+
+    await setWalletContents(walletContents.filter((content) => content._id !== id))
+
+    await setWalletBalance(walletBalance + coinValue)
  
-    axios.delete(`api/wallet/delete/${id}`)
-     .then(axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: 10000 }))
-     .then(alert(`Coins Sold`))
+    await axios.delete(`api/wallet/delete/${id}`)
+    .then(axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: walletBalance } ))
+    .then(alert(`Coins Sold`))
   }
 
   return (

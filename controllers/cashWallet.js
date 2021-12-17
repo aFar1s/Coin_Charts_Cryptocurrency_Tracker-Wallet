@@ -18,7 +18,6 @@ router.put("/updateCash/:id", (req, res) => {
    const updateCash = { $set: { cashTotal: req.body.cashTotal }};
    const options = { new: true }
    
-   console.log(req.body.newBalance)
    
    CashWallet.findOneAndUpdate(owner, updateCash, options)
    .then(
@@ -30,5 +29,4 @@ router.put("/updateCash/:id", (req, res) => {
   }
 )
 
-//* Delete
 module.exports = router;

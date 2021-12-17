@@ -15,6 +15,9 @@ const Wallet = () => {
 
   const userID = sessionStorage.getItem("userID");
   const cashBalance = (cashData.map((cash) => cash.cashTotal))[0];
+  const x = coinList.map((coin) => coin.id);
+  const y = walletContents.map((wallet) => wallet.coinName)
+  const excludedArray = lodash_difference(x, y)
 
   useEffect(() => {
     setWalletBalance(cashBalance);
@@ -49,17 +52,14 @@ const Wallet = () => {
       .catch((error) => console.log(error));    
   }, []);
 
-  const x = coinList.map((coin) => coin.id);
-  const y = walletContents.map((wallet) => wallet.coinName)
-  const excludedArray = lodash_difference(x, y)
-
   return (
     <div>
       <div>
         <div>
-         <h2>Current Cash Balance: $ {(cashBalance)}</h2>
+         <h2>Current Cash Balance: $ {(walletBalance)}</h2>
         </div>
         <BuyScreen
+          key={1}
           excludedArray={excludedArray}
           cashBalance={cashBalance}
           walletContents={walletContents}
@@ -79,6 +79,8 @@ const Wallet = () => {
               quantity={wallet.quantity}
               setWalletContents={setWalletContents}
               walletContents={walletContents}
+              walletBalance={walletBalance}
+              setWalletBalance={setWalletBalance}
             />
           );
         })}
