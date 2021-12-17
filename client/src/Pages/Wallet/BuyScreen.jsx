@@ -73,18 +73,18 @@ const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletConten
       quantity: quantity,
     }
 
-    setWalletContents([ ...walletContents, newContent ])
-    
     const newBalance = walletBalance - coinValueXQuantity
-
+    
+    setWalletContents([ ...walletContents, newContent ])
     await setWalletBalance( newBalance )
-
     console.log( newBalance )
     
     await axios.post("/api/wallet/newWallet", newContent)
     .then(console.log(walletContents))
     .then(axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance } ))
     .catch((error) => {console.log(error)});
+    
+    
   };
 
   let buyQuantityArray = [];

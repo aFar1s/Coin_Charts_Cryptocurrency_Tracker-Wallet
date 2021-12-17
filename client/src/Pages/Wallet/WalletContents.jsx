@@ -9,7 +9,6 @@ const WalletContents = ({ coinName, quantity, id, setWalletContents, walletConte
   const [buySellPopUpTrigger, setBuySellPopUpTrigger] = useState(false);
 
   const ownerID = sessionStorage.getItem("userID")
-  console.log(id);
   const walletCoinValue = (quantity) => {
     return quantity * coinPrice;
   };
@@ -35,7 +34,7 @@ const WalletContents = ({ coinName, quantity, id, setWalletContents, walletConte
     await setWalletBalance(walletBalance + coinValue)
  
     await axios.delete(`api/wallet/delete/${id}`)
-    .then(axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: walletBalance } ))
+    .then(axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: walletBalance + coinValue } ))
     .then(alert(`Coins Sold`))
   }
 

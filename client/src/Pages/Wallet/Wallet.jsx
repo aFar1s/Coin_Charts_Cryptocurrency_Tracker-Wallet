@@ -12,6 +12,7 @@ const Wallet = () => {
   const [coinList, setCoinList] = useState([]);
   const [walletContents, setWalletContents] = useState([]);
   const [walletBalance, setWalletBalance] = useState(0);
+  const [walletStateToggle, setWalletStateToggle] = useState(true)
 
   const userID = sessionStorage.getItem("userID");
   const cashBalance = (cashData.map((cash) => cash.cashTotal))[0];
@@ -66,6 +67,9 @@ const Wallet = () => {
           setWalletContents={setWalletContents}
           setWalletBalance={setWalletBalance}
           walletBalance={walletBalance}
+          setWalletStateToggle={setWalletStateToggle}
+          walletStateToggle={walletStateToggle}
+
         />
       </div>
       <h3>Wallet Contents:</h3>
@@ -81,6 +85,8 @@ const Wallet = () => {
               walletContents={walletContents}
               walletBalance={walletBalance}
               setWalletBalance={setWalletBalance}
+              setWalletStateToggle={setWalletStateToggle}
+              walletStateToggle={walletStateToggle}
             />
           );
         })}
