@@ -1,38 +1,44 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./LoginScreen.css";
+import isAuth from "../../Helpers/isAuth";
 
 const LoginScreen = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const {globalAuth, setGlobalAuth} = useContext(isAuth)
+
 
   useEffect(() => {
     if (sessionStorage.getItem("authToken")) {
       history.push("/");
-      console.log(history)
     }
-  }, [history]);
-
+  }, [history, setGlobalAuth, globalAuth]);
+  
   const loginHandler = async (event) => {
     event.preventDefault();
-
+    setGlobalAuth(true)
+    
     const config = {
       header: {
         "Content-Type": "application/json",
       },
     };
-
+    
     try {
       const { data } = await axios.post(
         "/api/auth/login",
         { email, password },
         config
-      );
-      console.log(data)
-      sessionStorage.setItem("authToken", data.token);
-      sessionStorage.setItem("userID", data.user);
+        );
+        // console.log(data)
+        sessionStorage.setItem("authToken", data.token);
+        sessionStorage.setItem("userID", data.user);
+        setGlobalAuth(true)
+        console.log(globalAuth)
+        window.location.reload(false)
 
       history.push("/");
     } catch (error) {

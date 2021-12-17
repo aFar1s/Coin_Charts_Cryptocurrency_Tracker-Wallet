@@ -2,18 +2,18 @@ const express = require("express");
 const router = express.Router();
 const Wallet = require("../models/wallet");
 
-// new Post
-
+//* Create
+//* Used when buying coin. For wallet initialization, refer to controllers/auth at the register user route.
 router.post("/newWallet", (req, res) => {
   const newWallet = new Wallet(req.body);
 
   newWallet.save()
-  .then((wallet) => console.log(wallet))
-  .catch((err) => res.status(400).json("Error " + err))
+  .then(wallet => res.json(wallet))
+  .then(wallet => console.log(wallet + "wallet created"))
+  .catch(err => res.status(400).json("Error " + err))
 })
 
-// new Put
-
+//* Update
 router.put("/updateWallet/:id", (req, res) => {
   const updatedWallet = {
     owner: req.body.userID,
@@ -34,7 +34,7 @@ router.put("/updateWallet/:id", (req, res) => {
   )
 })
 
-// Get
+//* Get
 router.get("/:id", (req, res) => {
   Wallet
     .find({owner:req.params.id})
@@ -42,20 +42,16 @@ router.get("/:id", (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err))
 });
 
-// Create Wallet
-//! UNUSED ROUTE. FOR TESTING ONLY
-router.post("/registerWallet", (req, res) => {
-  const wallet = req.body;
-  const newWallet = new Wallet(wallet);
-
-  newWallet
-    .save()
-    .then((createdWallet) => console.log(createdWallet))
-    .catch((err) => res.status(400).json("Error " + err));
-});
+//* Delete
+router.delete("/delete/:id", (req, res) => {
+  const _id = req.params.id;
+  
+  Wallet.findByIdAndRemove(_id).exec()
+  .then(console.log("Wallet Content deleted"))
+})
 
 
-
+module.exports = router;
 
 
 // // Update Wallet
@@ -156,55 +152,4 @@ router.post("/registerWallet", (req, res) => {
   //   )
   // });
 
-module.exports = router;
 
-// Init Create
-// router.post("/registerWallet", async (req, res) => {
-//     const wallet = req.body;
-//     const newWallet = new WalletModel(wallet);
-//     await newWallet.save();
-
-//     res.json();
-//   });
-
-// init update
-// router.put("/updateWallet", async (req, res) => {
-//     const toUpdateCashTotal = req.body.newCashTotal;
-//     const toUpdateCurrencyUnit = req.body.newCurrencyUnit;
-//     const toUpdateCoinQuantity = req.body.newCoinQuantity;
-//     const id = req.body.id;
-
-//     try {
-//       await WalletModel.findById(id, (error, walletToUpdate) => {
-//         walletToUpdate.cashTotal = toUpdateCashTotal; // may have to convert to Number with "Number(toUpdateCashTotal)". Check with frontend.
-//         walletToUpdate.currencyUnit = toUpdateCurrencyUnit;
-//         walletToUpdate.coinQuantity = toUpdateCoinQuantity;
-//         walletToUpdate.save();
-//       });
-//     } catch (err) {
-//       console.log(err);
-//     }
-
-//     res.json();
-//   });
-// const updateWallet = {
-//   cashTotal: req.body.cashTotal,
-//   coinQuantity: [
-//     {
-//        coinName: req.body.coinName,
-//        amount: req.body.amount
-//       }
-//     ]
-// }
-
-
-// {
-//   "cashTotal": 90000,
-//   "currencyUnit": "USD",
-//   "coinQuantity": [
-//       {
-//           "coinName": "bitcoin",
-//           "quantity": 90000
-//       }
-//   ]
-// }

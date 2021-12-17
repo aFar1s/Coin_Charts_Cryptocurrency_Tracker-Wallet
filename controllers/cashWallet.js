@@ -3,12 +3,30 @@ const router = express.Router();
 const CashWallet = require("../models/cashWallet");
 
 
-// Get
+//* Get
 router.get("/:id", (req, res) => {
     CashWallet
       .find({owner:req.params.id})
       .then((wallet) => res.json(wallet))
       .catch((err) => res.status(400).json("Error: " + err))
-  });
+  }
+);
 
-  module.exports = router;
+//* Update 
+router.put("/updateCash/:id", (req, res) => {
+   const owner = { owner: req.params.id }
+   const updateCash = { $set: { cashTotal: req.body.cashTotal }};
+   const options = { new: true }
+   
+   
+   CashWallet.findOneAndUpdate(owner, updateCash, options)
+   .then(
+    (newWallet) => {
+    res.status(200).json(newWallet)
+    console.log(newWallet)
+    })
+   .catch((err) => res.status(400).json("Error " + err))
+  }
+)
+
+module.exports = router;
