@@ -17,13 +17,20 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const BuyScreen = ({ excludedArray, cashBalance, walletBalance, setWalletBalance, walletStateToggle, setWalletStateToggle }) => {
+const BuyScreen = ({
+  excludedArray,
+  cashBalance,
+  walletBalance,
+  setWalletBalance,
+  walletStateToggle,
+  setWalletStateToggle,
+}) => {
   const [open, setOpen] = useState(false);
   const [coinName, setCoinName] = useState(String);
   const [quantity, setQuantity] = useState(1);
   const [coinPrice, setCoinPrice] = useState(Number);
 
-  const ownerID = sessionStorage.getItem("userID")
+  const ownerID = sessionStorage.getItem("userID");
 
   useEffect(() => {
     axios
@@ -31,7 +38,7 @@ const BuyScreen = ({ excludedArray, cashBalance, walletBalance, setWalletBalance
         `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       )
       .then((res) => {
-        setCoinPrice(res.data.market_data.current_price.usd)
+        setCoinPrice(res.data.market_data.current_price.usd);
       })
       .catch((error) => console.log(error));
   }, [coinName]);
@@ -69,27 +76,33 @@ const BuyScreen = ({ excludedArray, cashBalance, walletBalance, setWalletBalance
       owner: ownerID,
       coinName: coinName,
       quantity: quantity,
-    }
-    
-    const newBalance = walletBalance - coinValueXQuantity
-    console.log( newBalance )
-    
-    axios.post("/api/wallet/newWallet", newContent)
-    .then(res => {
-      console.log(res.data);
-      console.log("Added coin to wallet")
-    })
-    .catch(err => {console.error(err);})
-    
-    axios.put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance } )
-    .then(res => {
-      console.log(res.data);
-      console.log("Updated cash balance")
-    })
-    .catch((error) => {console.log(error)});
-    
-    setWalletBalance( newBalance )
-    setWalletStateToggle(!walletStateToggle)
+    };
+
+    const newBalance = walletBalance - coinValueXQuantity;
+    console.log(newBalance);
+
+    axios
+      .post("/api/wallet/newWallet", newContent)
+      .then((res) => {
+        console.log(res.data);
+        console.log("Added coin to wallet");
+      })
+      .catch((err) => {
+        console.error(err);
+    });
+
+    axios
+      .put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance })
+      .then((res) => {
+        console.log(res.data);
+        console.log("Updated cash balance");
+      })
+      .catch((error) => {
+        console.log(error);
+    });
+
+    setWalletBalance(newBalance);
+    setWalletStateToggle(!walletStateToggle);
     setOpen(false);
   };
 
@@ -140,29 +153,35 @@ const BuyScreen = ({ excludedArray, cashBalance, walletBalance, setWalletBalance
               </Select>
             </FormControl>
           </Box>
-          <h4>Unit Price: ${coinValue(1)}/{upperCase(coinName)}</h4>
+          <h4>
+            Unit Price: ${coinValue(1)}/{upperCase(coinName)}
+          </h4>
           {coinValueXQuantity <= cashBalance ? (
             <div>
-            <h4>
-              ($ {numberAddComma(coinValueXQuantity)}) Will
-              be deducted from your Balance of ($ {cashBalance}) for the 
-              purchase of {quantity} {upperCase(coinName)}
-            </h4>
-            <br />
-            <h4>
-              Cash balance after purchase will be $ {(cashBalance - coinValueXQuantity).toFixed(2)}
-            </h4>
+              <h4>
+                ($ {numberAddComma(coinValueXQuantity)}) Will be deducted from
+                your Balance of ($ {cashBalance}) for the purchase of {quantity}{" "}
+                {upperCase(coinName)}
+              </h4>
+              <br />
+              <h4>
+                Cash balance after purchase will be ${" "}
+                {(cashBalance - coinValueXQuantity).toFixed(2)}
+              </h4>
             </div>
           ) : (
             <h4>
-              Attempted purchase($ {numberAddComma(coinValueXQuantity)})
-              is more than available Cash Balance($ {cashBalance})
+              Attempted purchase($ {numberAddComma(coinValueXQuantity)}) is more
+              than available Cash Balance($ {cashBalance})
             </h4>
           )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleBuy} disabled={!(coinValueXQuantity <= cashBalance)}>
+          <Button
+            onClick={handleBuy}
+            disabled={!(coinValueXQuantity <= cashBalance)}
+          >
             Buy
           </Button>
         </DialogActions>
@@ -172,4 +191,3 @@ const BuyScreen = ({ excludedArray, cashBalance, walletBalance, setWalletBalance
 };
 
 export default BuyScreen;
-
