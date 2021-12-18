@@ -6,7 +6,6 @@ import BusSellPopUp from "./BuySellPopUp"
 
 const WalletContents = ({ coinName, quantity, id, walletBalance, setWalletBalance, walletStateToggle, setWalletStateToggle }) => {
   const [coinPrice, setCoinPrice] = useState(Number);
-  const [open, setOpen] = useState(false);
 
   const ownerID = sessionStorage.getItem("userID")
   const walletCoinValue = (quantity) => {
@@ -42,9 +41,6 @@ const WalletContents = ({ coinName, quantity, id, walletBalance, setWalletBalanc
     setWalletBalance(updatedWalletValue)
   }
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   return (
     <div className="wallet-container">
@@ -55,12 +51,8 @@ const WalletContents = ({ coinName, quantity, id, walletBalance, setWalletBalanc
         </h4>
         <h4 className="wallet-text">Value: $ {coinValue}</h4>
         <div className="wallet-btn">
-          <button onClick={handleClickOpen}>
-            Buy/Sell {upperCase(coinName)}
-          </button>
           <BusSellPopUp
-            setOpen={setOpen}
-            open={open}
+            coinName={coinName}
           />
           <button onClick={() => sellCoin(id)}>Sell ALL</button>
         </div>
