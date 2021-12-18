@@ -17,7 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const BuyScreen = ({ excludedArray, cashBalance, walletContents, setWalletContents, walletBalance, setWalletBalance, walletStateToggle, setWalletStateToggle }) => {
+const BuyScreen = ({ excludedArray, cashBalance, walletBalance, setWalletBalance, walletStateToggle, setWalletStateToggle }) => {
   const [open, setOpen] = useState(false);
   const [coinName, setCoinName] = useState(String);
   const [quantity, setQuantity] = useState(1);

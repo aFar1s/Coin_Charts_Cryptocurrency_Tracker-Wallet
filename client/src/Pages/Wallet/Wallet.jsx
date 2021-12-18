@@ -68,12 +68,10 @@ const Wallet = () => {
           key={1}
           excludedArray={excludedArray}
           cashBalance={cashBalance}
-          walletContents={walletContents}
-          setWalletContents={setWalletContents}
-          setWalletBalance={setWalletBalance}
           walletBalance={walletBalance}
-          setWalletStateToggle={setWalletStateToggle}
+          setWalletBalance={setWalletBalance}
           walletStateToggle={walletStateToggle}
+          setWalletStateToggle={setWalletStateToggle}
 
         />
       </div>
@@ -87,12 +85,10 @@ const Wallet = () => {
               id={wallet._id}
               coinName={wallet.coinName}
               quantity={wallet.quantity}
-              setWalletContents={setWalletContents}
-              walletContents={walletContents}
               walletBalance={walletBalance}
               setWalletBalance={setWalletBalance}
-              setWalletStateToggle={setWalletStateToggle}
               walletStateToggle={walletStateToggle}
+              setWalletStateToggle={setWalletStateToggle}
             />
           );
         })}

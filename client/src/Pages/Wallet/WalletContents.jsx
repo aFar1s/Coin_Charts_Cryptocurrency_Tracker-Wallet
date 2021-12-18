@@ -4,7 +4,7 @@ import upperCase from "../../Helpers/upperCase";
 import BuySellPopUp from "./BuySellPopUp";
 // import numberAddComma from "../../Helpers/numberAddComma";
 
-const WalletContents = ({ coinName, quantity, id, setWalletContents, walletContents, walletBalance, setWalletBalance, walletStateToggle, setWalletStateToggle }) => {
+const WalletContents = ({ coinName, quantity, id, walletBalance, setWalletBalance, walletStateToggle, setWalletStateToggle }) => {
   const [coinPrice, setCoinPrice] = useState(Number);
   const [buySellPopUpTrigger, setBuySellPopUpTrigger] = useState(false);
 
