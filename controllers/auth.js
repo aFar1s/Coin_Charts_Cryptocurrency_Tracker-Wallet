@@ -23,10 +23,6 @@ router.post("/registerUser", async (req, res, next) => {
         password,
       });
   
-      // Create Dashboard
-      const dashboard = new Dashboard({ owner: user._id });
-      await dashboard.save();
-  
       // Create Wallet
       const wallet = new Wallet({ owner: user._id });
       await wallet.save();
@@ -36,7 +32,7 @@ router.post("/registerUser", async (req, res, next) => {
       await cashWallet.save();
   
       sendToken(user, 200, res);
-      console.log([user, dashboard, wallet, cashWallet]);
+      console.log([user, wallet, cashWallet]);
     } catch (err) {
       next(err);
     }
@@ -56,11 +52,6 @@ router.post("/login", async (req, res, next) => {
     const user = await User.findOne({ email }).select("+password");
     console.log(user._id);
     const wallet = await Wallet.findOne(user._id)
-    // console.log(wallet);
-    // const dashboard = await Dashboard.findOne(user._id)
-    // console.log(dashboard);
-    // const cashWallet = await CashWallet.findOne(user._id)
-    // console.log(cashWallet);
 
     if (!user) {
       return next(new ErrorResponse("Invalid credentials", 401));
