@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import upperCase from "../../Helpers/upperCase";
-import BuySellPopUp from "./BuySellPopUp";
+import BusSellPopUp from "./BuySellPopUp"
 // import numberAddComma from "../../Helpers/numberAddComma";
 
 const WalletContents = ({ coinName, quantity, id, walletBalance, setWalletBalance, walletStateToggle, setWalletStateToggle }) => {
   const [coinPrice, setCoinPrice] = useState(Number);
-  const [buySellPopUpTrigger, setBuySellPopUpTrigger] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const ownerID = sessionStorage.getItem("userID")
   const walletCoinValue = (quantity) => {
@@ -42,6 +42,10 @@ const WalletContents = ({ coinName, quantity, id, walletBalance, setWalletBalanc
     setWalletBalance(updatedWalletValue)
   }
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <div className="wallet-container">
       <div className="walletData">
@@ -51,16 +55,16 @@ const WalletContents = ({ coinName, quantity, id, walletBalance, setWalletBalanc
         </h4>
         <h4 className="wallet-text">Value: $ {coinValue}</h4>
         <div className="wallet-btn">
-          <button onClick={() => setBuySellPopUpTrigger(true)}>
+          <button onClick={handleClickOpen}>
             Buy/Sell {upperCase(coinName)}
           </button>
+          <BusSellPopUp
+            setOpen={setOpen}
+            open={open}
+          />
           <button onClick={() => sellCoin(id)}>Sell ALL</button>
         </div>
       </div>
-
-      <BuySellPopUp trigger={buySellPopUpTrigger}>
-        <h3>test popup</h3>
-      </BuySellPopUp>
     </div>
   );
 };
