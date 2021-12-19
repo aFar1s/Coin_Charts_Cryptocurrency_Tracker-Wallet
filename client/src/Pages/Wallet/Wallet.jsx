@@ -25,15 +25,6 @@ const Wallet = () => {
   }, [cashBalance])
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   axios
-    //     .get(`/api/cashWallet/${userID}`)
-    //     .then((res) => {
-    //       setCashData(res.data);
-    //     })
-    //     .catch((error) => console.log(error));
-    // }, 500)
-
     axios
      .get(`/api/cashWallet/${userID}`)
      .then((res) => {
@@ -45,14 +36,6 @@ const Wallet = () => {
 
   useEffect(() => {
     console.log(walletStateToggle)
-    // setTimeout(() => {
-    //   axios
-    //     .get(`/api/wallet/${userID}`)
-    //     .then((res) => {
-    //       setWalletContents(res.data);
-    //     })
-    //     .catch((error) => console.log(error));
-    // }, 500)
 
     axios
      .get(`/api/wallet/${userID}`)
@@ -88,7 +71,6 @@ const Wallet = () => {
           setWalletBalance={setWalletBalance}
           walletStateToggle={walletStateToggle}
           setWalletStateToggle={setWalletStateToggle}
-
         />
       </div>
       <h3>Wallet Contents:</h3>
