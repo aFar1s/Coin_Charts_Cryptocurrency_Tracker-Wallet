@@ -11,25 +11,20 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+
 // import upperCase from "../../../Helpers/upperCase";
 
 const BusSellScreen = ({ coinName, open, setOpen }) => {
-  const [quantity, setQuantity] = useState(Number);
-  // eslint-disable-next-line no-unused-vars
-  const [toggle, setToggle] = useState(true);
-//   const [open, setOpen] = useState(false);
-
+  const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (event) => {
     event.preventDefault();
 
     setQuantity(event.target.value);
-  };
-
-  const handleToggle = (event) => {
-    event.preventDefault();
-
-    setToggle(event.target.value);
   };
 
   const handleClose = (event, reason) => {
@@ -38,27 +33,32 @@ const BusSellScreen = ({ coinName, open, setOpen }) => {
     }
   };
 
-
+  let quantityArray = [];
+  for (let index = 1; index < 100; index++) {
+    quantityArray.push(index);
+  }
   return (
     <div className="coin-popup">
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-        <DialogTitle>Select Coin & Quantity</DialogTitle>
+        <DialogTitle>Enter Quantity To Buy/Sell</DialogTitle>
         <DialogContent>
           <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
-            <FormControl sx={{ m: 1, minWidth: 320 }}>
-              <InputLabel htmlFor="demo-dialog-native">Coin</InputLabel>
-              <Select
-                native
-                onChange={handleToggle}
-                input={<OutlinedInput label="Age" id="demo-dialog-native" />}
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Gender</FormLabel>
+              <RadioGroup
+                aria-label="gender"
+                defaultValue="buy"
+                name="radio-buttons-group"
               >
-                <option aria-label="None" value="" />
-                <option value={10}>Ten</option>
-                <option value={20}>Twenty</option>
-                <option value={30}>Thirty</option>
-              </Select>
+                <FormControlLabel value="buy" control={<Radio />} label="Buy" />
+                <FormControlLabel
+                  value="sell"
+                  control={<Radio />}
+                  label="Sell"
+                />
+              </RadioGroup>
             </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 220 }}>
               <InputLabel id="demo-dialog-select-label">Quantity</InputLabel>
               <Select
                 labelId="demo-dialog-select-label"
@@ -70,16 +70,22 @@ const BusSellScreen = ({ coinName, open, setOpen }) => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {quantityArray.map((buy) => (
+                  <MenuItem key={buy} value={buy}>
+                    {buy}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={handleClose}>Cancel</Button>
-          <Button variant="outlined" onClick={handleClose}>Ok</Button>
+          <Button variant="outlined" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="outlined" onClick={handleClose}>
+            Ok
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
