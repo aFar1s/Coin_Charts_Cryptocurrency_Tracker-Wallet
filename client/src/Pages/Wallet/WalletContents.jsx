@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import upperCase from "../../Helpers/upperCase";
-import BusSellPopUp from "./BuySellPopUp";
+import BusSellScreen from "./components/BusSellScreen";
+import Button from "@mui/material/Button";
 // import numberAddComma from "../../Helpers/numberAddComma";
 
 const WalletContents = ({
   coinName,
   quantity,
   id,
-  walletBalance,
-  setWalletBalance,
+  cashBalance,
+  setCashBalance,
   walletStateToggle,
   setWalletStateToggle,
 }) => {
   const [coinPrice, setCoinPrice] = useState(Number);
+  // eslint-disable-next-line no-unused-vars
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
   const ownerID = sessionStorage.getItem("userID");
   const walletCoinValue = (quantity) => {
@@ -33,7 +40,7 @@ const WalletContents = ({
   });
 
   const sellCoin = (id) => {
-    const updatedWalletValue = walletBalance + coinValue;
+    const updatedWalletValue = cashBalance + coinValue;
 
     axios.delete(`api/wallet/delete/${id}`).catch((err) => {
       console.error(err);
@@ -45,9 +52,9 @@ const WalletContents = ({
       })
       .then((res) => {
         console.log(res.data);
-        setWalletBalance(res.data.cashTotal);
+        setCashBalance(res.data.cashTotal);
         setWalletStateToggle(!walletStateToggle);
-        console.log("Coins sold");
+        console.log(`Coin sold. New cash balance is ${updatedWalletValue}`);
       })
       .catch((err) => {
         console.error(err);
@@ -63,8 +70,9 @@ const WalletContents = ({
         </h4>
         <h4 className="wallet-text">Value: $ {coinValue}</h4>
         <div className="wallet-btn">
-          <BusSellPopUp coinName={coinName} />
-          <button onClick={() => sellCoin(id)}>Sell ALL</button>
+          <BusSellScreen coinName={coinName} open={open} setOpen={setOpen} />
+          <Button className="wallet-button" variant="outlined" onClick={() => sellCoin(id)}>Sell ALL</Button>
+          <Button className="wallet-button" variant="outlined" onClick={handleClickOpen}>Buy/Sell {coinName}</Button>
         </div>
       </div>
     </div>

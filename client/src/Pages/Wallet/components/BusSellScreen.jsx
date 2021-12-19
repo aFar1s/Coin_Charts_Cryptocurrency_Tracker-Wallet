@@ -11,12 +11,13 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-import upperCase from "../../../Helpers/upperCase";
+// import upperCase from "../../../Helpers/upperCase";
 
-const BusSellScreen = ({ coinName }) => {
+const BusSellScreen = ({ coinName, open, setOpen }) => {
   const [quantity, setQuantity] = useState(Number);
+  // eslint-disable-next-line no-unused-vars
   const [toggle, setToggle] = useState(true);
-  const [open, setOpen] = useState(false);
+//   const [open, setOpen] = useState(false);
 
 
   const handleQuantityChange = (event) => {
@@ -37,13 +38,9 @@ const BusSellScreen = ({ coinName }) => {
     }
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   return (
     <div className="coin-popup">
-      <Button onClick={handleClickOpen}>Buy/Sell {upperCase(coinName)}</Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Select Coin & Quantity</DialogTitle>
         <DialogContent>
@@ -81,8 +78,8 @@ const BusSellScreen = ({ coinName }) => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Ok</Button>
+          <Button variant="outlined" onClick={handleClose}>Cancel</Button>
+          <Button variant="outlined" onClick={handleClose}>Ok</Button>
         </DialogActions>
       </Dialog>
     </div>

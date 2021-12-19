@@ -8,67 +8,53 @@ import lodash_difference from "lodash.difference";
 import "./wallet.css";
 
 const Wallet = () => {
-  const [cashData, setCashData] = useState([]);
+  const [cashBalance, setCashBalance] = useState(Number);
   const [coinList, setCoinList] = useState([]);
   const [walletContents, setWalletContents] = useState([]);
-  const [walletBalance, setWalletBalance] = useState(Number);
   const [walletStateToggle, setWalletStateToggle] = useState(true)
 
   const userID = sessionStorage.getItem("userID");
-  const cashBalance = (cashData.map((cash) => cash.cashTotal))[0];
   const x = coinList.map((coin) => coin.id);
   const y = walletContents.map((wallet) => wallet.coinName)
   const excludedArray = lodash_difference(x, y)
 
   useEffect(() => {
-    setWalletBalance(cashBalance);
-  }, [cashBalance])
-
-  useEffect(() => {
     axios
      .get(`/api/cashWallet/${userID}`)
      .then((res) => {
-       setCashData(res.data);
+      setCashBalance(res.data[0].cashTotal);
      })
      .catch((error) => console.log(error));
- 
-  }, [ userID ]);
 
-  useEffect(() => {
-    console.log(walletStateToggle)
-
-    axios
+     axios
      .get(`/api/wallet/${userID}`)
      .then((res) => {
        setWalletContents(res.data);
      })
      .catch((error) => console.log(error));
- 
-  }, [ userID, walletStateToggle ]);
 
-  useEffect(() => {
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
-      )
-      .then((res) => {
-        setCoinList(res.data);
-      })
-      .catch((error) => console.log(error));    
-  }, []);
+     axios
+     .get(
+       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+     )
+     .then((res) => {
+       setCoinList(res.data);
+     })
+     .catch((error) => console.log(error));    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletStateToggle]);
 
   return (
     <div>
       <div>
         <div>
-          {walletStateToggle ? (<h2>Current Cash Balance: $ {(walletBalance)}</h2>) : (<h2>Cash Balance: $ {(walletBalance)}</h2>)}
+        <h2>Cash Balance: $ {cashBalance}</h2>
         </div>
         <BuyScreen
           key={1}
           excludedArray={excludedArray}
           cashBalance={cashBalance}
-          walletBalance={walletBalance}
-          setWalletBalance={setWalletBalance}
+          setCashBalance={setCashBalance}
           walletStateToggle={walletStateToggle}
           setWalletStateToggle={setWalletStateToggle}
         />
@@ -83,8 +69,8 @@ const Wallet = () => {
               id={wallet._id}
               coinName={wallet.coinName}
               quantity={wallet.quantity}
-              walletBalance={walletBalance}
-              setWalletBalance={setWalletBalance}
+              cashBalance={cashBalance}
+              setCashBalance={setCashBalance}
               walletStateToggle={walletStateToggle}
               setWalletStateToggle={setWalletStateToggle}
             />

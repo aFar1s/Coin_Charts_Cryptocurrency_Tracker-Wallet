@@ -20,8 +20,7 @@ import Select from "@mui/material/Select";
 const BuyScreen = ({
   excludedArray,
   cashBalance,
-  walletBalance,
-  setWalletBalance,
+  setCashBalance,
   walletStateToggle,
   setWalletStateToggle,
 }) => {
@@ -38,7 +37,7 @@ const BuyScreen = ({
         `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       )
       .then((res) => {
-        setCoinPrice(res.data.market_data.current_price.usd);
+        setCoinPrice((res.data.market_data.current_price.usd).toFixed(2));
       })
       .catch((error) => console.log(error));
   }, [coinName]);
@@ -78,14 +77,14 @@ const BuyScreen = ({
       quantity: quantity,
     };
 
-    const newBalance = walletBalance - coinValueXQuantity;
+    const newBalance = cashBalance - coinValueXQuantity;
     console.log(newBalance);
 
     axios
       .post("/api/wallet/newWallet", newContent)
       .then((res) => {
         console.log(res.data);
-        console.log("Added coin to wallet");
+        console.log(`Added ${newContent.coinName} to wallet`);
     })
       .catch((err) => {
         console.error(err);
@@ -95,9 +94,9 @@ const BuyScreen = ({
       .put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance })
       .then((res) => {
         console.log(res.data);
-        setWalletBalance(res.data.cashTotal);
+        setCashBalance(res.data.cashTotal);
         setWalletStateToggle(!walletStateToggle);
-        console.log("Updated cash balance");
+        console.log(`New cash balance is ${newBalance}`);
     })
       .catch((error) => {
         console.log(error);
@@ -113,7 +112,7 @@ const BuyScreen = ({
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>Buy</Button>
+      <Button variant="outlined" onClick={handleClickOpen}>Buy Coins</Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Select Coin & Quantity</DialogTitle>
         <DialogContent>
@@ -177,10 +176,11 @@ const BuyScreen = ({
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button variant="outlined" onClick={handleClose}>Cancel</Button>
           <Button
             onClick={handleBuy}
             disabled={!(coinValueXQuantity <= cashBalance)}
+            variant="outlined"
           >
             Buy
           </Button>
