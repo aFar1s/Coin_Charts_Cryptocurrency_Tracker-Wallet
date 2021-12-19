@@ -86,7 +86,7 @@ const BuyScreen = ({
       .then((res) => {
         console.log(res.data);
         console.log("Added coin to wallet");
-      })
+    })
       .catch((err) => {
         console.error(err);
     });
@@ -95,14 +95,14 @@ const BuyScreen = ({
       .put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance })
       .then((res) => {
         console.log(res.data);
+        setWalletBalance(res.data.cashTotal);
+        setWalletStateToggle(!walletStateToggle);
         console.log("Updated cash balance");
-      })
+    })
       .catch((error) => {
         console.log(error);
     });
 
-    setWalletBalance(newBalance);
-    setWalletStateToggle(!walletStateToggle);
     setOpen(false);
   };
 

@@ -25,26 +25,42 @@ const Wallet = () => {
   }, [cashBalance])
 
   useEffect(() => {
-    setTimeout(() => {
-      axios
-        .get(`/api/cashWallet/${userID}`)
-        .then((res) => {
-          setCashData(res.data);
-        })
-        .catch((error) => console.log(error));
-    }, 500)
+    // setTimeout(() => {
+    //   axios
+    //     .get(`/api/cashWallet/${userID}`)
+    //     .then((res) => {
+    //       setCashData(res.data);
+    //     })
+    //     .catch((error) => console.log(error));
+    // }, 500)
+
+    axios
+     .get(`/api/cashWallet/${userID}`)
+     .then((res) => {
+       setCashData(res.data);
+     })
+     .catch((error) => console.log(error));
+ 
   }, [ userID ]);
 
   useEffect(() => {
     console.log(walletStateToggle)
-    setTimeout(() => {
-      axios
-        .get(`/api/wallet/${userID}`)
-        .then((res) => {
-          setWalletContents(res.data);
-        })
-        .catch((error) => console.log(error));
-    }, 500)
+    // setTimeout(() => {
+    //   axios
+    //     .get(`/api/wallet/${userID}`)
+    //     .then((res) => {
+    //       setWalletContents(res.data);
+    //     })
+    //     .catch((error) => console.log(error));
+    // }, 500)
+
+    axios
+     .get(`/api/wallet/${userID}`)
+     .then((res) => {
+       setWalletContents(res.data);
+     })
+     .catch((error) => console.log(error));
+ 
   }, [ userID, walletStateToggle ]);
 
   useEffect(() => {
