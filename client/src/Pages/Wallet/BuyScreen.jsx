@@ -78,13 +78,12 @@ const BuyScreen = ({
     };
 
     const newBalance = cashBalance - coinValueXQuantity;
-    console.log(newBalance);
 
     axios
       .post("/api/wallet/newWallet", newContent)
       .then((res) => {
         console.log(res.data);
-        console.log(`Added ${newContent.coinName} to wallet`);
+        console.log(`Added ${res.data.coinName} to wallet`);
     })
       .catch((err) => {
         console.error(err);
@@ -96,7 +95,7 @@ const BuyScreen = ({
         console.log(res.data);
         setCashBalance(res.data.cashTotal);
         setWalletStateToggle(!walletStateToggle);
-        console.log(`New cash balance is ${newBalance}`);
+        console.log(`New cash balance is ${res.data.cashTotal}`);
     })
       .catch((error) => {
         console.log(error);

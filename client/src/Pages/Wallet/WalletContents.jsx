@@ -70,7 +70,7 @@ const WalletContents = ({
         </h4>
         <h4 className="wallet-text">Value: $ {coinValue}</h4>
         <div className="wallet-btn">
-          <BusSellScreen coinName={coinName} open={open} setOpen={setOpen} />
+          <BusSellScreen coinName={coinName} open={open} setOpen={setOpen} walletID={id}/>
           <Button className="wallet-button" variant="outlined" onClick={() => sellCoin(id)}>Sell ALL</Button>
           <Button className="wallet-button" variant="outlined" onClick={handleClickOpen}>Buy/Sell {coinName}</Button>
         </div>

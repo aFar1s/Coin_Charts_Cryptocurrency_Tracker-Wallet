@@ -18,14 +18,21 @@ import FormLabel from "@mui/material/FormLabel";
 
 // import upperCase from "../../../Helpers/upperCase";
 
-const BusSellScreen = ({ coinName, open, setOpen }) => {
+const BusSellScreen = ({ coinName, walletID, open, setOpen }) => {
   const [quantity, setQuantity] = useState(1);
+  const [buySell, setBuySell] = useState("buy")
 
   const handleQuantityChange = (event) => {
     event.preventDefault();
 
     setQuantity(event.target.value);
   };
+
+  const handleRadio = (event) => {
+    event.preventDefault();
+
+    setBuySell(event.target.value);
+  }
 
   const handleClose = (event, reason) => {
     if (reason !== "backdropClick") {
@@ -42,6 +49,7 @@ const BusSellScreen = ({ coinName, open, setOpen }) => {
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Enter Quantity To Buy/Sell</DialogTitle>
         <DialogContent>
+        <h3>{coinName}</h3>
           <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
             <FormControl component="fieldset">
               <FormLabel component="legend">Gender</FormLabel>
@@ -49,8 +57,13 @@ const BusSellScreen = ({ coinName, open, setOpen }) => {
                 aria-label="gender"
                 defaultValue="buy"
                 name="radio-buttons-group"
+                onChange={handleRadio}
               >
-                <FormControlLabel value="buy" control={<Radio />} label="Buy" />
+                <FormControlLabel 
+                  value="buy"
+                  control={<Radio />} 
+                  label="Buy" 
+                />
                 <FormControlLabel
                   value="sell"
                   control={<Radio />}
@@ -78,6 +91,7 @@ const BusSellScreen = ({ coinName, open, setOpen }) => {
               </Select>
             </FormControl>
           </Box>
+        <h3>{walletID}</h3>
         </DialogContent>
         <DialogActions>
           <Button variant="outlined" onClick={handleClose}>
