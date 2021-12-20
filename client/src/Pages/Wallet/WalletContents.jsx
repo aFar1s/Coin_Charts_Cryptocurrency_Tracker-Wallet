@@ -54,7 +54,7 @@ const WalletContents = ({
         console.log(res.data);
         setCashBalance(res.data.cashTotal);
         setWalletStateToggle(!walletStateToggle);
-        console.log(`Coin sold. New cash balance is ${updatedWalletValue}`);
+        console.log(`Coins sold. New cash balance is ${res.data.cashTotal}`);
       })
       .catch((err) => {
         console.error(err);
