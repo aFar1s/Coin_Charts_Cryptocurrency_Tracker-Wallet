@@ -16,13 +16,20 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 
-import axios from "axios"
+import axios from "axios";
 
 // import upperCase from "../../../Helpers/upperCase";
 
-const BusSellScreen = ({ coinName, walletID, open, setOpen, walletStateToggle, setWalletStateToggle }) => {
+const BusSellScreen = ({
+  coinName,
+  walletID,
+  open,
+  setOpen,
+  walletStateToggle,
+  setWalletStateToggle,
+}) => {
   const [quantity, setQuantity] = useState(1);
-  const [buySell, setBuySell] = useState(null)
+  const [buySell, setBuySell] = useState(null);
 
   const handleQuantityChange = (event) => {
     event.preventDefault();
@@ -33,44 +40,44 @@ const BusSellScreen = ({ coinName, walletID, open, setOpen, walletStateToggle, s
   const handleRadio = (event) => {
     event.preventDefault();
 
-    setBuySell(event.target.value)
-  }
-
-//   useEffect(() => {
-
-//   }, [ buySell ])
+    setBuySell(event.target.value);
+  };
 
   const handleClose = (event, reason) => {
     if (reason !== "backdropClick") {
-     setOpen(false);
+      setOpen(false);
     }
-    setQuantity(1)
-    setBuySell(null)
+    setQuantity(1);
+    setBuySell(null);
   };
 
   const handleExecute = () => {
     setOpen(false);
 
     axios
-    .put(`/api/wallet/updateWallet/${walletID}`, { quantity: quantity })
-    .then((res) => {
-      console.log(res.data);
-      setWalletStateToggle(!walletStateToggle);
-      console.log(`New ${coinName} total is ${res.data.quantity}`);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-    console.log(buySell)
-  }
+      .put(`/api/wallet/updateWallet/${walletID}`, { quantity: quantity })
+      .then((res) => {
+        console.log(res.data);
+        setWalletStateToggle(!walletStateToggle);
+        console.log(`New ${coinName} total is ${res.data.quantity}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(buySell);
+  };
 
-  const buyStatement = buySell === "buy" ? (<h3>Select Amount to Buy</h3>) : (<h3>Select Amount to Sell</h3>)
+  const buyStatement =
+    buySell === "buy" ? (
+      <h3>Select Amount to Buy</h3>
+    ) : (
+      <h3>Select Amount to Sell</h3>
+    );
   const buySellStatement = () => {
     if (buySell === null) {
-        return (<h3>Select option to execute Buy/Sell order</h3>)
-    }
-    else return buyStatement
-}
+      return <h3>Select option to execute Buy/Sell order</h3>;
+    } else return buyStatement;
+  };
 
   let quantityArray = [];
   for (let index = 1; index < 100; index++) {
@@ -81,9 +88,12 @@ const BusSellScreen = ({ coinName, walletID, open, setOpen, walletStateToggle, s
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Enter Quantity To Buy/Sell</DialogTitle>
         <DialogContent>
-        <h3>{coinName}</h3>
-        {buySellStatement()}
-          <Box component="form" sx={{ display: "flex", flexWrap: "wrap", minWidth: 400 }}>
+          <h3>{coinName}</h3>
+          {buySellStatement()}
+          <Box
+            component="form"
+            sx={{ display: "flex", flexWrap: "wrap", minWidth: 400 }}
+          >
             <FormControl component="fieldset">
               <FormLabel component="legend">Option</FormLabel>
               <RadioGroup
@@ -93,7 +103,7 @@ const BusSellScreen = ({ coinName, walletID, open, setOpen, walletStateToggle, s
                 onChange={handleRadio}
               >
                 <FormControlLabel 
-                  value="buy"
+                  value="buy" 
                   control={<Radio />} 
                   label="Buy" 
                 />
@@ -104,7 +114,10 @@ const BusSellScreen = ({ coinName, walletID, open, setOpen, walletStateToggle, s
                 />
               </RadioGroup>
             </FormControl>
-            <FormControl disabled={buySell === null} sx={{ m: 1, minWidth: 220 }}>
+            <FormControl
+              disabled={buySell === null}
+              sx={{ m: 1, minWidth: 220 }}
+            >
               <InputLabel id="demo-dialog-select-label">Quantity</InputLabel>
               <Select
                 labelId="demo-dialog-select-label"
@@ -124,7 +137,7 @@ const BusSellScreen = ({ coinName, walletID, open, setOpen, walletStateToggle, s
               </Select>
             </FormControl>
           </Box>
-        <h3>{walletID}</h3>
+          <h3>{walletID}</h3>
         </DialogContent>
         <DialogActions>
           <Button variant="outlined" onClick={handleClose}>
