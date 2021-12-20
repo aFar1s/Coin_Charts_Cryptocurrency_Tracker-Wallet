@@ -16,11 +16,13 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 
+import axios from "axios"
+
 // import upperCase from "../../../Helpers/upperCase";
 
-const BusSellScreen = ({ coinName, walletID, open, setOpen }) => {
+const BusSellScreen = ({ coinName, walletID, open, setOpen, walletStateToggle, setWalletStateToggle }) => {
   const [quantity, setQuantity] = useState(1);
-  const [buySell, setBuySell] = useState("buy")
+  const [buySell, setBuySell] = useState(null)
 
   const handleQuantityChange = (event) => {
     event.preventDefault();
@@ -31,14 +33,44 @@ const BusSellScreen = ({ coinName, walletID, open, setOpen }) => {
   const handleRadio = (event) => {
     event.preventDefault();
 
-    setBuySell(event.target.value);
+    setBuySell(event.target.value)
   }
+
+//   useEffect(() => {
+
+//   }, [ buySell ])
 
   const handleClose = (event, reason) => {
     if (reason !== "backdropClick") {
-      setOpen(false);
+     setOpen(false);
     }
+    setQuantity(1)
+    setBuySell(null)
   };
+
+  const handleExecute = () => {
+    setOpen(false);
+
+    axios
+    .put(`/api/wallet/updateWallet/${walletID}`, { quantity: quantity })
+    .then((res) => {
+      console.log(res.data);
+      setWalletStateToggle(!walletStateToggle);
+      console.log(`New ${coinName} total is ${res.data.quantity}`);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    console.log(buySell)
+  }
+
+  const buyStatement = buySell === "buy" ? (<h3>Select Amount to Buy</h3>) : (<h3>Select Amount to Sell</h3>)
+  const buySellStatement = () => {
+    if (buySell === null) {
+        return (<h3>Select option to execute Buy/Sell order</h3>)
+    }
+    else return buyStatement
+}
 
   let quantityArray = [];
   for (let index = 1; index < 100; index++) {
@@ -50,12 +82,13 @@ const BusSellScreen = ({ coinName, walletID, open, setOpen }) => {
         <DialogTitle>Enter Quantity To Buy/Sell</DialogTitle>
         <DialogContent>
         <h3>{coinName}</h3>
-          <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
+        {buySellStatement()}
+          <Box component="form" sx={{ display: "flex", flexWrap: "wrap", minWidth: 400 }}>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Gender</FormLabel>
+              <FormLabel component="legend">Option</FormLabel>
               <RadioGroup
-                aria-label="gender"
-                defaultValue="buy"
+                aria-label="Option"
+                defaultValue=""
                 name="radio-buttons-group"
                 onChange={handleRadio}
               >
@@ -71,7 +104,7 @@ const BusSellScreen = ({ coinName, walletID, open, setOpen }) => {
                 />
               </RadioGroup>
             </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 220 }}>
+            <FormControl disabled={buySell === null} sx={{ m: 1, minWidth: 220 }}>
               <InputLabel id="demo-dialog-select-label">Quantity</InputLabel>
               <Select
                 labelId="demo-dialog-select-label"
@@ -97,8 +130,8 @@ const BusSellScreen = ({ coinName, walletID, open, setOpen }) => {
           <Button variant="outlined" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="outlined" onClick={handleClose}>
-            Ok
+          <Button variant="outlined" onClick={handleExecute}>
+            Execute
           </Button>
         </DialogActions>
       </Dialog>

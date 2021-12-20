@@ -15,7 +15,6 @@ const WalletContents = ({
   setWalletStateToggle,
 }) => {
   const [coinPrice, setCoinPrice] = useState(Number);
-  // eslint-disable-next-line no-unused-vars
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -70,7 +69,13 @@ const WalletContents = ({
         </h4>
         <h4 className="wallet-text">Value: $ {coinValue}</h4>
         <div className="wallet-btn">
-          <BusSellScreen coinName={coinName} open={open} setOpen={setOpen} walletID={id}/>
+          <BusSellScreen coinName={coinName} 
+            open={open} 
+            setOpen={setOpen} 
+            walletID={id}
+            walletStateToggle={walletStateToggle}
+            setWalletStateToggle={setWalletStateToggle}
+          />
           <Button className="wallet-button" variant="outlined" onClick={() => sellCoin(id)}>Sell ALL</Button>
           <Button className="wallet-button" variant="outlined" onClick={handleClickOpen}>Buy/Sell {coinName}</Button>
         </div>
