@@ -22,8 +22,8 @@ const WalletContents = ({
   };
 
   const ownerID = sessionStorage.getItem("userID");
-  const walletCoinValue = (quantity) => {
-    return quantity * coinPrice;
+  const walletCoinValue = (quant) => {
+    return quant * coinPrice;
   };
   const coinValue = walletCoinValue(quantity);
 
@@ -75,6 +75,7 @@ const WalletContents = ({
             walletID={id}
             walletStateToggle={walletStateToggle}
             setWalletStateToggle={setWalletStateToggle}
+            walletCoinValue={walletCoinValue}
           />
           <Button className="wallet-button" variant="outlined" onClick={() => sellCoin(id)}>Sell ALL</Button>
           <Button className="wallet-button" variant="outlined" onClick={handleClickOpen}>Buy/Sell {coinName}</Button>

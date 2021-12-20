@@ -27,9 +27,12 @@ const BusSellScreen = ({
   setOpen,
   walletStateToggle,
   setWalletStateToggle,
+  walletCoinValue
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [buySell, setBuySell] = useState(null);
+
+  const coinValue = walletCoinValue(quantity)
 
   const handleQuantityChange = (event) => {
     event.preventDefault();
@@ -59,6 +62,7 @@ const BusSellScreen = ({
       .then((res) => {
         console.log(res.data);
         setWalletStateToggle(!walletStateToggle);
+        setBuySell(null);
         console.log(`New ${coinName} total is ${res.data.quantity}`);
       })
       .catch((error) => {
@@ -67,7 +71,31 @@ const BusSellScreen = ({
     console.log(buySell);
   };
 
-  const buyStatement =
+  const valueInfo =
+  buySell === "buy" ? (
+    <h4>${coinValue} will be deducted from you Cash Balance.</h4>
+  ) : (
+    <h3>You are selling {quantity} {coinName}</h3>
+  );
+const valueStatement = () => {
+  if (buySell === null) {
+    return;
+  } else return valueInfo;
+};
+
+  const buyInfo =
+  buySell === "buy" ? (
+    <h3>You are purchasing {quantity} {coinName}.</h3>
+  ) : (
+    <h3>You are selling {quantity} {coinName}</h3>
+  );
+const buySatement = () => {
+  if (buySell === null) {
+    return;
+  } else return buyInfo;
+};
+
+  const buySellInfo =
     buySell === "buy" ? (
       <h3>Select Amount to Buy</h3>
     ) : (
@@ -76,7 +104,7 @@ const BusSellScreen = ({
   const buySellStatement = () => {
     if (buySell === null) {
       return <h3>Select option to execute Buy/Sell order</h3>;
-    } else return buyStatement;
+    } else return buySellInfo;
   };
 
   let quantityArray = [];
@@ -137,6 +165,8 @@ const BusSellScreen = ({
               </Select>
             </FormControl>
           </Box>
+          {buySatement()}
+          {valueStatement()}
           <h3>{walletID}</h3>
         </DialogContent>
         <DialogActions>
