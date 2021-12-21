@@ -27,12 +27,17 @@ const BusSellScreen = ({
   setOpen,
   walletStateToggle,
   setWalletStateToggle,
-  walletCoinValue
+  coinValue_quantity,
+  cashBalance,
+  setCashBalance,
+  walletQuantity
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [buySell, setBuySell] = useState(null);
 
-  const coinValue = walletCoinValue(quantity)
+  const coinValueInWallet = coinValue_quantity(quantity)
+  const ownerID = sessionStorage.getItem("userID");
+
 
   const handleQuantityChange = (event) => {
     event.preventDefault();
@@ -56,26 +61,45 @@ const BusSellScreen = ({
 
   const handleExecute = () => {
     setOpen(false);
+    const updatedCashBalance = buySell === "buy" ? (cashBalance - coinValueInWallet) : (cashBalance + coinValueInWallet)
+    const updatedWalletQuantity = buySell === "buy" ? (walletQuantity + quantity) : (walletQuantity - quantity)
+  
+    if (buySell === "sell" && updatedWalletQuantity === 0) {
+        axios.delete(`api/wallet/delete/${walletID}`).catch((err) => {
+            console.error(err);
+        });
+    }
 
     axios
-      .put(`/api/wallet/updateWallet/${walletID}`, { quantity: quantity })
+      .put(`/api/wallet/updateWallet/${walletID}`, { quantity: updatedWalletQuantity })
       .then((res) => {
         console.log(res.data);
         setWalletStateToggle(!walletStateToggle);
         setBuySell(null);
         console.log(`New ${coinName} total is ${res.data.quantity}`);
-      })
+    })
       .catch((error) => {
         console.log(error);
-      });
+    });
+
+    axios
+      .put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: updatedCashBalance })
+      .then((res) => {
+        console.log(res.data);
+        setWalletStateToggle(!walletStateToggle);
+        console.log(`New cash balance is ${res.data.cashTotal}`);
+    })
+      .catch((error) => {
+        console.log(error);
+    });
     console.log(buySell);
   };
 
   const valueInfo =
   buySell === "buy" ? (
-    <h4>${coinValue} will be deducted from you Cash Balance.</h4>
+    <h4>${coinValueInWallet} will be deducted from you Cash Balance.</h4>
   ) : (
-    <h3>You are selling {quantity} {coinName}</h3>
+    <h4>${coinValueInWallet} will be added to your Cash Balance.</h4>
   );
 const valueStatement = () => {
   if (buySell === null) {

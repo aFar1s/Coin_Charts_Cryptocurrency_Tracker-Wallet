@@ -14,32 +14,31 @@ const WalletContents = ({
   walletStateToggle,
   setWalletStateToggle,
 }) => {
-  const [coinPrice, setCoinPrice] = useState(Number);
+  const [unitCoinValue, setUnitCoinValue] = useState(Number);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
-  const ownerID = sessionStorage.getItem("userID");
-  const walletCoinValue = (quant) => {
-    return quant * coinPrice;
+  const coinValue_quantity = (quant) => {
+    return quant * unitCoinValue;
   };
-  const coinValue = walletCoinValue(quantity);
-
+  const coinValueInWallet = coinValue_quantity(quantity);
+  const ownerID = sessionStorage.getItem("userID");
+  
   useEffect(() => {
     axios
       .get(
         `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       )
       .then((res) => {
-        setCoinPrice(res.data.market_data.current_price.usd);
+        setUnitCoinValue(res.data.market_data.current_price.usd);
       })
       .catch((error) => console.log(error));
   });
 
   const sellCoin = (id) => {
-    const updatedWalletValue = cashBalance + coinValue;
+    const updatedCashBalance = cashBalance + coinValueInWallet;
 
     axios.delete(`api/wallet/delete/${id}`).catch((err) => {
       console.error(err);
@@ -47,7 +46,7 @@ const WalletContents = ({
 
     axios
       .put(`/api/cashWallet/updateCash/${ownerID}`, {
-        cashTotal: updatedWalletValue,
+        cashTotal: updatedCashBalance,
       })
       .then((res) => {
         console.log(res.data);
@@ -67,7 +66,7 @@ const WalletContents = ({
         <h4 className="wallet-text">
           Amount of {upperCase(coinName)}: {quantity} {upperCase(coinName)}
         </h4>
-        <h4 className="wallet-text">Value: $ {coinValue}</h4>
+        <h4 className="wallet-text">Value: $ {coinValueInWallet}</h4>
         <div className="wallet-btn">
           <BusSellScreen coinName={coinName} 
             open={open} 
@@ -75,7 +74,10 @@ const WalletContents = ({
             walletID={id}
             walletStateToggle={walletStateToggle}
             setWalletStateToggle={setWalletStateToggle}
-            walletCoinValue={walletCoinValue}
+            coinValue_quantity={coinValue_quantity}
+            walletQuantity = {quantity}
+            cashBalance={cashBalance}
+            setCashBalance={setCashBalance}
           />
           <Button className="wallet-button" variant="outlined" onClick={() => sellCoin(id)}>Sell ALL</Button>
           <Button className="wallet-button" variant="outlined" onClick={handleClickOpen}>Buy/Sell {coinName}</Button>

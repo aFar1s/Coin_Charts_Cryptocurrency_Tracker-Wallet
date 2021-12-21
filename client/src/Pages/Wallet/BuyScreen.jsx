@@ -27,7 +27,7 @@ const BuyScreen = ({
   const [open, setOpen] = useState(false);
   const [coinName, setCoinName] = useState(String);
   const [quantity, setQuantity] = useState(1);
-  const [coinPrice, setCoinPrice] = useState(Number);
+  const [unitCoinValue, setUnitCoinValue] = useState(Number);
 
   const ownerID = sessionStorage.getItem("userID");
 
@@ -37,16 +37,16 @@ const BuyScreen = ({
         `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       )
       .then((res) => {
-        setCoinPrice((res.data.market_data.current_price.usd).toFixed(2));
+        setUnitCoinValue((res.data.market_data.current_price.usd).toFixed(2));
       })
       .catch((error) => console.log(error));
   }, [coinName]);
 
-  const coinValue = (quant) => {
-    return quant * coinPrice;
+  const coinValue_quantity = (quant) => {
+    return quant * unitCoinValue;
   };
 
-  const coinValueXQuantity = coinValue(quantity);
+  const coinValueInWallet = coinValue_quantity(quantity);
 
   const handleCoinChange = (event) => {
     event.preventDefault();
@@ -77,7 +77,7 @@ const BuyScreen = ({
       quantity: quantity,
     };
 
-    const newBalance = cashBalance - coinValueXQuantity;
+    const updatedCashBalance = cashBalance - coinValueInWallet;
 
     axios
       .post("/api/wallet/newWallet", newContent)
@@ -90,7 +90,7 @@ const BuyScreen = ({
     });
 
     axios
-      .put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance })
+      .put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: updatedCashBalance })
       .then((res) => {
         console.log(res.data);
         setCashBalance(res.data.cashTotal);
@@ -152,24 +152,24 @@ const BuyScreen = ({
             </FormControl>
           </Box>
           <h4>
-            Unit Price: ${coinValue(1)}/{upperCase(coinName)}
+            Unit Price: ${coinValue_quantity(1)}/{upperCase(coinName)}
           </h4>
-          {coinValueXQuantity <= cashBalance ? (
+          {coinValueInWallet <= cashBalance ? (
             <div>
               <h4>
-                ($ {numberAddComma(coinValueXQuantity)}) Will be deducted from
+                ($ {numberAddComma(coinValueInWallet)}) Will be deducted from
                 your Balance of ($ {cashBalance}) for the purchase of {quantity}{" "}
                 {upperCase(coinName)}
               </h4>
               <br />
               <h4>
                 Cash balance after purchase will be ${" "}
-                {(cashBalance - coinValueXQuantity).toFixed(2)}
+                {(cashBalance - coinValueInWallet).toFixed(2)}
               </h4>
             </div>
           ) : (
             <h4>
-              Attempted purchase($ {numberAddComma(coinValueXQuantity)}) is more
+              Attempted purchase($ {numberAddComma(coinValueInWallet)}) is more
               than available Cash Balance($ {cashBalance})
             </h4>
           )}
@@ -178,7 +178,7 @@ const BuyScreen = ({
           <Button variant="outlined" onClick={handleClose}>Cancel</Button>
           <Button
             onClick={handleBuy}
-            disabled={!(coinValueXQuantity <= cashBalance)}
+            disabled={!(coinValueInWallet <= cashBalance)}
             variant="outlined"
           >
             Buy
