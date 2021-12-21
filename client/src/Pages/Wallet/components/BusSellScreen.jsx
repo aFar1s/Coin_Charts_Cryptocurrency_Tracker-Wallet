@@ -65,9 +65,21 @@ const BusSellScreen = ({
     const updatedWalletQuantity = buySell === "buy" ? (walletQuantity + quantity) : (walletQuantity - quantity)
   
     if (buySell === "sell" && updatedWalletQuantity === 0) {
-        axios.delete(`api/wallet/delete/${walletID}`).catch((err) => {
-            console.error(err);
-        });
+      axios.delete(`api/wallet/delete/${walletID}`).catch((err) => {
+          console.error(err);
+      });
+
+      axios
+      .put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: updatedCashBalance })
+      .then((res) => {
+        console.log(res.data);
+        setWalletStateToggle(!walletStateToggle);
+        console.log(`New cash balance is ${res.data.cashTotal}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     }
 
     axios
