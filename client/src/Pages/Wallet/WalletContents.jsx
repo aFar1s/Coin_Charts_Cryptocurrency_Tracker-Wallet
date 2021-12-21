@@ -6,10 +6,11 @@ import Button from "@mui/material/Button";
 // import numberAddComma from "../../Helpers/numberAddComma";
 
 const WalletContents = ({
+  id,
   coinName,
   quantity,
-  id,
   cashBalance,
+  walletContents,
   setCashBalance,
   walletStateToggle,
   setWalletStateToggle,
@@ -70,14 +71,15 @@ const WalletContents = ({
         <div className="wallet-btn">
           <BusSellScreen coinName={coinName} 
             open={open} 
-            setOpen={setOpen} 
             walletID={id}
-            walletStateToggle={walletStateToggle}
-            setWalletStateToggle={setWalletStateToggle}
-            coinValue_quantity={coinValue_quantity}
-            walletQuantity = {quantity}
+            setOpen={setOpen} 
             cashBalance={cashBalance}
+            walletQuantity={quantity}
+            walletContents={walletContents} 
             setCashBalance={setCashBalance}
+            walletStateToggle={walletStateToggle}
+            coinValue_quantity={coinValue_quantity}
+            setWalletStateToggle={setWalletStateToggle}
           />
           <Button className="wallet-button" variant="outlined" onClick={() => sellCoin(id)}>Sell ALL</Button>
           <Button className="wallet-button" variant="outlined" onClick={handleClickOpen}>Buy/Sell {coinName}</Button>

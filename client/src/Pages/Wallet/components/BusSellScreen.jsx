@@ -21,16 +21,17 @@ import axios from "axios";
 // import upperCase from "../../../Helpers/upperCase";
 
 const BusSellScreen = ({
-  coinName,
-  walletID,
   open,
   setOpen,
-  walletStateToggle,
-  setWalletStateToggle,
-  coinValue_quantity,
+  coinName,
+  walletID,
   cashBalance,
   setCashBalance,
-  walletQuantity
+  walletQuantity,
+  walletContents,
+  walletStateToggle,
+  coinValue_quantity,
+  setWalletStateToggle,
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [buySell, setBuySell] = useState(null);
@@ -113,24 +114,24 @@ const BusSellScreen = ({
   ) : (
     <h4>${coinValueInWallet} will be added to your Cash Balance.</h4>
   );
-const valueStatement = () => {
-  if (buySell === null) {
-    return;
-  } else return valueInfo;
-};
-
+  const valueStatement = () => {
+    if (buySell === null) {
+      return;
+    } else return valueInfo;
+  };
+  
   const buyInfo =
   buySell === "buy" ? (
     <h3>You are purchasing {quantity} {coinName}.</h3>
   ) : (
     <h3>You are selling {quantity} {coinName}</h3>
   );
-const buySatement = () => {
-  if (buySell === null) {
-    return;
-  } else return buyInfo;
-};
-
+  const buySatement = () => {
+    if (buySell === null) {
+      return;
+    } else return buyInfo;
+  };
+  
   const buySellInfo =
     buySell === "buy" ? (
       <h3>Select Amount to Buy</h3>
@@ -143,10 +144,28 @@ const buySatement = () => {
     } else return buySellInfo;
   };
 
+  let sellArray = []
+  for (let index = 1; index <= walletQuantity; index++) {
+    sellArray.push(index);
+  }
   let quantityArray = [];
   for (let index = 1; index < 100; index++) {
     quantityArray.push(index);
   }
+
+  const buySellArray = buySell === "buy" ?
+  (quantityArray.map((buy) => (
+    <MenuItem key={buy} value={buy}>
+      {buy}
+    </MenuItem>
+  )))
+  :
+  (sellArray.map((sell) => (
+    <MenuItem key={sell} value={sell}>
+        {sell}
+    </MenuItem>  
+  )))
+ 
   return (
     <div className="coin-popup">
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
@@ -193,11 +212,7 @@ const buySatement = () => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {quantityArray.map((buy) => (
-                  <MenuItem key={buy} value={buy}>
-                    {buy}
-                  </MenuItem>
-                ))}
+                {buySellArray}
               </Select>
             </FormControl>
           </Box>

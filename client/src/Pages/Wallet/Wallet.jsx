@@ -71,6 +71,7 @@ const Wallet = () => {
               quantity={wallet.quantity}
               cashBalance={cashBalance}
               setCashBalance={setCashBalance}
+              walletContents={walletContents}
               walletStateToggle={walletStateToggle}
               setWalletStateToggle={setWalletStateToggle}
             />
