@@ -148,13 +148,13 @@ const BusSellScreen = ({
   for (let index = 1; index <= walletQuantity; index++) {
     sellArray.push(index);
   }
-  let quantityArray = [];
+  let buyArray = [];
   for (let index = 1; index < 100; index++) {
-    quantityArray.push(index);
+    buyArray.push(index);
   }
 
   const buySellArray = buySell === "buy" ?
-  (quantityArray.map((buy) => (
+  (buyArray.map((buy) => (
     <MenuItem key={buy} value={buy}>
       {buy}
     </MenuItem>
