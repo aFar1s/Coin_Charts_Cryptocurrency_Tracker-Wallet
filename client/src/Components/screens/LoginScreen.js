@@ -35,7 +35,8 @@ const LoginScreen = ({ history }) => {
         );
         // console.log(data)
         sessionStorage.setItem("authToken", data.token);
-        sessionStorage.setItem("userID", data.user);
+        sessionStorage.setItem("userID", data.userId);
+        sessionStorage.setItem("user", data.user);
         setGlobalAuth(true)
         console.log(globalAuth)
         window.location.reload(false)

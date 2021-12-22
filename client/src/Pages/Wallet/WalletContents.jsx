@@ -1,39 +1,45 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import upperCase from "../../Helpers/upperCase";
-import BusSellPopUp from "./BuySellPopUp";
+import BusSellScreen from "./components/BusSellScreen";
+import Button from "@mui/material/Button";
 // import numberAddComma from "../../Helpers/numberAddComma";
 
 const WalletContents = ({
+  id,
   coinName,
   quantity,
-  id,
-  walletBalance,
-  setWalletBalance,
+  cashBalance,
+  walletContents,
+  setCashBalance,
   walletStateToggle,
   setWalletStateToggle,
 }) => {
-  const [coinPrice, setCoinPrice] = useState(Number);
+  const [unitCoinValue, setUnitCoinValue] = useState(Number);
+  const [open, setOpen] = useState(false);
 
-  const ownerID = sessionStorage.getItem("userID");
-  const walletCoinValue = (quantity) => {
-    return quantity * coinPrice;
+  const handleClickOpen = () => {
+    setOpen(true);
   };
-  const coinValue = walletCoinValue(quantity);
-
+  const coinValue_quantity = (quant) => {
+    return quant * unitCoinValue;
+  };
+  const coinValueInWallet = coinValue_quantity(quantity);
+  const ownerID = sessionStorage.getItem("userID");
+  
   useEffect(() => {
     axios
       .get(
         `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       )
       .then((res) => {
-        setCoinPrice(res.data.market_data.current_price.usd);
+        setUnitCoinValue(res.data.market_data.current_price.usd);
       })
       .catch((error) => console.log(error));
   });
 
   const sellCoin = (id) => {
-    const updatedWalletValue = walletBalance + coinValue;
+    const updatedCashBalance = cashBalance + coinValueInWallet;
 
     axios.delete(`api/wallet/delete/${id}`).catch((err) => {
       console.error(err);
@@ -41,13 +47,13 @@ const WalletContents = ({
 
     axios
       .put(`/api/cashWallet/updateCash/${ownerID}`, {
-        cashTotal: updatedWalletValue,
+        cashTotal: updatedCashBalance,
       })
       .then((res) => {
         console.log(res.data);
-        setWalletBalance(res.data.cashTotal);
+        setCashBalance(res.data.cashTotal);
         setWalletStateToggle(!walletStateToggle);
-        console.log("Coins sold");
+        console.log(`Coins sold. New cash balance is ${res.data.cashTotal}`);
       })
       .catch((err) => {
         console.error(err);
@@ -61,10 +67,22 @@ const WalletContents = ({
         <h4 className="wallet-text">
           Amount of {upperCase(coinName)}: {quantity} {upperCase(coinName)}
         </h4>
-        <h4 className="wallet-text">Value: $ {coinValue}</h4>
+        <h4 className="wallet-text">Value: $ {coinValueInWallet}</h4>
         <div className="wallet-btn">
-          <BusSellPopUp coinName={coinName} />
-          <button onClick={() => sellCoin(id)}>Sell ALL</button>
+          <BusSellScreen coinName={coinName} 
+            open={open} 
+            walletID={id}
+            setOpen={setOpen} 
+            cashBalance={cashBalance}
+            walletQuantity={quantity}
+            walletContents={walletContents} 
+            setCashBalance={setCashBalance}
+            walletStateToggle={walletStateToggle}
+            coinValue_quantity={coinValue_quantity}
+            setWalletStateToggle={setWalletStateToggle}
+          />
+          <Button className="wallet-button" variant="outlined" onClick={() => sellCoin(id)}>Sell ALL</Button>
+          <Button className="wallet-button" variant="outlined" onClick={handleClickOpen}>Buy/Sell {coinName}</Button>
         </div>
       </div>
     </div>

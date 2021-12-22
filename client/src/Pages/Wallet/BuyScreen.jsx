@@ -20,15 +20,14 @@ import Select from "@mui/material/Select";
 const BuyScreen = ({
   excludedArray,
   cashBalance,
-  walletBalance,
-  setWalletBalance,
+  setCashBalance,
   walletStateToggle,
   setWalletStateToggle,
 }) => {
   const [open, setOpen] = useState(false);
   const [coinName, setCoinName] = useState(String);
   const [quantity, setQuantity] = useState(1);
-  const [coinPrice, setCoinPrice] = useState(Number);
+  const [unitCoinValue, setUnitCoinValue] = useState(Number);
 
   const ownerID = sessionStorage.getItem("userID");
 
@@ -38,16 +37,16 @@ const BuyScreen = ({
         `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       )
       .then((res) => {
-        setCoinPrice(res.data.market_data.current_price.usd);
+        setUnitCoinValue((res.data.market_data.current_price.usd).toFixed(2));
       })
       .catch((error) => console.log(error));
   }, [coinName]);
 
-  const coinValue = (quant) => {
-    return quant * coinPrice;
+  const coinValue_quantity = (quant) => {
+    return quant * unitCoinValue;
   };
 
-  const coinValueXQuantity = coinValue(quantity);
+  const coinValueInWallet = coinValue_quantity(quantity);
 
   const handleCoinChange = (event) => {
     event.preventDefault();
@@ -78,26 +77,25 @@ const BuyScreen = ({
       quantity: quantity,
     };
 
-    const newBalance = walletBalance - coinValueXQuantity;
-    console.log(newBalance);
+    const updatedCashBalance = cashBalance - coinValueInWallet;
 
     axios
       .post("/api/wallet/newWallet", newContent)
       .then((res) => {
         console.log(res.data);
-        console.log("Added coin to wallet");
+        console.log(`Added ${res.data.coinName} to wallet`);
     })
       .catch((err) => {
         console.error(err);
     });
 
     axios
-      .put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: newBalance })
+      .put(`/api/cashWallet/updateCash/${ownerID}`, { cashTotal: updatedCashBalance })
       .then((res) => {
         console.log(res.data);
-        setWalletBalance(res.data.cashTotal);
+        setCashBalance(res.data.cashTotal);
         setWalletStateToggle(!walletStateToggle);
-        console.log("Updated cash balance");
+        console.log(`New cash balance is ${res.data.cashTotal}`);
     })
       .catch((error) => {
         console.log(error);
@@ -113,7 +111,7 @@ const BuyScreen = ({
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>Buy</Button>
+      <Button variant="outlined" onClick={handleClickOpen}>Buy Coins</Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Select Coin & Quantity</DialogTitle>
         <DialogContent>
@@ -154,33 +152,34 @@ const BuyScreen = ({
             </FormControl>
           </Box>
           <h4>
-            Unit Price: ${coinValue(1)}/{upperCase(coinName)}
+            Unit Price: ${coinValue_quantity(1)}/{upperCase(coinName)}
           </h4>
-          {coinValueXQuantity <= cashBalance ? (
+          {coinValueInWallet <= cashBalance ? (
             <div>
               <h4>
-                ($ {numberAddComma(coinValueXQuantity)}) Will be deducted from
+                ($ {numberAddComma(coinValueInWallet)}) Will be deducted from
                 your Balance of ($ {cashBalance}) for the purchase of {quantity}{" "}
                 {upperCase(coinName)}
               </h4>
               <br />
               <h4>
                 Cash balance after purchase will be ${" "}
-                {(cashBalance - coinValueXQuantity).toFixed(2)}
+                {(cashBalance - coinValueInWallet).toFixed(2)}
               </h4>
             </div>
           ) : (
             <h4>
-              Attempted purchase($ {numberAddComma(coinValueXQuantity)}) is more
+              Attempted purchase($ {numberAddComma(coinValueInWallet)}) is more
               than available Cash Balance($ {cashBalance})
             </h4>
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button variant="outlined" onClick={handleClose}>Cancel</Button>
           <Button
             onClick={handleBuy}
-            disabled={!(coinValueXQuantity <= cashBalance)}
+            disabled={!(coinValueInWallet <= cashBalance)}
+            variant="outlined"
           >
             Buy
           </Button>

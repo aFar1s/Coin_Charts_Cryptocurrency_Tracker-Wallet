@@ -13,7 +13,7 @@ import IconButton from "@mui/material/IconButton";
 
 const NavbarLogin = () => {
   // const [userAuth, setUserAuth] = useState(false);
-  // const user = sessionStorage.getItem("userID");
+  const user = sessionStorage.getItem("user");
 
   // useEffect(() => {
   //   if (user) {
@@ -41,7 +41,7 @@ const NavbarLogin = () => {
                 component="div"
                 sx={{ flexGrow: 1 }}
                 edge="start"
-              ></Typography>
+              >{user}</Typography>
               <Button color="inherit" component={Link} to="/dashboard">
                 Dashboard
               </Button>
