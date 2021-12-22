@@ -18,7 +18,7 @@ import FormLabel from "@mui/material/FormLabel";
 
 import axios from "axios";
 
-// import upperCase from "../../../Helpers/upperCase";
+import upperCase from "../../../Helpers/upperCase";
 
 const BusSellScreen = ({
   open,
@@ -80,7 +80,6 @@ const BusSellScreen = ({
       .catch((error) => {
         console.log(error);
       });
-
     }
 
     axios
@@ -121,7 +120,9 @@ const BusSellScreen = ({
   };
   
   const buyInfo =
-  buySell === "buy" ? (
+  buySell === "buy" && coinValueInWallet > cashBalance ? (
+    <h3>Attempted purchase ${coinValueInWallet} of {upperCase(coinName)} exceeds available Cash Balance of ${cashBalance}</h3>
+  ) : buySell === "buy" ? (
     <h3>You are purchasing {quantity} {coinName}.</h3>
   ) : (
     <h3>You are selling {quantity} {coinName}</h3>
@@ -165,13 +166,21 @@ const BusSellScreen = ({
         {sell}
     </MenuItem>  
   )))
- 
+
+  // const x = coinValueInWallet < cashBalance ? buySatement();
+      //  : (condition2 ? value2)
+      //  : condition3 ? value3
+      //  : value4;
+
+
+  const disableExecute = buySell === "buy" ? (coinValueInWallet > cashBalance) : (false)
+  
   return (
     <div className="coin-popup">
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Enter Quantity To Buy/Sell</DialogTitle>
         <DialogContent>
-          <h3>{coinName}</h3>
+          <h3>{upperCase(coinName)}</h3>
           {buySellStatement()}
           <Box
             component="form"
@@ -218,13 +227,12 @@ const BusSellScreen = ({
           </Box>
           {buySatement()}
           {valueStatement()}
-          <h3>{walletID}</h3>
         </DialogContent>
         <DialogActions>
           <Button variant="outlined" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="outlined" onClick={handleExecute}>
+          <Button variant="outlined" disabled={disableExecute || buySell === null} onClick={handleExecute}>
             Execute
           </Button>
         </DialogActions>
@@ -234,3 +242,7 @@ const BusSellScreen = ({
 };
 
 export default BusSellScreen;
+
+
+
+
