@@ -108,7 +108,9 @@ const BusSellScreen = ({
   };
 
   const valueInfo =
-  buySell === "buy" ? (
+  buySell === "buy" && coinValueInWallet > cashBalance ? (
+    <h3>Input a lower quantity or click cancel to choose another Coin</h3>
+  ) : buySell === "buy" ? (
     <h4>${coinValueInWallet} will be deducted from you Cash Balance.</h4>
   ) : (
     <h4>${coinValueInWallet} will be added to your Cash Balance.</h4>
@@ -167,12 +169,6 @@ const BusSellScreen = ({
     </MenuItem>  
   )))
 
-  // const x = coinValueInWallet < cashBalance ? buySatement();
-      //  : (condition2 ? value2)
-      //  : condition3 ? value3
-      //  : value4;
-
-
   const disableExecute = buySell === "buy" ? (coinValueInWallet > cashBalance) : (false)
   
   return (
@@ -218,7 +214,7 @@ const BusSellScreen = ({
                 onChange={handleQuantityChange}
                 input={<OutlinedInput label="Age" />}
               >
-                <MenuItem value="">
+                <MenuItem value={null}>
                   <em>None</em>
                 </MenuItem>
                 {buySellArray}
