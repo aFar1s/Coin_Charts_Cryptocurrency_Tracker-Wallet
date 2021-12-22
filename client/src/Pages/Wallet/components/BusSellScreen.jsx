@@ -87,6 +87,7 @@ const BusSellScreen = ({
         .then((res) => {
           console.log(res.data);
           setWalletStateToggle(!walletStateToggle);
+          setValidationText("")
           console.log(`New cash balance is ${res.data.cashTotal}`);
         })
         .catch((error) => {
@@ -115,6 +116,7 @@ const BusSellScreen = ({
       .then((res) => {
         console.log(res.data);
         setWalletStateToggle(!walletStateToggle);
+        setValidationText("")
         console.log(`New cash balance is ${res.data.cashTotal}`);
       })
       .catch((error) => {
