@@ -12,9 +12,10 @@ const Chart2 = ({ chartCoin }) => {
       )
       .then((res) => {
         setChartData2(res.data);
+        console.log(res.data.total_volumes)
       });
   }, [chartCoin]);
-
+  
   return (
     <div>
       <ApexChart chartData2={chartData2.total_volumes} />

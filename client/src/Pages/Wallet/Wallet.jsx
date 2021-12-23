@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import WalletContents from "./WalletContents";
 import BuyScreen from "./BuyScreen";
+import Profit from "./../ProfitTracker/Profit"
 // import numberAddComma from "../../Helpers/numberAddComma";
 // import NewWalletContentData from "../../Helpers/NewWalletContentData"
 import lodash_difference from "lodash.difference";
@@ -86,7 +87,7 @@ const Wallet = () => {
           <Grid item sm={12} md={4}>
             <div className="wallet-left">
               <Paper style={{ minHeight: 1000 }}>
-                <h2 style={{textDecoration: 'underline'}}>Profit Tracker</h2>
+                <Profit />
               </Paper>
             </div>
           </Grid>
