@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import axios from "axios";
+// import axios from "axios";
 
 const ProfitChart = () => {
 
-  const [chartData, setChartData] = useState([])
+  // const [chartData, setChartData] = useState([])
 
 //   useEffect(() => {
 //     axios
@@ -19,7 +19,7 @@ const ProfitChart = () => {
   let data = {
     series: [
       {
-        data: chartData,
+        data: [[1640232119801, 10000]],
       },
     ],
     options: {

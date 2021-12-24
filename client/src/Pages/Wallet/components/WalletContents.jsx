@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { TotalNetWorth } from "../../../Helpers/useContext";
 import axios from "axios";
-import upperCase from "../../Helpers/upperCase";
-import BusSellScreen from "./components/BusSellScreen";
+import upperCase from "../../../Helpers/upperCase";
+import BusSellScreen from "./BusSellScreen";
 import Button from "@mui/material/Button";
 // import numberAddComma from "../../Helpers/numberAddComma";
 
@@ -18,34 +19,41 @@ const WalletContents = ({
   const [unitCoinValue, setUnitCoinValue] = useState(Number);
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const {test, setTest} = useContext(TotalNetWorth)
+  
   const coinValue_quantity = (quant) => {
     return quant * unitCoinValue;
   };
   const coinValueInWallet = coinValue_quantity(quantity);
+
+  
+  
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
   const ownerID = sessionStorage.getItem("userID");
+  
   
   useEffect(() => {
     axios
-      .get(
-        `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
+    .get(
+      `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       )
       .then((res) => {
         setUnitCoinValue(res.data.market_data.current_price.usd);
       })
       .catch((error) => console.log(error));
-  });
-
-  const sellCoin = (id) => {
-    const updatedCashBalance = cashBalance + coinValueInWallet;
-
-    axios.delete(`api/wallet/delete/${id}`).catch((err) => {
-      console.error(err);
     });
-
-    axios
+    
+    const sellCoin = (id) => {
+      const updatedCashBalance = cashBalance + coinValueInWallet;
+      
+      axios.delete(`api/wallet/delete/${id}`).catch((err) => {
+        console.error(err);
+      });
+      
+      axios
       .put(`/api/cashWallet/updateCash/${ownerID}`, {
         cashTotal: updatedCashBalance,
       })
@@ -58,9 +66,13 @@ const WalletContents = ({
       .catch((err) => {
         console.error(err);
       });
-  };
+    };
+    
+    useEffect(() => {
+      setTest([...test, 1]);
+    }, [ walletStateToggle ])
 
-  return (
+    return (
     <div className="wallet-container">
       <div className="walletData">
         <h4 className="wallet-text">Coin: {upperCase(coinName)}</h4>

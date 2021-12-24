@@ -250,7 +250,7 @@ const BusSellScreen = ({
           {buySell !== null ? (
             <div>
               <h5 style={{ marginLeft: "15px", marginRight: "20px" }}>
-                Type <bold>"{buySell} {coinName}"</bold> to validate transaction
+                Type "{buySell} {coinName}" to validate transaction
               </h5>
               <input
                 type="text"

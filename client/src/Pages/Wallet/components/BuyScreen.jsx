@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import upperCase from "../../Helpers/upperCase";
-import numberAddComma from "../../Helpers/numberAddComma";
+import upperCase from "../../../Helpers/upperCase";
+import numberAddComma from "../../../Helpers/numberAddComma";
 // import NewWalletContentData from "../../Helpers/NewWalletContentData"
 
 //* MUI

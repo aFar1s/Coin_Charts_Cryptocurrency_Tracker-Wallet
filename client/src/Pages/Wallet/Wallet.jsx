@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import WalletContents from "./WalletContents";
-import BuyScreen from "./BuyScreen";
+import WalletContents from "./components/WalletContents";
+import BuyScreen from "./components/BuyScreen";
 import Profit from "./../ProfitTracker/Profit"
 // import numberAddComma from "../../Helpers/numberAddComma";
 // import NewWalletContentData from "../../Helpers/NewWalletContentData"
 import lodash_difference from "lodash.difference";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import { TotalNetWorth } from "../../Helpers/useContext"
 import "./wallet.css";
 
 const Wallet = () => {
@@ -15,6 +16,9 @@ const Wallet = () => {
   const [coinList, setCoinList] = useState([]);
   const [walletContents, setWalletContents] = useState([]);
   const [walletStateToggle, setWalletStateToggle] = useState(true);
+  // const [netValue, setNetValue] = useState(Number)
+  const [test, setTest] = useState([Number])
+
 
   const userID = sessionStorage.getItem("userID");
   const x = coinList.map((coin) => coin.id);
@@ -26,6 +30,7 @@ const Wallet = () => {
       .get(`/api/cashWallet/${userID}`)
       .then((res) => {
         setCashBalance(res.data[0].cashTotal);
+        setTest([res.data[0].cashTotal])
       })
       .catch((error) => console.log(error));
 
@@ -47,11 +52,15 @@ const Wallet = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [walletStateToggle]);
 
+  console.log(test)
+
   return (
     <div>
+      <TotalNetWorth.Provider value={{test, setTest}}>
       <div>
         <div>
           <h2>Cash Balance: $ {cashBalance}</h2>
+          {/* <h2>Cash Balance: $ {test[0]}</h2> */}
         </div>
         <BuyScreen
           key={1}
@@ -94,7 +103,7 @@ const Wallet = () => {
         </Grid>
       </div>
       <h3 className="hide">{String(walletStateToggle)}</h3>
-      <div></div>
+      </TotalNetWorth.Provider>
     </div>
   );
 };
