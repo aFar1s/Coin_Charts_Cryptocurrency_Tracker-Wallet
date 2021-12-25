@@ -69,7 +69,7 @@ const WalletContents = ({
     };
     
     useEffect(() => {
-      setTest([...test, 1]);
+      setTest([...test, quantity]);
     }, [ walletStateToggle ])
 
     return (
