@@ -18,8 +18,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 const BuyScreen = ({
-  excludedArray,
+  gathererFn,
   cashBalance,
+  excludedArray,
   setCashBalance,
   walletStateToggle,
   setWalletStateToggle,

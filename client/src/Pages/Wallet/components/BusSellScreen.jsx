@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -22,9 +22,11 @@ import upperCase from "../../../Helpers/upperCase";
 
 const BusSellScreen = ({
   open,
+  index,
   setOpen,
   coinName,
   walletID,
+  gathererFn,
   cashBalance,
   setCashBalance,
   walletQuantity,

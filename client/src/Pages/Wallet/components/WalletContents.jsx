@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
-import { TotalNetWorth } from "../../../Helpers/useContext";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import upperCase from "../../../Helpers/upperCase";
 import BusSellScreen from "./BusSellScreen";
@@ -8,24 +7,26 @@ import Button from "@mui/material/Button";
 
 const WalletContents = ({
   id,
+  index,
   coinName,
   quantity,
+  gathererFn,
   cashBalance,
   walletContents,
   setCashBalance,
   walletStateToggle,
   setWalletStateToggle,
 }) => {
-  const [unitCoinValue, setUnitCoinValue] = useState(Number);
+  const [unitCoinPrice, setUnitCoinPrice] = useState(Number);
   const [open, setOpen] = useState(false);
 
-  const {test, setTest} = useContext(TotalNetWorth)
   
   const coinValue_quantity = (quant) => {
-    return quant * unitCoinValue;
+    return quant * unitCoinPrice;
   };
   const coinValueInWallet = coinValue_quantity(quantity);
 
+  
   
   
   
@@ -41,7 +42,7 @@ const WalletContents = ({
       `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       )
       .then((res) => {
-        setUnitCoinValue(res.data.market_data.current_price.usd);
+        setUnitCoinPrice(res.data.market_data.current_price.usd);
       })
       .catch((error) => console.log(error));
     });
@@ -69,9 +70,9 @@ const WalletContents = ({
     };
     
     useEffect(() => {
-      setTest([...test, quantity]);
+      gathererFn(coinValueInWallet, index)
     }, [ walletStateToggle ])
-
+    
     return (
     <div className="wallet-container">
       <div className="walletData">
@@ -82,9 +83,11 @@ const WalletContents = ({
         <h4 className="wallet-text">Value: $ {coinValueInWallet}</h4>
         <div className="wallet-btn">
           <BusSellScreen coinName={coinName} 
-            open={open} 
+            open={open}
             walletID={id}
-            setOpen={setOpen} 
+            index={index} 
+            setOpen={setOpen}
+            gathererFn={gathererFn} 
             cashBalance={cashBalance}
             walletQuantity={quantity}
             walletContents={walletContents} 
